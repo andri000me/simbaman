@@ -1,0 +1,464 @@
+{
+   "data":[
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1001",
+         "nm_bangsal":"Bangsal Antasena",
+         "kd_kelas":"B0001",
+         "nm_kelas":"Kelas I",
+         "jml_pasien":"1",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1001",
+         "nm_bangsal":"Bangsal Antasena",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"10",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1002",
+         "nm_bangsal":"Bangsal Shinta",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"3",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1003",
+         "nm_bangsal":"Bangsal Puntadewa",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"17",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1004",
+         "nm_bangsal":"Bangsal Baladewa",
+         "kd_kelas":"B0001",
+         "nm_kelas":"Kelas I",
+         "jml_pasien":"2",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1004",
+         "nm_bangsal":"Bangsal Baladewa",
+         "kd_kelas":"B0002",
+         "nm_kelas":"Kelas II",
+         "jml_pasien":"9",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1004",
+         "nm_bangsal":"Bangsal Baladewa",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"1",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1005",
+         "nm_bangsal":"Bangsal Drupada",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"18",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1007",
+         "nm_bangsal":"Bangsal Abimanyu",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"7",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1008",
+         "nm_bangsal":"Bangsal Sadewa",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"14",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1009",
+         "nm_bangsal":"Bangsal Antareja",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"13",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1010",
+         "nm_bangsal":"Bangsal Kresna",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"23",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1012",
+         "nm_bangsal":"Bangsal Abiyasa",
+         "kd_kelas":"B0001",
+         "nm_kelas":"Kelas I",
+         "jml_pasien":"1",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1012",
+         "nm_bangsal":"Bangsal Abiyasa",
+         "kd_kelas":"B0002",
+         "nm_kelas":"Kelas II",
+         "jml_pasien":"2",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1012",
+         "nm_bangsal":"Bangsal Abiyasa",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"11",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1013",
+         "nm_bangsal":"Bangsal Dewikunthi",
+         "kd_kelas":"B0002",
+         "nm_kelas":"Kelas II",
+         "jml_pasien":"1",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1013",
+         "nm_bangsal":"Bangsal Dewikunthi",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"8",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1015",
+         "nm_bangsal":"Bangsal Arimbi",
+         "kd_kelas":"B0001",
+         "nm_kelas":"Kelas I",
+         "jml_pasien":"3",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1015",
+         "nm_bangsal":"Bangsal Arimbi",
+         "kd_kelas":"B0002",
+         "nm_kelas":"Kelas II",
+         "jml_pasien":"3",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1017",
+         "nm_bangsal":"Bangsal Utari",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"15",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1018",
+         "nm_bangsal":"Bangsal Amarta Putra",
+         "kd_kelas":"B0001",
+         "nm_kelas":"Kelas I",
+         "jml_pasien":"1",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1018",
+         "nm_bangsal":"Bangsal Amarta Putra",
+         "kd_kelas":"B0002",
+         "nm_kelas":"Kelas II",
+         "jml_pasien":"1",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1018",
+         "nm_bangsal":"Bangsal Amarta Putra",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"8",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1019",
+         "nm_bangsal":"Bangsal Drupadi",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"1",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1020",
+         "nm_bangsal":"Bangsal Indraprasta",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"9",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1023",
+         "nm_bangsal":"Bangsal Harjuna",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"2",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1026",
+         "nm_bangsal":"Bangsal Dwarawati",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"18",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1028",
+         "nm_bangsal":"Bangsal Setyawati",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"6",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1029",
+         "nm_bangsal":"Bangsal Amarta Putri",
+         "kd_kelas":"B0001",
+         "nm_kelas":"Kelas I",
+         "jml_pasien":"2",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1029",
+         "nm_bangsal":"Bangsal Amarta Putri",
+         "kd_kelas":"B0002",
+         "nm_kelas":"Kelas II",
+         "jml_pasien":"1",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"1",
+         "nm_ruang":"INSTALASI RAWAT INAP I",
+         "kd_bangsal":"1029",
+         "nm_bangsal":"Bangsal Amarta Putri",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"3",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"2",
+         "nm_ruang":"INSTALASI RAWAT INAP II",
+         "kd_bangsal":"2001",
+         "nm_bangsal":"Bangsal ICU",
+         "kd_kelas":"B0002",
+         "nm_kelas":"Kelas II",
+         "jml_pasien":"1",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"2",
+         "nm_ruang":"INSTALASI RAWAT INAP II",
+         "kd_bangsal":"2002",
+         "nm_bangsal":"Bangsal Parikesit (Peristi)",
+         "kd_kelas":"B0001",
+         "nm_kelas":"Kelas I",
+         "jml_pasien":"1",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"2",
+         "nm_ruang":"INSTALASI RAWAT INAP II",
+         "kd_bangsal":"2003",
+         "nm_bangsal":"Bangsal Dewi Ratih",
+         "kd_kelas":"B0001",
+         "nm_kelas":"Kelas I",
+         "jml_pasien":"3",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"2",
+         "nm_ruang":"INSTALASI RAWAT INAP II",
+         "kd_bangsal":"2003",
+         "nm_bangsal":"Bangsal Dewi Ratih",
+         "kd_kelas":"B0002",
+         "nm_kelas":"Kelas II",
+         "jml_pasien":"2",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"2",
+         "nm_ruang":"INSTALASI RAWAT INAP II",
+         "kd_bangsal":"2003",
+         "nm_bangsal":"Bangsal Dewi Ratih",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"5",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"2",
+         "nm_ruang":"INSTALASI RAWAT INAP II",
+         "kd_bangsal":"2004",
+         "nm_bangsal":"Bangsal Dewi Ratih (Isolasi)",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"1",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"2",
+         "nm_ruang":"INSTALASI RAWAT INAP II",
+         "kd_bangsal":"2005",
+         "nm_bangsal":"Bangsal Parikesit (Kebidanan)",
+         "kd_kelas":"B0001",
+         "nm_kelas":"Kelas I",
+         "jml_pasien":"1",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"2",
+         "nm_ruang":"INSTALASI RAWAT INAP II",
+         "kd_bangsal":"2005",
+         "nm_bangsal":"Bangsal Parikesit (Kebidanan)",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"1",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"2",
+         "nm_ruang":"INSTALASI RAWAT INAP II",
+         "kd_bangsal":"2011",
+         "nm_bangsal":"Bangsal Indraloka",
+         "kd_kelas":"B0001",
+         "nm_kelas":"Kelas I",
+         "jml_pasien":"10",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"2",
+         "nm_ruang":"INSTALASI RAWAT INAP II",
+         "kd_bangsal":"2011",
+         "nm_bangsal":"Bangsal Indraloka",
+         "kd_kelas":"B0005",
+         "nm_kelas":"Kelas VIP A",
+         "jml_pasien":"6",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"2",
+         "nm_ruang":"INSTALASI RAWAT INAP II",
+         "kd_bangsal":"2013",
+         "nm_bangsal":"Bangsal HCU",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"3",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"2",
+         "nm_ruang":"INSTALASI RAWAT INAP II",
+         "kd_bangsal":"2014",
+         "nm_bangsal":"Bangsal Pringgodani 1",
+         "kd_kelas":"B0002",
+         "nm_kelas":"Kelas II",
+         "jml_pasien":"1",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"2",
+         "nm_ruang":"INSTALASI RAWAT INAP II",
+         "kd_bangsal":"2014",
+         "nm_bangsal":"Bangsal Pringgodani 1",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"10",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"2",
+         "nm_ruang":"INSTALASI RAWAT INAP II",
+         "kd_bangsal":"2015",
+         "nm_bangsal":"Bangsal Pringgodani 2",
+         "kd_kelas":"B0002",
+         "nm_kelas":"Kelas II",
+         "jml_pasien":"1",
+         "tanggalrekap":"2019-11-05"
+      },
+      {
+         "kd_ruang":"2",
+         "nm_ruang":"INSTALASI RAWAT INAP II",
+         "kd_bangsal":"2015",
+         "nm_bangsal":"Bangsal Pringgodani 2",
+         "kd_kelas":"B0003",
+         "nm_kelas":"Kelas III",
+         "jml_pasien":"12",
+         "tanggalrekap":"2019-11-05"
+      }
+   ]
+}
