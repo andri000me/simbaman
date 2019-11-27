@@ -55,7 +55,7 @@ $(document).ready(function () {
                                 <?php
                                 foreach ($kelas as $kls) {
                                 ?>
-                                    <option value="<?php echo $kls['idkelas'];?>" <?php if ($kls['idkelas'] == $pengajuandiet[0]['idkelas']) { echo 'selected';} else { echo '';}?>><?php echo $kls['namakelas'];?></option>
+                                    <option value="<?php echo $kls['idkelas'];?>" <?php if ($kls['idkelas'] == $pengajuandiet[0]['idkelas']) { echo 'selected';} else { echo '';}?>><?php echo $kls['kodekelas'];?> <?php echo $kls['namakelas'];?></option>
                                 <?php
                                 }
                                 ?>
@@ -70,7 +70,7 @@ $(document).ready(function () {
                                 <?php
                                 foreach ($bangsal as $b) {
                                 ?>
-                                    <option value="<?php echo $b['idbangsal'];?>" <?php if ($b['idbangsal'] == $pengajuandiet[0]['idbangsal']) { echo 'selected';} else { echo '';}?>><?php echo $b['namabangsal'];?></option>
+                                    <option value="<?php echo $b['idbangsal'];?>" <?php if ($b['idbangsal'] == $pengajuandiet[0]['idbangsal']) { echo 'selected';} else { echo '';}?>><?php echo $b['kodebangsal'];?> <?php echo $b['namabangsal'];?> (<?php echo $b['jumlahpasien'];?>)</option>
                                 <?php
                                 }
                                 ?>

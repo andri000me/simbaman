@@ -51,12 +51,12 @@ $(document).ready(function () {
                     <div class="form-group">
                         <label for="" class="col-sm-3 control-label">Nama Kelas</label>
                         <div class="col-sm-9">
-                            <select class="form-control" name="idkelas" id="idkelas">
+                            <select class="form-control" name="idkelas" id="idkelas" onchange="javascrupt:get_bangsal('<?php echo $tanggalrekap;?>');">
                                 <option value="">-- Pilih Kelas</option>
                                 <?php
                                 foreach ($kelas as $kls) {
                                 ?>
-                                    <option value="<?php echo $kls['idkelas'];?>"><?php echo $kls['namakelas'];?></option>
+                                    <option value="<?php echo $kls['idkelas'];?>"><?php echo $kls['kodekelas'];?> <?php echo $kls['namakelas'];?></option>
                                 <?php
                                 }
                                 ?>
@@ -71,7 +71,7 @@ $(document).ready(function () {
                                 <?php
                                 foreach ($bangsal as $b) {
                                 ?>
-                                    <option value="<?php echo $b['idbangsal'];?>"><?php echo $b['kodebangsal'];?> <?php echo $b['namabangsal'];?></option>
+                                    <option value="<?php echo $b['idbangsal'];?>"><?php echo $b['kodebangsal'];?> <?php echo $b['namabangsal'];?> (<?php echo $b['jumlahpasien'];?>)</option>
                                 <?php
                                 }
                                 ?>

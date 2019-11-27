@@ -189,6 +189,37 @@ function ubah_bahandiet(idpengajuanbahandietdetail)
     });
 }
 
+function get_bangsal(tanggalrekap)
+{
+    var idkelas = $('#idkelas').val();
+    $.ajax({
+            type: "POST",
+            url: "<?=site_url('pengajuanbahan/get_bangsal_pengajuan'); ?>",
+            data: {"tanggalrekap":tanggalrekap,"idkelas":idkelas},
+            beforeSend: function() {
+                $("#idbangsal").find('option').remove().end();
+                $("#idbangsal").append($("<option></option>")
+                                    .attr("value","")
+                                    .text("-- Pilih Bangsal"));
+            },
+            success: function(resp){
+                var obj = jQuery.parseJSON(resp);
+                if(obj){
+                    $.each(obj, function(key, value){
+                        $("#idbangsal").append($("<option></option>")
+                                        .attr("value",value.idbangsal)
+                                        .text(value.kodebangsal+' '+value.namabangsal+' ('+value.jumlahpasien+')')); 
+                    });                   
+                }
+                $("#idbangsal").val('');
+   
+            },
+            error:function(event, textStatus, errorThrown) {
+                //messagebox('Error Message: ' + textStatus + ' , HTTP Error: ' + errorThrown,'Informasi','error');
+            }
+        });
+}
+
 </script>
 
 <section class="content">

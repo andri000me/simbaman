@@ -518,23 +518,38 @@ class Pengajuanbahan_query extends CI_Model {
 
     public function list_kelas()
     {
-        $sql = "SELECT idkelas, namakelas
-                FROM kelas
-                ORDER BY urutan ASC"; 
+        $sql = "SELECT a.idkelas, b.kodekelas, b.namakelas
+        FROM rekapjumlahpasien AS a
+            INNER JOIN kelas AS b ON a.idkelas = b.idkelas
+        WHERE jumlahpasien <> 0
+        GROUP BY a.idkelas, b.kodekelas, b.namakelas"; 
 
         $query = $this->db->query($sql);
         $result = $query->result_array();
         return $result;
     }
 
-    public function list_bangsal($tanggalrekap,$idkelas)
+    public function list_bangsal()
+    {
+        $sql = "SELECT a.idbangsal, b.kodebangsal, a.namabangsal, a.jumlahpasien
+                FROM rekapjumlahpasien AS a
+                    INNER JOIN bangsal AS b ON a.idbangsal = b.idbangsal
+                WHERE jumlahpasien <> 0
+                GROUP BY a.idbangsal, b.kodebangsal, a.namabangsal
+                ORDER BY b.kodebangsal ASC"; 
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function list_bangsal_tglrekap($tanggalrekap)
     {
         $sql = "SELECT a.idbangsal, b.kodebangsal, a.namabangsal, a.jumlahpasien
                 FROM rekapjumlahpasien AS a
                     INNER JOIN bangsal AS b ON a.idbangsal = b.idbangsal
                 WHERE tanggalrekap = '$tanggalrekap'
                     AND jumlahpasien <> 0
-                    AND idkelas = '$idkelas'
                 GROUP BY a.idbangsal, b.kodebangsal, a.namabangsal
                 ORDER BY b.kodebangsal ASC"; 
 
@@ -681,6 +696,51 @@ class Pengajuanbahan_query extends CI_Model {
         $query = $this->db->query($sql);
         $result = $query->result_array();
         return $result;
+    }
+
+    public function get_pengajuan($idpengajuan) 
+    {
+        $sql = "SELECT a.tanggalrekap 
+                FROM pengajuanbahandetail AS a
+                WHERE a.idpengajuan = '$idpengajuan'
+                GROUP BY a.tanggalrekap";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function get_kelas_pengajuan($tanggalrekap)
+    {
+        $sql = "SELECT a.idkelas, b.kodekelas, b.namakelas
+                FROM rekapjumlahpasien AS a
+                    INNER JOIN kelas AS b ON a.idkelas = b.idkelas
+                WHERE a.tanggalrekap = '$tanggalrekap'
+                    AND jumlahpasien <> 0
+                GROUP BY a.idkelas, b.kodekelas, b.namakelas"; 
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function get_bangsal_pengajuan()
+    {
+        $tanggalrekap = $this->input->post('tanggalrekap');
+        $idkelas = $this->input->post('idkelas');
+        
+        $str = "SELECT a.idbangsal, b.kodebangsal, a.namabangsal, a.jumlahpasien
+                FROM rekapjumlahpasien AS a
+                    INNER JOIN bangsal AS b ON a.idbangsal = b.idbangsal
+                WHERE tanggalrekap = '$tanggalrekap'
+                    AND jumlahpasien <> 0
+                    AND idkelas = '$idkelas'
+                GROUP BY a.idbangsal, b.kodebangsal, a.namabangsal
+                ORDER BY b.kodebangsal ASC";
+
+        $query = $this->db->query($str);
+        $res = $query->result_array();
+        return json_encode($res);
     }
 
 }

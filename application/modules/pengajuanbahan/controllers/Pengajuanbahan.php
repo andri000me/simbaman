@@ -237,13 +237,19 @@ class Pengajuanbahan extends MX_Controller {
     public function form_pengajuandiet()
     {
         $data['idpengajuan'] = $this->security->xss_clean($this->input->post('idpengajuan'));
-        $data['diet'] = $this->pengajuanbahan_query->list_diet();
-        $data['kelas'] = $this->pengajuanbahan_query->list_kelas();
+        $pengajuan = $this->pengajuanbahan_query->get_pengajuan($data['idpengajuan']);
+        $data['diet'] = $this->pengajuanbahan_query->list_diet();        
 
-        $tanggalrekap = '2019-11-21';
-        $idkelas = '4b283261-d105-11e9-a2b9-68f72820d6fc';
-        $data['bangsal'] = $this->pengajuanbahan_query->list_bangsal($tanggalrekap,$idkelas);
+        $data['tanggalrekap'] = $pengajuan[0]['tanggalrekap'];
+
+        $data['kelas'] = $this->pengajuanbahan_query->get_kelas_pengajuan($data['tanggalrekap']);
+        $data['bangsal'] = $this->pengajuanbahan_query->list_bangsal_tglrekap($data['tanggalrekap']);
         $this->load->view('form_pengajuandiet', $data);
+    }
+
+    public function get_bangsal_pengajuan()
+    {
+        echo $this->pengajuanbahan_query->get_bangsal_pengajuan();
     }
 
     public function savedata_pengajuandiet()
