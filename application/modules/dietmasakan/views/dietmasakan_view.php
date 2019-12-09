@@ -8,21 +8,25 @@
 function pilihDietPasien()
 {
     var iddiet = $('#iddiet').val();
-    $.ajax({
-        type: "POST",
-        data: {"iddiet":iddiet},
-        url: "<?php echo base_url().'dietmasakan/getdietpasien'; ?>",
-        beforeSend: function(){
-            $("#loading").html("Loading Data <img src='<?php echo base_url()?>/assets/dist/img/loading.gif' width='10px'>");
-        },
-        success: function(resp){
-            $("#get_dietpasien").html(resp);
-            $("#loading").html("");
-        },
-        error:function(event, textStatus, errorThrown) {
-            alert('Error Message: '+ textStatus + ' , HTTP Error: '+errorThrown);
-        }
-    });
+    if (iddiet == 'kosong') {
+        alert('Pilih salah satu macam Diet yang tersedia');
+    } else {
+        $.ajax({
+            type: "POST",
+            data: {"iddiet":iddiet},
+            url: "<?php echo base_url().'dietmasakan/getdietpasien'; ?>",
+            beforeSend: function(){
+                $("#loading").html("Loading Data <img src='<?php echo base_url()?>/assets/dist/img/loading.gif' width='10px'>");
+            },
+            success: function(resp){
+                $("#get_dietpasien").html(resp);
+                $("#loading").html("");
+            },
+            error:function(event, textStatus, errorThrown) {
+                alert('Error Message: '+ textStatus + ' , HTTP Error: '+errorThrown);
+            }
+        });
+    }
 };
 
 </script>
@@ -44,7 +48,7 @@ function pilihDietPasien()
                             <label class="col-sm-2 control-label">Diet</label>
                             <div class="col-sm-4">
                                 <select class="form-control" name="iddiet" id="iddiet">
-                                    <option value="-">-- Pilih Diet</option>
+                                    <option value="kosong">-- Pilih Diet</option>
                                     <?php
                                         foreach ($dietpasien  as $diet) {
                                             ?>
