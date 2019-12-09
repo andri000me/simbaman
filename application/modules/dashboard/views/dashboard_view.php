@@ -5,6 +5,34 @@
 
 <script>
 
+$(document).ready(function () {
+    cekrekap_pasien();
+});
+
+function cekrekap_pasien()
+{
+    $.ajax({
+        type: "POST",
+        url: "<?php echo base_url().'dashboard/cekrekap_pasien'; ?>",
+        beforeSend: function(){
+            //$("#loading").html("Loading Data <img src='<?php echo base_url()?>/assets/dist/img/loading.gif' width='10px'>");
+        },
+        success: function(resp){
+            if (resp == '100') {
+                // alert('Data rekap pasien sudah tersedia.');
+            } else {
+                $("#modal").modal('show');
+                $("#content_modal").html(resp);
+                //$("#loading").html("");
+            }
+            
+        },
+        error:function(event, textStatus, errorThrown) {
+            alert('Error Message: '+ textStatus + ' , HTTP Error: '+errorThrown);
+        }
+    });
+}
+
 function detail_pasien(idkelas,tanggalrekap)
 {
     $.ajax({
