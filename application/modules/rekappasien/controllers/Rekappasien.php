@@ -376,4 +376,53 @@ class Rekappasien extends MX_Controller {
             exit();
         }
     }
+
+    public function kalender()
+    {
+        $idgrup = $this->session->userdata('idgrup');
+        $url = $this->uri->segment(1);
+        $cekhakakses = $this->access->hakakses($idgrup,$url);
+        if ($cekhakakses == 1) {
+            $modul = $this->listmenu->namamodul($url);
+            foreach($modul->result() as $t){
+                $sess_data['idmodul'] = $t->idmodul;
+                $data['idmodul'] = $t->idmodul;
+                $data['idmenu'] = $t->idmenu;
+                $data['namamodul'] = $t->namamodul;
+                $data['keteranganmodul'] = $t->keterangan;
+                $data['namamenu'] = $t->namamenu;
+            }
+            $this->session->set_userdata($sess_data);
+            
+            $idmodul = $this->session->userdata('idmodul');
+            $btnaksi = $this->listmenu->btnaksi($idmodul,$idgrup);
+            foreach($btnaksi->result() as $t){
+                $data['add'] = $t->created;
+                $data['edit'] = $t->updated;
+                $data['delete'] = $t->deleted;
+            }
+
+            $get_tanggalkelas = $this->rekappasien_query->get_tanggalkelas();
+
+            $events = array();
+            foreach ($get_tanggalkelas as $kelas) {
+                $e = array();
+                $e['title'] = $kelas['namakelas'].' - '.$kelas['jmlpasien'];
+                $e['start'] = $kelas['tanggalrekap'];
+                $e['allDay'] = $kelas['allDay'];
+                $e['backgroundColor'] = $kelas['color'];
+                $e['borderColor'] = $kelas['color'];
+
+                array_push($events, $e);
+            }
+            $data['event'] = json_encode($events);
+            
+            $this->template
+                    ->set_layout('default')
+                    ->build('kalender',$data);
+        } else {
+            $this->access->statHakAkses();
+        }
+        
+    }
 }

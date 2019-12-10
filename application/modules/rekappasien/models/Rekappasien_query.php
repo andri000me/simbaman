@@ -256,4 +256,23 @@ class Rekappasien_query extends CI_Model {
         $res = $query->result_array();
         return $res;
     }
+
+    public function get_tanggalkelas()
+    {
+        $sql = "SELECT a.namakelas, sum(a.jumlahpasien) as jmlpasien
+                , a.tanggalrekap
+                , 'false' as allDay
+                , case when a.namakelas = 'kelas 1' then '#f56954'
+                    when a.namakelas = 'kelas 2' then '#f39c12'
+                    when a.namakelas = 'kelas 3' then '#0073b7' 
+                    when a.namakelas = 'vip' then '#00c0ef'
+                    else '#00a65a' end color
+            FROM rekapjumlahpasien as a
+            WHERE a.jumlahpasien <> 0
+            GROUP BY a.namakelas, a.tanggalrekap
+            ORDER BY a.tanggalrekap desc, a.namakelas asc";
+        $query = $this->db->query($sql);
+        $res = $query->result_array();
+        return $res;
+    }
 }

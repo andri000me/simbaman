@@ -145,6 +145,7 @@ function importdata(tglrekap) {
                             </div>
                             <div class="col-sm-4">
                                 <button type="button" class="btn btn-info" onclick="javascript:pilihTanggalRekap();">Pilih Tanggal</button>
+                                <a href="<?php echo base_url()?>/rekappasien/kalender" target="_blank" class="btn btn-success">Lihat Rekap Pasien</a>
                             </div>
                         </div>
                     </form>

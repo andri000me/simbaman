@@ -46,6 +46,9 @@
     <!-- Jquery form -->
     <script src="<?php echo base_url(); ?>assets/plugins/jQueryForm/jquery.form.min.js"></script>
 
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/fullcalendar/fullcalendar.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/fullcalendar/fullcalendar.print.min.css" media="print">
+
 
     <!-- Morris.js charts -->
     <script src="<?php echo base_url(); ?>assets/plugins/raphael/raphael-min.js"></script>
@@ -70,6 +73,8 @@
     <script src="<?php echo base_url(); ?>assets/plugins/fastclick/fastclick.min.js"></script>
     <!-- AdminLTE App -->
     <script src="<?php echo base_url(); ?>assets/dist/js/app.min.js"></script>
+
+    <script src="<?php echo base_url(); ?>assets/plugins/fullcalendar/fullcalendar.min.js"></script>
     
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
