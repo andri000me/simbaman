@@ -92,6 +92,52 @@ function detail_pasien(idkelas,tanggalrekap)
         }
         ?>
     </div><!-- /.row -->
+    <div class="row">
+        <div class="col-lg-6">
+          <!-- small box -->
+            <?php
+            if (count($pengajuan) == 0) {
+                $hargatotal_a = 0;
+                $tanggalpengajuan_a = '-';
+            } else {
+                $hargatotal_a = number_format($pengajuan[0]['hargatotal'],2,",",".");
+                $tanggalpengajuan_a = $pengajuan[0]['tanggalpengajuan'];
+            }
+            ?>
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>Pengajuan Bahan Masakan</h3>
+                    <p>Jumlah Biaya : Rp. <?php echo $hargatotal_a;?></p>
+                </div>
+              <div class="icon">
+                  <i class="ion ion-bag"></i>
+              </div>
+              <a href="#" class="small-box-footer"> Tanggal pengajuan : <?php echo $tanggalpengajuan_a;?> <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div><!-- ./col -->
+        <div class="col-lg-6">
+          <!-- small box -->
+            <?php
+            if (count($pengecekan) == 0) {
+                $hargatotal_b = 0;
+                $tanggalpengajuan_b = '-';
+            } else {
+                $hargatotal_b= number_format($pengecekan[0]['hargatotal'],2,",",".");
+                $tanggalpengajuan_b = $pengecekan[0]['tanggalpengajuan'];
+            }
+            ?>
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>Pengecekan Bahan Masakan</h3>
+                    <p>Jumlah Biaya : Rp. <?php echo $hargatotal_b;?></p>
+                </div>
+              <div class="icon">
+                  <i class="ion ion-cash"></i>
+              </div>
+              <a href="#" class="small-box-footer"> Tanggal pengajuan : <?php echo $tanggalpengajuan_b;?> <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div><!-- ./col -->
+    </div>
   <!-- Main row -->
 </section>
 

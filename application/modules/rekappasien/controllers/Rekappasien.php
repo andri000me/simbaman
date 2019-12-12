@@ -422,7 +422,6 @@ class Rekappasien extends MX_Controller {
                     ->build('kalender',$data);
         } else {
             $this->access->statHakAkses();
-        }
-        
+        }        
     }
 }

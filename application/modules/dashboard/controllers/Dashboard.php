@@ -10,6 +10,16 @@ class Dashboard extends MX_Controller {
         $this->load->model('dashboard_query');
 		
     }
+
+    function pingAddress($ip) {
+        $pingresult = exec("/bin/ping -n 3 $ip", $outcome, $status);
+        if (0 == $status) {
+            $status = "alive";
+        } else {
+            $status = "dead";
+        }
+        return $status;
+    }
     
     public function index()
     {
@@ -21,7 +31,10 @@ class Dashboard extends MX_Controller {
             $data['namamenu'] = 'Dashboard';
 
             $tgl_sekarang = $this->dashboard_query->get_datepasien();
-            $data['pasien'] = $this->dashboard_query->get_pasien($tgl_sekarang[0]['tanggalrekap']);            
+            $data['pasien'] = $this->dashboard_query->get_pasien($tgl_sekarang[0]['tanggalrekap']);  
+            
+            $data['pengajuan'] = $this->dashboard_query->get_pengajuan($tgl_sekarang[0]['tanggalrekap']);
+            $data['pengecekan'] = $this->dashboard_query->get_pengecekan($tgl_sekarang[0]['tanggalrekap']);
 
             $this->template
                     ->set_layout('default')
@@ -41,47 +54,61 @@ class Dashboard extends MX_Controller {
     
     public function cekrekap_pasien()
     {
-        $data['tanggalsekarang'] = date('Y-m-d');
-        // $data['tanggalsekarang'] = $this->security->xss_clean($this->input->post('tanggalsekarang'));
-
-        $tglterakhir = $this->dashboard_query->get_tglterakhir($data['tanggalsekarang']);
-
-        if (count($tglterakhir) == 0) {
-            $tglrekap = $data['tanggalsekarang'];
-
-            $url='http://sididik.rsjsoerojo.co.id/ranap/pasiengizi/'.$data['tanggalsekarang'];
-            $json = file_get_contents($url);
-            $pasien = json_decode($json,true);
-            $data_pasien = $pasien['data'];
-            if (count($data_pasien) == 0) {
-                $data['informasi'] = '<div class="row" style="margin-bottom:10px">
-                    <div class="col-lg-12" style="text-align: center;">
-                        <div class="alert alert-danger alert-dismissible">
-                            <h4><i class="icon fa fa-warning"></i> Perhatian!</h4>
-                            Data pasien tanggal '.$tglrekap.'belum tersedia, silahkan membuka tanggal yang lain.
+        $stat_ping = $this->pingAddress("http://sididik.rsjsoerojo.co.id");
+        
+        if ($stat_ping == 'dead') {
+            $data['tanggalsekarang'] = date('Y-m-d');
+            
+            $data['informasi'] = '<div class="row" style="margin-bottom:10px">
+                        <div class="col-lg-12" style="text-align: center;">
+                            <div class="alert alert-danger alert-dismissible">
+                                <h4><i class="icon fa fa-warning"></i> Perhatian!</h4>
+                                Halaman http://sididik.rsjsoerojo.co.id putus, mohon untuk menghubungi IT.
+                            </div>
                         </div>
-                    </div>
-                </div>';
-                $this->load->view('rekappasien_informasi', $data);
-            } else {
-                $this->dashboard_query->import_data_json($pasien);
+                    </div>';
 
-                $data['grupkelas'] = $this->dashboard_query->get_grupkelas_tmp();
-                $data['grupruangan'] = $this->dashboard_query->get_grupruangan_tmp();
-                $data['jumlahpasien'] = $this->dashboard_query->get_jumlahpasien_tmp();
-                $tglrekap = $this->dashboard_query->get_tanggalrekappasien_tmp();
+            $this->load->view('rekappasien_informasi', $data);
 
-                $data['tglrekap'] = $tglrekap[0]['tanggalrekap'];
-
-                $this->load->view('rekap_pasien_tmp', $data);
-            }
         } else {
-            // $data['grupkelas'] = $this->dashboard_query->get_grupkelas($data['tanggalsekarang']);
-            // $data['grupruangan'] = $this->dashboard_query->get_grupruangan($data['tanggalsekarang']);
-            // $data['jumlahpasien'] = $this->dashboard_query->get_jumlahpasien($data['tanggalsekarang']);
+            
+            $data['tanggalsekarang'] = date('Y-m-d');
+            // $data['tanggalsekarang'] = $this->security->xss_clean($this->input->post('tanggalsekarang'));
 
-            // $this->load->view('rekap_pasien',$data);
-            echo '100';
+            $tglterakhir = $this->dashboard_query->get_tglterakhir($data['tanggalsekarang']);
+
+            if (count($tglterakhir) == 0) {
+                $tglrekap = $data['tanggalsekarang'];
+
+                $url='http://sididik.rsjsoerojo.co.id/ranap/pasiengizi/'.$data['tanggalsekarang'];
+                $json = file_get_contents($url);
+                $pasien = json_decode($json,true);
+                $data_pasien = $pasien['data'];
+                if (count($data_pasien) == 0) {
+                    $data['informasi'] = '<div class="row" style="margin-bottom:10px">
+                        <div class="col-lg-12" style="text-align: center;">
+                            <div class="alert alert-danger alert-dismissible">
+                                <h4><i class="icon fa fa-warning"></i> Perhatian!</h4>
+                                Data pasien tanggal '.$tglrekap.'belum tersedia, silahkan membuka tanggal yang lain.
+                            </div>
+                        </div>
+                    </div>';
+                    $this->load->view('rekappasien_informasi', $data);
+                } else {
+                    $this->dashboard_query->import_data_json($pasien);
+
+                    $data['grupkelas'] = $this->dashboard_query->get_grupkelas_tmp();
+                    $data['grupruangan'] = $this->dashboard_query->get_grupruangan_tmp();
+                    $data['jumlahpasien'] = $this->dashboard_query->get_jumlahpasien_tmp();
+                    $tglrekap = $this->dashboard_query->get_tanggalrekappasien_tmp();
+
+                    $data['tglrekap'] = $tglrekap[0]['tanggalrekap'];
+
+                    $this->load->view('rekap_pasien_tmp', $data);
+                }
+            } else {
+                echo '100';
+            }
         }
     }
 

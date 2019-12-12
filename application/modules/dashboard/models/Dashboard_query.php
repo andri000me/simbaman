@@ -217,4 +217,45 @@ class Dashboard_query extends CI_Model {
         }
     }
 
+    public function get_pengajuan($tgl_sekarang)
+    {
+        $sql = "select z.stat
+                    , z.tanggalpengajuan
+                    , sum(z.hargatotal) as hargatotal		
+                from (
+                        select a.namabahan, a.tanggalpengajuan
+                                , sum(a.jumlahpasien) as jumlahpasien
+                                , sum(a.jumlahkuantitas) as jumlahkuantitas
+                                , a.hargasatuansupplier
+                                , sum(a.hargatotal) as hargatotal
+                                , 'pengajuan' as stat
+                        from pengajuanbahandetail as a
+                        where a.tanggalrekap = '$tgl_sekarang'
+                        group by a.namabahan, a.tanggalpengajuan, a.hargasatuansupplier ) as z
+                group by z.tanggalpengajuan";
+            
+        $query = $this->db->query($sql);
+        $res = $query->result_array();
+        return $res;
+    }
+
+    public function get_pengecekan($tgl_sekarang)
+    {
+        $sql = "select y.stat
+                    , y.tanggalpengajuan
+                    , sum(y.hargatotalreal) as hargatotal
+                from (
+                    select b.namabahan, b.tanggalpengajuan
+                        , sum(b.hargatotalreal) as hargatotalreal
+                        , 'pengecekan' as stat
+                    from pengajuanbahan as b
+                    where b.tanggalrekappasien = '$tgl_sekarang'
+                    group by b.namabahan, b.tanggalpengajuan) as y
+                group by y.tanggalpengajuan";
+            
+        $query = $this->db->query($sql);
+        $res = $query->result_array();
+        return $res;
+    }
+
 }
