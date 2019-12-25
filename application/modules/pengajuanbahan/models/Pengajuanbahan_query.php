@@ -294,22 +294,6 @@ class Pengajuanbahan_query extends CI_Model {
 
     public function pengajuanbahanfix($tglpengajuan,$idjenismenu)
     {
-        /*
-        $sql = "SELECT  a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
-                    , a.idbahan, a.idbahansupplier
-                    , b.namabahan, SUM(a.jumlahkuantitas) AS jumlahkuantitas, a.satuan
-                    , a.hargasatuansupplier, a.satuansupplier, SUM(a.hargatotal) AS hargatotal
-                    FROM pengajuanbahandetail AS a INNER JOIN 
-                    bahan AS b ON a.idbahan = b.idbahan
-                    WHERE a.tanggalpengajuan = '$tglpengajuan'
-                    AND a.idjenismenu = '$idjenismenu'
-                    GROUP BY a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
-                    , a.idbahan, a.idbahansupplier
-                    , b.namabahan, a.satuan
-                    , a.hargasatuansupplier, a.satuansupplier
-                    ORDER BY b.namabahan ASC";
-        */
-
         $sql = "SELECT y.idpengajuan, y.tanggalrekap, y.tanggalpengajuan
                     , y.idbahan, y.idbahansupplier
                     , y.namabahan, y.satuan
@@ -741,6 +725,169 @@ class Pengajuanbahan_query extends CI_Model {
         $query = $this->db->query($str);
         $res = $query->result_array();
         return json_encode($res);
+    }
+
+    public function get_pengajuan_tanggalpengajuan($tglpengajuan)
+    {
+        $str = "select idpengajuan, tanggalpengajuan
+                from pengajuanbahandetail
+                where tanggalpengajuan >= '$tglpengajuan'
+                    and tanggalpengajuan <= '$tglpengajuan' + INTERVAL 2 DAY
+                group by idpengajuan, tanggalpengajuan";
+
+        $query = $this->db->query($str);
+        $res = $query->result_array();
+        return $res;
+    }
+
+    public function get_pengajuan_tanggal($tanggalpengajuan) 
+    {
+        $sql = "SELECT a.tanggalrekap 
+                FROM pengajuanbahandetail AS a
+                WHERE a.tanggalpengajuan = '$tanggalpengajuan'
+                GROUP BY a.tanggalrekap";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function listDataPengajuanWhere_sat($tanggalpengajuan)
+    {
+        $sql = "SELECT idpengajuan, tanggalrekap, tanggalpengajuan
+                    FROM pengajuanbahandetail
+                    WHERE tanggalpengajuan = '$tanggalpengajuan'
+                    GROUP BY idpengajuan, tanggalrekap, tanggalpengajuan";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function ExecData_pengajuandiet_sat($data)
+    {
+        $idpengajuanbahandietdetail = $data['idpengajuanbahandietdetail'];
+        $tanggalpengajuan = $data['tanggalpengajuan'];
+        $iddiet = $data['iddiet'];
+        $idkelas = $data['idkelas']; 
+        $idbangsal = $data['idbangsal'];
+        $jumlahpasien = $data['jumlahpasien'];
+        $pembuatid = $data['pembuatid'];
+        $stat = $data['stat'];
+        
+        $q = $this->listDataPengajuanWhere_sat($tanggalpengajuan);
+        foreach ($q as $t){
+            $tanggalrekap = $t['tanggalrekap'];
+            //$tanggalpengajuan = $t['tanggalpengajuan'];
+        }
+        
+        $data['type'] = 'staff';
+        $data['username'] = $this->session->userdata('username');
+        $data['url'] = $this->session->userdata('url');
+        $ip_address = $this->input->ip_address();
+        $user_agent = $this->input->user_agent();
+
+        if ($stat == 'delete') {
+            
+            // $this->db->where('idpengajuanbahandietdetail', $idpengajuanbahandietdetail);
+            // $res = $this->db->delete('pengajuanbahandietdetail');
+            
+            // if($res) {
+            //     $data['msg'] = 'Menghapus data: '.$tanggalrekap.' '.$tanggalpengajuan.', IP: '.$ip_address.', Browser: '.$user_agent;;
+            //     $this->sistemlog->aktifitas($data);
+            //     return TRUE;
+            // } else {
+            //     return FALSE;
+            // }
+        } else {
+            if ($idpengajuanbahandietdetail == '') {
+
+                $pengajuan = $this->get_pengajuan_tanggalpengajuan($tanggalpengajuan);
+                
+                foreach ($pengajuan as $ajukan){
+                    $idpengajuan_x = $ajukan['idpengajuan'];
+                    $tanggalpengajuan_x = $ajukan['tanggalpengajuan'];
+                    
+                    $sql = "INSERT INTO pengajuanbahandietdetail
+                                (idpengajuanbahandietdetail,idpengajuan,tanggalrekap,tanggalpengajuan,jumlahpasien,
+                                iddiet,namadiet,
+                                idkelas,namakelas,
+                                idbangsal,namabangsal,
+                                idmasakan,namamasakan,
+                                idbahan,namabahan,
+                                kuantitaspengurangan,satuan,
+                                tanggalinsert,idpengguna)
+                    SELECT UUID() AS idpengajuanbahandietdetail, '$idpengajuan_x' AS idpengajuan, '$tanggalrekap' AS tanggalrekap, '$tanggalpengajuan_x' AS tanggalpengajuan, $jumlahpasien AS jumlahpasien
+                                , a.iddiet, a.namadiet
+                                , b.idkelas, b.namakelas
+                                , c.idbangsal, c.namabangsal
+                                , d.idmasakan, e.namamasakan
+                                , d.idbahan, f.namabahan
+                                , d.pengurangan AS kuantitaspengurangan, d.satuan
+                                , NOW() AS tanggalinsert, '$pembuatid' AS idpengguna
+                                FROM diet AS a
+                                    INNER JOIN dietmasakanbahan AS d ON a.iddiet = d.iddiet
+                                    INNER JOIN masakan AS e ON d.idmasakan = e.idmasakan
+                                    INNER JOIN bahan AS f ON d.idbahan = f.idbahan
+                                    CROSS JOIN kelas AS b
+                                    CROSS JOIN bangsal AS c
+                                WHERE a.iddiet = '$iddiet'
+                                    AND b.idkelas = '$idkelas'
+                                    AND c.idbangsal = '$idbangsal'";
+                    
+                    $res = $this->db->query($sql);
+                    
+                    // if($res) {
+                    //     $data['msg'] = 'Tambah data: '.$tanggalrekap.' '.$tanggalpengajuan.', IP: '.$ip_address.', Browser: '.$user_agent;
+                    //     $this->sistemlog->aktifitas($data);
+                    //     return TRUE;
+                    // } else {
+                    //     return FALSE;
+                    // }
+                }
+                return TRUE;
+                
+            } else {
+
+                // $sql = "UPDATE pengajuanbahandietdetail
+                //         SET jumlahpasien = $jumlahpasien,  
+                //             tanggalinsert = NOW(),
+                //             idpengguna = '$pembuatid'
+                //         WHERE idpengajuanbahandietdetail = '$idpengajuanbahandietdetail';";
+                // $res = $this->db->query($sql);
+                
+                // if($res) {
+                //     $data['msg'] = 'Ubah data: '.$tanggalrekap.' '.$tanggalpengajuan.', IP: '.$ip_address.', Browser: '.$user_agent;
+                //     $this->sistemlog->aktifitas($data);
+                //     return TRUE;
+                // } else {
+                //     return FALSE;
+                // }
+            }
+        }
+    }
+
+    public function list_pengajuandetail_tglpengajuan($tanggalpengajuan)
+    {
+        $sql = "SELECT a.idpengajuanbahandietdetail, a.idpengajuan, a.jumlahpasien
+                    , a.iddiet, b.namadiet
+                    , a.idkelas, c.namakelas
+                    , a.idbangsal, d.namabangsal
+                    , d.idruang, e.namaruang
+                    , a.idbahan, f.namabahan
+                    , a.kuantitaspengurangan, a.satuan
+                FROM pengajuanbahandietdetail AS a
+                    INNER JOIN diet AS b ON a.iddiet = b.iddiet
+                    INNER JOIN kelas AS c ON a.idkelas = c.idkelas
+                    INNER JOIN bangsal AS d ON a.idbangsal = d.idbangsal
+                    INNER JOIN ruang AS e ON d.idruang = e.idruang
+                    INNER JOIN bahan AS f ON a.idbahan = f.idbahan
+                WHERE a.tanggalpengajuan = '$tanggalpengajuan'
+                ORDER BY b.urutan ASC, e.namaruang ASC, d.namabangsal ASC";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
     }
 
 }

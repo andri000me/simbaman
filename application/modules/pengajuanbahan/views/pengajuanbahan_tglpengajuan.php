@@ -48,17 +48,17 @@ if (count($jumlahpasien) == 0) {
 
 <div class="row" style="margin-bottom:10px">
     <div class="col-lg-5">
-        <table class="table table-bordered">
-            <tr>
-                <th width="50%">Tanggal Pengajuan Bahan</th>
-                <td>
-                    <?php echo $tglpengajuan;?>
-                </td>
-            </tr>
+        <table class="table table-bordered">            
             <tr>
                 <th>Tanggal Rekap Pasien</th>
                 <td>
                     <?php echo $tglrekappasien;?>
+                </td>
+            </tr>
+            <tr>
+                <th width="50%">Tanggal Pengajuan Bahan</th>
+                <td>
+                    <?php echo $tglpengajuan;?>
                 </td>
             </tr>                       
         </table>

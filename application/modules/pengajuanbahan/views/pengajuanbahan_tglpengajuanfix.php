@@ -107,7 +107,13 @@ if (count($pengajuanbahan_cek) == 0) {
 
 <div class="row" style="margin-bottom:10px">
     <div class="col-lg-5">
+        <?php
+        if (count($pengajuanbahan_cek) == 0) {
+        ?>
         <button type="button" class="btn btn-warning" onclick="javascript:form_pengajuandiet('<?php echo $idpengajuan;?>');"><i class="fa fa-user"></i> Pasien Diet <span id="loading_pengajuandiet"></span></button>
+        <?php
+        }
+        ?>
         <button type="button" class="btn btn-default" onclick="javascript:detail_pengajuandiet('<?php echo $idpengajuan;?>');"><i class="fa fa-user"></i> Detail Pasien Diet <span id="loading_detail_pengajuandiet"></span></button>
     </div>
     <div class="col-lg-7">

@@ -76,7 +76,7 @@ class Pengajuanbahan extends MX_Controller {
         $cektglpengajuanbahan = $this->pengajuanbahan_query->cektglpengajuanbahan($tglpengajuan);
 
         if (count($cektglpengajuanbahan) == 0) {
-            //tanggal pengajuan masih kosong
+            //tanggal pengajuan masih kosong            
             $daypengajuan = date('D', strtotime($tglpengajuan));
             switch ($daypengajuan) {
                 case 'Sun':
@@ -89,76 +89,217 @@ class Pengajuanbahan extends MX_Controller {
                     $hari = '-1 days';
             } 
 
-            $datepengajuan = date('d', strtotime($tglpengajuan));
-            $karakter = strlen($datepengajuan);
-            if ($karakter = 2) {
-                if ($datepengajuan == 31) {
-                    $tgl = $datepengajuan;
-                } else {
-                    $tgl = substr($datepengajuan,1,1);
+            if ($daypengajuan == 'Sat' or $daypengajuan == 'Sun' or $daypengajuan == 'Mon') {
+
+                if ($daypengajuan == 'Sun' or $daypengajuan == 'Mon') {
+                    echo 'Pilih hari Sabtu';
+                    exit();
                 }
-            } else if ($karakter == 1) {
-                $tgl = $datepengajuan;
+                
+                $data['tanggalpengajuan'] = $tglpengajuan;
+                $tglrekappasien = date('Y-m-d', strtotime($hari, strtotime($tglpengajuan))); //operasi penjumlahan tanggal sebanyak 6 hari
+                $dayrekappasien = date('D', strtotime($tglrekappasien));
+                $data['tanggalrekappasien'] = $tglrekappasien;                
+
+                $dayList = array(
+                    'Sun' => 'Minggu',
+                    'Mon' => 'Senin',
+                    'Tue' => 'Selasa',
+                    'Wed' => 'Rabu',
+                    'Thu' => 'Kamis',
+                    'Fri' => 'Jumat',
+                    'Sat' => 'Sabtu'
+                );
+
+                $data['tglrekappasien'] = $tglrekappasien.', '.$dayList[$dayrekappasien];                
+                $data['jumlahpasien'] = $this->pengajuanbahan_query->jumlah_pasien($tglrekappasien);
+
+                $pengajuan = [];
+                $tanggalajuan = [];
+                for( $i = 0; $i<3; $i++ ) {
+                    $hr = '+'.$i.'days';
+                    $tanggal = date('Y-m-d', strtotime($hr, strtotime($tglpengajuan)));
+                    $hari = date('D', strtotime($hr, strtotime($tglpengajuan)));
+                    $pengajuan[] = $tanggal.', '.$dayList[$hari];
+                    $tanggalajuan[] = $tanggal;
+                }
+                $data['pengajuan'] = $pengajuan;
+
+                $i = 0;
+                foreach ($tanggalajuan as $tgltgl) {
+                    $datepengajuan = date('d', strtotime($tgltgl));
+                    $karakter = strlen($datepengajuan);
+                    if ($karakter = 2) {
+                        if ($datepengajuan == 31) {
+                            $tgl = $datepengajuan;
+                        } else {
+                            $tgl = substr($datepengajuan,1,1);
+                        }
+                    } else if ($karakter == 1) {
+                        $tgl = $datepengajuan;
+                    }
+
+                    $data['jenismenumasakan'][] = $this->pengajuanbahan_query->jenismenumasakantgl($tgl);
+                    $data['menumasakanwaktu'][] = $this->pengajuanbahan_query->menumasakanwaktu($tgl);
+                    $idjenismenu = $data['jenismenumasakan'][$i][0]['idjenismenu'];
+                    $data['pengajuanbahan'][] = $this->pengajuanbahan_query->pengajuanbahan($tglrekappasien,$idjenismenu); 
+                    $data['tgltgl'][] = $tgltgl;
+                    $i++;
+                }
+
+                $this->load->view('pengajuanbahan_tglpengajuan_sat', $data);
+            } else {
+                $datepengajuan = date('d', strtotime($tglpengajuan));
+                $karakter = strlen($datepengajuan);
+                if ($karakter = 2) {
+                    if ($datepengajuan == 31) {
+                        $tgl = $datepengajuan;
+                    } else {
+                        $tgl = substr($datepengajuan,1,1);
+                    }
+                } else if ($karakter == 1) {
+                    $tgl = $datepengajuan;
+                }
+
+                $tglrekappasien = date('Y-m-d', strtotime($hari, strtotime($tglpengajuan))); //operasi penjumlahan tanggal sebanyak 6 hari
+                $dayrekappasien = date('D', strtotime($tglrekappasien));
+                $data['tanggalrekappasien'] = $tglrekappasien;
+
+                $dayList = array(
+                    'Sun' => 'Minggu',
+                    'Mon' => 'Senin',
+                    'Tue' => 'Selasa',
+                    'Wed' => 'Rabu',
+                    'Thu' => 'Kamis',
+                    'Fri' => 'Jumat',
+                    'Sat' => 'Sabtu'
+                );
+
+                $data['jenismenumasakan'] = $this->pengajuanbahan_query->jenismenumasakantgl($tgl);
+                $idjenismenu = $data['jenismenumasakan'][0]['idjenismenu'];
+                $data['menumasakanwaktu'] = $this->pengajuanbahan_query->menumasakanwaktu($tgl);
+
+                $data['tglpengajuan'] = $tglpengajuan.', '.$dayList[$daypengajuan];
+                $data['tglrekappasien'] = $tglrekappasien.', '.$dayList[$dayrekappasien];
+                $data['pengajuanbahan'] = $this->pengajuanbahan_query->pengajuanbahan($tglrekappasien,$idjenismenu);
+                $data['jumlahpasien'] = $this->pengajuanbahan_query->jumlah_pasien($tglrekappasien);
+
+                $this->load->view('pengajuanbahan_tglpengajuan', $data);
             }
 
-            $tglrekappasien = date('Y-m-d', strtotime($hari, strtotime($tglpengajuan))); //operasi penjumlahan tanggal sebanyak 6 hari
-            $dayrekappasien = date('D', strtotime($tglrekappasien));
-            $data['tanggalrekappasien'] = $tglrekappasien;
-
-            $dayList = array(
-                'Sun' => 'Minggu',
-                'Mon' => 'Senin',
-                'Tue' => 'Selasa',
-                'Wed' => 'Rabu',
-                'Thu' => 'Kamis',
-                'Fri' => 'Jumat',
-                'Sat' => 'Sabtu'
-            );
-
-            $data['jenismenumasakan'] = $this->pengajuanbahan_query->jenismenumasakantgl($tgl);
-            $idjenismenu = $data['jenismenumasakan'][0]['idjenismenu'];
-            $data['menumasakanwaktu'] = $this->pengajuanbahan_query->menumasakanwaktu($tgl);
-
-            $data['tglpengajuan'] = $tglpengajuan.', '.$dayList[$daypengajuan];
-            $data['tglrekappasien'] = $tglrekappasien.', '.$dayList[$dayrekappasien];
-            $data['pengajuanbahan'] = $this->pengajuanbahan_query->pengajuanbahan($tglrekappasien,$idjenismenu);
-            $data['jumlahpasien'] = $this->pengajuanbahan_query->jumlah_pasien($tglrekappasien);
-
-            $this->load->view('pengajuanbahan_tglpengajuan', $data);
         } else {
             //tanggal pengajuan sudah terisi
 
-            $data['pengajuanbahan_cek'] = $this->pengajuanbahan_query->pengajuanbahan_cek($tglpengajuan);
-            $data['kelas'] = $this->pengajuanbahan_query->get_kelaspengajuan($tglpengajuan);
-            $data['waktumenu'] = $this->pengajuanbahan_query->get_waktumenupengajuan($tglpengajuan);
-            $tanggal = $this->pengajuanbahan_query->get_tanggalpengajuan($tglpengajuan);
-            $tglpengajuan_1 = $tanggal[0]['tanggalrekap'];
-            $daypengajuan_1 = date('D', strtotime($tglpengajuan_1));
-            $tglrekappasien_1 = $tanggal[0]['tanggalpengajuan'];
-            $dayrekappasien_1 = date('D', strtotime($tglrekappasien_1));
+            $daypengajuan = date('D', strtotime($tglpengajuan));
+            switch ($daypengajuan) {
+                case 'Sun':
+                    $hari = '-2 days';
+                    break;
+                case 'Mon':
+                    $hari = '-3 days';
+                    break;
+                default:
+                    $hari = '-1 days';
+            }
 
-            $dayList = array(
-                'Sun' => 'Minggu',
-                'Mon' => 'Senin',
-                'Tue' => 'Selasa',
-                'Wed' => 'Rabu',
-                'Thu' => 'Kamis',
-                'Fri' => 'Jumat',
-                'Sat' => 'Sabtu'
-            );
+            if ($daypengajuan == 'Sat' or $daypengajuan == 'Sun' or $daypengajuan == 'Mon') {
 
-            $data['tglpengajuan'] = $tglpengajuan_1.', '.$dayList[$daypengajuan_1];
-            $data['tglrekappasien'] = $tglrekappasien_1.', '.$dayList[$dayrekappasien_1];
-            $data['jumlahpasien'] = $this->pengajuanbahan_query->jumlah_pasienpengajuan($tglpengajuan);
-            $data['jenismenumasakan'] = $this->pengajuanbahan_query->jenismenumasakanpengajuan($tglpengajuan);
-            $idjenismenu_1 = $data['jenismenumasakan'][0]['idjenismenu'];
-            $data['menumasakanwaktu'] = $this->pengajuanbahan_query->get_waktumenupengajuan($tglpengajuan);
-            $data['pengajuanbahan'] = $this->pengajuanbahan_query->pengajuanbahanfix($tglpengajuan,$idjenismenu_1);
-            $data['idpengajuan'] = $tanggal[0]['idpengajuan'];
+                if ($daypengajuan == 'Sun' or $daypengajuan == 'Mon') {
+                    echo 'Pilih hari Sabtu';
+                    exit();
+                }
 
-            $this->load->view('pengajuanbahan_tglpengajuanfix', $data);
-        }
-        
+                $data['pengajuanbahan_cek'] = $this->pengajuanbahan_query->pengajuanbahan_cek($tglpengajuan);
+                $data['kelas'] = $this->pengajuanbahan_query->get_kelaspengajuan($tglpengajuan);
+                $data['waktumenu'] = $this->pengajuanbahan_query->get_waktumenupengajuan($tglpengajuan);
+                $data['pengajuan_tanggalpengajuan'] = $this->pengajuanbahan_query->get_pengajuan_tanggalpengajuan($tglpengajuan);
+
+                $data['tanggalpengajuan_bahan'] = $tglpengajuan;
+                $tglrekappasien = date('Y-m-d', strtotime($hari, strtotime($tglpengajuan))); //operasi penjumlahan tanggal sebanyak 6 hari
+                $dayrekappasien = date('D', strtotime($tglrekappasien));
+                $data['tanggalrekappasien'] = $tglrekappasien;                
+
+                $dayList = array(
+                    'Sun' => 'Minggu',
+                    'Mon' => 'Senin',
+                    'Tue' => 'Selasa',
+                    'Wed' => 'Rabu',
+                    'Thu' => 'Kamis',
+                    'Fri' => 'Jumat',
+                    'Sat' => 'Sabtu'
+                );
+
+                $data['tglrekappasien'] = $tglrekappasien.', '.$dayList[$dayrekappasien];                
+                $data['jumlahpasien'] = $this->pengajuanbahan_query->jumlah_pasien($tglrekappasien);
+
+                $pengajuan = [];
+                $tanggalajuan = [];
+                for( $i = 0; $i<3; $i++ ) {
+                    $hr = '+'.$i.'days';
+                    $tanggal = date('Y-m-d', strtotime($hr, strtotime($tglpengajuan)));
+                    $hari = date('D', strtotime($hr, strtotime($tglpengajuan)));
+                    $pengajuan[] = $tanggal.', '.$dayList[$hari];
+                    $tanggalajuan[] = $tanggal;
+                }
+                $data['pengajuan'] = $pengajuan;
+
+                $i = 0;
+                foreach ($tanggalajuan as $tgltgl) {
+                    $datepengajuan = date('d', strtotime($tgltgl));
+                    $karakter = strlen($datepengajuan);
+                    if ($karakter = 2) {
+                        if ($datepengajuan == 31) {
+                            $tgl = $datepengajuan;
+                        } else {
+                            $tgl = substr($datepengajuan,1,1);
+                        }
+                    } else if ($karakter == 1) {
+                        $tgl = $datepengajuan;
+                    }
+
+                    $data['jenismenumasakan'][] = $this->pengajuanbahan_query->jenismenumasakantgl($tgl);
+                    $data['menumasakanwaktu'][] = $this->pengajuanbahan_query->menumasakanwaktu($tgl);
+                    $idjenismenu = $data['jenismenumasakan'][$i][0]['idjenismenu'];
+                    $data['pengajuanbahan'][] = $this->pengajuanbahan_query->pengajuanbahanfix($tgltgl,$idjenismenu); 
+                    $data['tgltgl'][] = $tgltgl;
+                    $i++;
+                }
+
+                $this->load->view('pengajuanbahan_tglpengajuanfix_sat', $data);
+
+            } else {
+
+                $data['pengajuanbahan_cek'] = $this->pengajuanbahan_query->pengajuanbahan_cek($tglpengajuan);
+                $data['kelas'] = $this->pengajuanbahan_query->get_kelaspengajuan($tglpengajuan);
+                $data['waktumenu'] = $this->pengajuanbahan_query->get_waktumenupengajuan($tglpengajuan);
+                $tanggal = $this->pengajuanbahan_query->get_tanggalpengajuan($tglpengajuan);
+                $tglpengajuan_1 = $tanggal[0]['tanggalrekap'];
+                $daypengajuan_1 = date('D', strtotime($tglpengajuan_1));
+                $tglrekappasien_1 = $tanggal[0]['tanggalpengajuan'];
+                $dayrekappasien_1 = date('D', strtotime($tglrekappasien_1));
+
+                $dayList = array(
+                    'Sun' => 'Minggu',
+                    'Mon' => 'Senin',
+                    'Tue' => 'Selasa',
+                    'Wed' => 'Rabu',
+                    'Thu' => 'Kamis',
+                    'Fri' => 'Jumat',
+                    'Sat' => 'Sabtu'
+                );
+
+                $data['tglpengajuan'] = $tglpengajuan_1.', '.$dayList[$daypengajuan_1];
+                $data['tglrekappasien'] = $tglrekappasien_1.', '.$dayList[$dayrekappasien_1];
+                $data['jumlahpasien'] = $this->pengajuanbahan_query->jumlah_pasienpengajuan($tglpengajuan);
+                $data['jenismenumasakan'] = $this->pengajuanbahan_query->jenismenumasakanpengajuan($tglpengajuan);
+                $idjenismenu_1 = $data['jenismenumasakan'][0]['idjenismenu'];
+                $data['menumasakanwaktu'] = $this->pengajuanbahan_query->get_waktumenupengajuan($tglpengajuan);
+                $data['pengajuanbahan'] = $this->pengajuanbahan_query->pengajuanbahanfix($tglpengajuan,$idjenismenu_1);
+                $data['idpengajuan'] = $tanggal[0]['idpengajuan'];
+
+                $this->load->view('pengajuanbahan_tglpengajuanfix', $data);
+            }
+        }        
     }
 
     public function detailmenumasakan()
@@ -172,6 +313,37 @@ class Pengajuanbahan extends MX_Controller {
         $data['menumasakan'] = $this->pengajuanbahan_query->menumasakan($data['idjenismenu']);
 
         $this->load->view('pengajuanbahan_detailmenumasakan', $data);
+    }
+
+    public function generatepengajuanbahan_semua()
+    {
+        $tanggalrekappasien = $this->security->xss_clean($this->input->post('tanggalrekappasien'));
+        $tanggalpengajuan = $this->security->xss_clean($this->input->post('tanggalpengajuan'));
+
+        for( $i = 0; $i<3; $i++ ) {
+            $tgl_rekappasien = $tanggalrekappasien;
+            $hr = '+'.$i.'days';
+            $tgl_pengajuan = date('Y-m-d', strtotime($hr, strtotime($tanggalpengajuan)));
+
+            $datepengajuan = date('d', strtotime($tgl_pengajuan));
+            $karakter = strlen($datepengajuan);
+            if ($karakter = 2) {
+                if ($datepengajuan == 31) {
+                    $tgl = $datepengajuan;
+                } else {
+                    $tgl = substr($datepengajuan,1,1);
+                }
+            } else if ($karakter == 1) {
+                $tgl = $datepengajuan;
+            }
+
+            $jenismenumasakan = $this->pengajuanbahan_query->jenismenumasakantgl($tgl);
+            $id_jenismenu = $jenismenumasakan[0]['idjenismenu'];
+
+            $generate = $this->pengajuanbahan_query->genaratepengajuanbahan($tgl_rekappasien,$id_jenismenu,$tgl_pengajuan);
+        }
+
+        return true;
     }
 
     public function generatepengajuanbahan()
@@ -296,5 +468,39 @@ class Pengajuanbahan extends MX_Controller {
         $data['kelas'] = $this->pengajuanbahan_query->list_kelas();
         $data['bangsal'] = $this->pengajuanbahan_query->list_bangsal();
         $this->load->view('form_ubah_pengajuandiet', $data);
+    }
+
+    public function form_pengajuandiet_sat()
+    {
+        $data['tanggalpengajuan'] = $this->security->xss_clean($this->input->post('tanggalpengajuan'));
+        $pengajuan = $this->pengajuanbahan_query->get_pengajuan_tanggal($data['tanggalpengajuan']);
+        $data['diet'] = $this->pengajuanbahan_query->list_diet();        
+
+        $data['tanggalrekap'] = $pengajuan[0]['tanggalrekap'];
+
+        $data['kelas'] = $this->pengajuanbahan_query->get_kelas_pengajuan($data['tanggalrekap']);
+        $data['bangsal'] = $this->pengajuanbahan_query->list_bangsal_tglrekap($data['tanggalrekap']);
+        $this->load->view('form_pengajuandiet_sat', $data);
+    }
+
+    public function savedata_pengajuandiet_sat()
+    {
+        $up['idpengajuanbahandietdetail'] = $this->security->xss_clean($this->input->post('idpengajuanbahandietdetail'));
+        $up['tanggalpengajuan'] = $this->security->xss_clean($this->input->post('tanggalpengajuan'));
+        $up['iddiet'] = $this->security->xss_clean($this->input->post('iddiet'));
+        $up['idkelas'] = $this->security->xss_clean($this->input->post('idkelas'));
+        $up['idbangsal'] = $this->security->xss_clean($this->input->post('idbangsal'));
+        $up['jumlahpasien'] = $this->security->xss_clean($this->input->post('jumlahpasien'));
+        $up['pembuatid'] = $this->session->userdata('idpengguna');
+        $up['stat'] = $this->security->xss_clean($this->input->post('stat'));
+
+        $this->pengajuanbahan_query->ExecData_pengajuandiet_sat($up);
+    }
+
+    public function detail_pengajuandiet_sat()
+    {
+        $data['tanggalpengajuan'] = $this->security->xss_clean($this->input->post('tanggalpengajuan'));
+        $data['pengajuandetail'] = $this->pengajuanbahan_query->list_pengajuandetail_tglpengajuan($data['tanggalpengajuan']);
+        $this->load->view('detail_pengajuandiet_sat', $data);
     }
 }

@@ -17,18 +17,41 @@ class Pengajuancekbahan_qry extends CI_Model {
                                 when stat = 'pengecekan' then '#f39c12'
                                 else '#f56954' end color
                     from (
-                    select z.stat
+                        select 'pengajuan' as stat
                         , z.tanggalpengajuan
-                        , sum(z.hargatotal) as hargatotal		
+                        , sum(z.totalhargatotal) as hargatotal		
                         from (
-                                select a.namabahan, a.tanggalpengajuan
-                                        , sum(a.jumlahpasien) as jumlahpasien
-                                        , sum(a.jumlahkuantitas) as jumlahkuantitas
-                                        , a.hargasatuansupplier
-                                        , sum(a.hargatotal) as hargatotal
-                                        , 'pengajuan' as stat
-                                from pengajuanbahandetail as a
-                                group by a.namabahan, a.tanggalpengajuan, a.hargasatuansupplier ) as z
+                                        SELECT y.idpengajuan, y.tanggalrekap, y.tanggalpengajuan
+                                            , y.idbahan, y.idbahansupplier
+                                            , y.namabahan, y.satuan
+                                            , y.hargasatuansupplier, y.satuansupplier
+                                            , (y.jumlahkuantitas-IFNULL(x.jmlkuantitaspengurangan,0)) AS totaljumlahkuantitas
+                                            , (y.jumlahkuantitas-IFNULL(x.jmlkuantitaspengurangan,0))*y.hargasatuansupplier AS totalhargatotal
+                                            , x.idpengajuan AS idpengajuandiet
+                                        FROM ( SELECT  a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
+                                            , a.idbahan, a.idbahansupplier
+                                            , b.namabahan, SUM(a.jumlahkuantitas) AS jumlahkuantitas, a.satuan
+                                            , a.hargasatuansupplier, a.satuansupplier, SUM(a.hargatotal) AS hargatotal
+                                        FROM pengajuanbahandetail AS a INNER JOIN 
+                                            bahan AS b ON a.idbahan = b.idbahan
+                                        
+                                        GROUP BY a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
+                                            , a.idbahan, a.idbahansupplier
+                                            , b.namabahan, a.satuan
+                                            , a.hargasatuansupplier, a.satuansupplier) AS y
+                                        LEFT OUTER JOIN (SELECT z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan
+                                        , SUM(z.jmlkuantitaspengurangan) AS jmlkuantitaspengurangan, z.satuan
+                                        FROM (SELECT a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan, a.jumlahpasien
+                                                    , a.idbahan, b.namabahan
+                                                    , a.kuantitaspengurangan
+                                                    , (a.jumlahpasien*a.kuantitaspengurangan) AS jmlkuantitaspengurangan
+                                                    , a.satuan
+                                                FROM pengajuanbahandietdetail AS a
+                                                    INNER JOIN bahan AS b ON a.idbahan = b.idbahan) AS z
+                                                GROUP BY z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan, z.satuan) AS x ON y.idpengajuan = x.idpengajuan
+                                                    AND y.tanggalpengajuan = x.tanggalpengajuan
+                                                    AND y.tanggalrekap = x.tanggalrekap
+                                                    AND y.idbahan = x.idbahan ) as z
                         group by z.tanggalpengajuan
                     union all
                     select y.stat
@@ -41,18 +64,7 @@ class Pengajuancekbahan_qry extends CI_Model {
                                 from pengajuanbahan as b
                                 group by b.namabahan, b.tanggalpengajuan) as y
                     group by y.tanggalpengajuan) as bahanmasakan";
-        // $sql = "SELECT a.namakelas, sum(a.jumlahpasien) as jmlpasien
-        //         , a.tanggalrekap
-        //         , 'false' as allDay
-        //         , case when a.namakelas = 'kelas 1' then '#f56954'
-        //             when a.namakelas = 'kelas 2' then '#f39c12'
-        //             when a.namakelas = 'kelas 3' then '#0073b7' 
-        //             when a.namakelas = 'vip' then '#00c0ef'
-        //             else '#00a65a' end color
-        //     FROM rekapjumlahpasien as a
-        //     WHERE a.jumlahpasien <> 0
-        //     GROUP BY a.namakelas, a.tanggalrekap
-        //     ORDER BY a.tanggalrekap desc, a.namakelas asc";
+        
         $query = $this->db->query($sql);
         $res = $query->result_array();
         return $res;

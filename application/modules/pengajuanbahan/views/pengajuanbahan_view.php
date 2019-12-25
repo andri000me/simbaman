@@ -46,18 +46,39 @@ function detailMenumasakan(idjenismenu)
         data: {"idjenismenu":idjenismenu},
         url: "<?php echo base_url().'pengajuanbahan/detailmenumasakan'; ?>",
         beforeSend: function(){
-            $("#loading_detailmeunamsakan").html("<img src='<?php echo base_url()?>/assets/dist/img/loading.gif' width='10px'>");
+            $("#loading_detailmeunamsakan_"+idjenismenu).html("<img src='<?php echo base_url()?>/assets/dist/img/loading.gif' width='10px'>");
         },
         success: function(resp){
             $("#modal").modal('show');
             $("#content_modal").html(resp);
-            $("#loading_detailmeunamsakan").html("");
+            $("#loading_detailmeunamsakan_"+idjenismenu).html("");
         },
         error:function(event, textStatus, errorThrown) {
             alert('Error Message: '+ textStatus + ' , HTTP Error: '+errorThrown);
         }
     });
 };
+
+function generatePengajuanBahan_semua(tanggalrekappasien,tanggalpengajuan) 
+{
+    $.ajax({
+        type: "POST",
+        url: "<?php echo base_url().'pengajuanbahan/generatepengajuanbahan_semua'; ?>",
+        data: {"tanggalrekappasien":tanggalrekappasien,"tanggalpengajuan":tanggalpengajuan},
+        beforeSend: function(){
+            $("#loading_generate").html("<img src='<?php echo base_url()?>/assets/dist/img/loading.gif' width='10px'>");
+            $(".generatepengajuanbahan").attr("disabled",true);
+        },
+        success: function(resp){
+            pilihTanggalPengajuanBahan();
+            $("#loading_generate").html("");
+            $(".generatepengajuanbahan").attr("disabled",false);
+        },
+        error:function(event, textStatus, errorThrown) {
+            alert('Error Message: '+ textStatus + ' , HTTP Error: '+errorThrown);
+        }
+    });
+}
 
 function generatePengajuanBahan(tanggalrekappasien,idjenismenu,tanggalpengajuan)
 {
@@ -219,6 +240,46 @@ function get_bangsal(tanggalrekap)
             }
         });
 }
+
+function form_pengajuandiet_sat(tanggalpengajuan)
+{
+    $.ajax({
+        type: "POST",
+        data: {"tanggalpengajuan":tanggalpengajuan},
+        url: "<?php echo base_url().'pengajuanbahan/form_pengajuandiet_sat'; ?>",
+        beforeSend: function(){
+            $("#loading_pengajuandiet").html("<img src='<?php echo base_url()?>/assets/dist/img/loading.gif' width='10px'>");
+        },
+        success: function(resp){
+            $("#modal_default").modal('show');
+            $("#content_modal_default").html(resp);
+            $("#loading_pengajuandiet").html("");
+        },
+        error:function(event, textStatus, errorThrown) {
+            alert('Error Message: '+ textStatus + ' , HTTP Error: '+errorThrown);
+        }
+    });
+};
+
+function detail_pengajuandiet_sat(tanggalpengajuan)
+{
+    $.ajax({
+        type: "POST",
+        data: {"tanggalpengajuan":tanggalpengajuan},
+        url: "<?php echo base_url().'pengajuanbahan/detail_pengajuandiet_sat'; ?>",
+        beforeSend: function(){
+            $("#loading_detail_pengajuandiet").html("<img src='<?php echo base_url()?>/assets/dist/img/loading.gif' width='10px'>");
+        },
+        success: function(resp){
+            $("#modal").modal('show');
+            $("#content_modal").html(resp);
+            $("#loading_detail_pengajuandiet").html("");
+        },
+        error:function(event, textStatus, errorThrown) {
+            alert('Error Message: '+ textStatus + ' , HTTP Error: '+errorThrown);
+        }
+    });
+};
 
 </script>
 

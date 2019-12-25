@@ -258,4 +258,38 @@ class Dashboard_query extends CI_Model {
         return $res;
     }
 
+    public function get_bahanmasakan()
+    {
+        $sql = "select namabahan
+                    , sum(jumlahkuantitasreal) as jumlahkuantitas
+                    , satuan
+                    , sum(hargatotalreal) as hargatotal
+                from pengajuanbahan
+                where tanggalpengajuan <= DATE_FORMAT(NOW(), '%Y-%m-%d')
+                    and tanggalpengajuan >= DATE_FORMAT(NOW() - INTERVAL 30 DAY, '%Y-%m-%d')
+                group by namabahan, satuan
+                order by sum(jumlahkuantitasreal) desc
+                limit 10";
+
+        $query = $this->db->query($sql);
+        $res = $query->result_array();
+        return $res;
+    }
+
+    public function get_masakan()
+    {
+        $sql = "select namamasakan, sum(jumlahpasien) as jmlpasien
+                from (select namamasakan, jumlahpasien, tanggalpengajuan
+                        from pengajuanbahandetail
+                        where tanggalpengajuan <= DATE_FORMAT(NOW(), '%Y-%m-%d')
+                            and tanggalpengajuan >= DATE_FORMAT(NOW() - INTERVAL 30 DAY, '%Y-%m-%d')
+                        group by namamasakan, jumlahpasien, tanggalpengajuan) as a
+                group by namamasakan
+                limit 10";
+
+        $query = $this->db->query($sql);
+        $res = $query->result_array();
+        return $res;
+    }
+
 }

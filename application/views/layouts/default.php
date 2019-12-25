@@ -75,6 +75,9 @@
     <script src="<?php echo base_url(); ?>assets/dist/js/app.min.js"></script>
 
     <script src="<?php echo base_url(); ?>assets/plugins/fullcalendar/fullcalendar.min.js"></script>
+
+    <!-- ChartJS -->
+    <script src="<?php echo base_url(); ?>assets/plugins/chartjs/Chart.min.js"></script>
     
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

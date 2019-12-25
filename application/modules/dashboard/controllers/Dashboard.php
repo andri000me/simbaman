@@ -36,6 +36,26 @@ class Dashboard extends MX_Controller {
             $data['pengajuan'] = $this->dashboard_query->get_pengajuan($tgl_sekarang[0]['tanggalrekap']);
             $data['pengecekan'] = $this->dashboard_query->get_pengecekan($tgl_sekarang[0]['tanggalrekap']);
 
+            $bahanmasakan = $this->dashboard_query->get_bahanmasakan();
+
+            foreach ( $bahanmasakan as $row ){
+                $res_nama[] = $row['namabahan'].' ('.$row['satuan'].')';
+                $res_angka[] = $row['jumlahkuantitas'];                
+            }
+
+            $data['grafik_nama'] = json_encode($res_nama, true);
+            $data['grafik_angka'] = json_encode($res_angka, true);
+
+            $masakan = $this->dashboard_query->get_masakan();
+
+            foreach ( $masakan as $row ){
+                $res_nama_masakan[] = $row['namamasakan'];
+                $res_pasien[] = $row['jmlpasien'];                
+            }
+
+            $data['grafik_nama_masakan'] = json_encode($res_nama_masakan, true);
+            $data['grafik_pasien'] = json_encode($res_pasien, true);
+
             $this->template
                     ->set_layout('default')
                     ->build('dashboard_view',$data);
