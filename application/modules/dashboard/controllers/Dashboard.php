@@ -38,6 +38,8 @@ class Dashboard extends MX_Controller {
 
             $bahanmasakan = $this->dashboard_query->get_bahanmasakan();
 
+            $res_nama = [];
+            $res_angka = [];
             foreach ( $bahanmasakan as $row ){
                 $res_nama[] = $row['namabahan'].' ('.$row['satuan'].')';
                 $res_angka[] = $row['jumlahkuantitas'];                
@@ -48,6 +50,8 @@ class Dashboard extends MX_Controller {
 
             $masakan = $this->dashboard_query->get_masakan();
 
+            $res_nama_masakan = [];
+            $res_pasien = [];
             foreach ( $masakan as $row ){
                 $res_nama_masakan[] = $row['namamasakan'];
                 $res_pasien[] = $row['jmlpasien'];                
