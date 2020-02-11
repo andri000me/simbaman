@@ -46,6 +46,7 @@ function pilihBulan()
                                     <option value="1">1 bulan</option>
                                     <option value="3">3 bulan</option>
                                     <option value="6">6 bulan</option>
+                                    <option value="12">12 bulan</option>
                                 </select>
                             </div>       
                             <div class="col-sm-4">

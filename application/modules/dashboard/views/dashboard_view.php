@@ -129,7 +129,7 @@ function detail_pasien(idkelas,tanggalrekap)
             ?>
             <div class="small-box bg-green">
                 <div class="inner">
-                    <h3>Pengecekan Bahan Masakan</h3>
+                    <h3>Penerimaan Bahan Masakan</h3>
                     <p>Jumlah Biaya : Rp. <?php echo $hargatotal_b;?></p>
                 </div>
               <div class="icon">

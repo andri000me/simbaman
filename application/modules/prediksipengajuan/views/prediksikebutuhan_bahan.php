@@ -42,4 +42,9 @@
             </tbody>
         </table>
     </div>
+    <div class="row" style="margin-bottom:10px">
+        <div class="col-lg-12" style="text-align: center;">
+            <a target="_blank" href="<?php echo base_url()?>prediksipengajuan/cetakprediksi/<?php echo $bulan;?>" class="btn btn-success">Cetak Prediksi Pengajuan Bahan</a>
+        </div>
+    </div>
 </div>

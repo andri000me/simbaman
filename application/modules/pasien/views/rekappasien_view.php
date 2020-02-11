@@ -22,7 +22,7 @@ function pilihTanggalRekap()
     $.ajax({
         type: "POST",
         data: {"tglrekap":tglrekap},
-        url: "<?php echo base_url().'rekappasien/tanggalrekappasien'; ?>",
+        url: "<?php echo base_url().'pasien/tanggalrekappasien'; ?>",
         beforeSend: function(){
             $("#loading").html("Loading Data <img src='<?php echo base_url()?>/assets/dist/img/loading.gif' width='10px'>");
         },
@@ -41,7 +41,7 @@ function form_ubahjumlahpasien(idjumlahpasien)
     $.ajax({
         type: "POST",
         data: {"idjumlahpasien":idjumlahpasien},
-        url: "<?php echo base_url().'rekappasien/form_ubahjumlahpasien'; ?>",
+        url: "<?php echo base_url().'pasien/form_ubahjumlahpasien'; ?>",
         beforeSend: function(){
             $("#loading").html("Loading Data <img src='<?php echo base_url()?>/assets/dist/img/loading.gif' width='10px'>");
         },
@@ -65,7 +65,7 @@ function ubahjumlahpasien()
     $.ajax({
         type: "POST",
         data: {"idrekapjumlahpasien":idrekapjumlahpasien,"jumlahpasien":jumlahpasien},
-        url: "<?php echo base_url().'rekappasien/ubahjumlahpasien'; ?>",
+        url: "<?php echo base_url().'pasien/ubahjumlahpasien'; ?>",
         beforeSend: function(){
             $("#loading_ubahjumlahpasien").html("Loading Data <img src='<?php echo base_url()?>/assets/dist/img/loading.gif' width='10px'>");
         },
@@ -85,7 +85,7 @@ function TanggalRekap(tglrekap)
     $.ajax({
         type: "POST",
         data: {"tglrekap":tglrekap},
-        url: "<?php echo base_url().'rekappasien/tanggalrekappasien'; ?>",
+        url: "<?php echo base_url().'pasien/tanggalrekappasien'; ?>",
         beforeSend: function(){
             $("#loading").html("Loading Data <img src='<?php echo base_url()?>/assets/dist/img/loading.gif' width='10px'>");
         },
@@ -103,7 +103,7 @@ function importdata(tglrekap) {
     $.ajax({
         type: "POST",
         data: {"tglrekap":tglrekap},
-        url: "<?php echo base_url().'rekappasien/importdata'; ?>",
+        url: "<?php echo base_url().'pasien/importdata'; ?>",
         beforeSend: function(){
             $("#loading_import").html("Loading Data <img src='<?php echo base_url()?>/assets/dist/img/loading.gif' width='10px'>");
             $("#btn_importdata_tmp").attr("disabled","true");
@@ -145,7 +145,7 @@ function importdata(tglrekap) {
                             </div>
                             <div class="col-sm-4">
                                 <button type="button" class="btn btn-info" onclick="javascript:pilihTanggalRekap();">Pilih Tanggal</button>
-                                <a href="<?php echo base_url()?>rekappasien/kalender" target="_blank" class="btn btn-success">Lihat Rekap Pasien</a>
+                                <!-- <a href="<?php //echo base_url()?>pasien/kalender" target="_blank" class="btn btn-success">Lihat Rekap Pasien</a> -->
                             </div>
                         </div>
                     </form>
@@ -157,7 +157,7 @@ function importdata(tglrekap) {
         <div class="box-footer">
             <button type="button" class="btn btn-info" id="tampilinfo"><i class="fa fa-exclamation-triangle"></i> Info</button>
             <?php if ($add == 1) { ?>
-            <a type="button" class="btn btn-danger pull-right" href="<?php echo base_url()?>rekappasien/loadform" id="tambah_data"><i class="fa fa-file"></i> Tambah Data</a>
+            <a type="button" class="btn btn-danger pull-right" href="<?php echo base_url()?>pasien/loadform" id="tambah_data"><i class="fa fa-file"></i> Tambah Data</a>
             <?php } ?>
         </div><!-- /.box-footer -->                
     </div><!-- /.box -->	

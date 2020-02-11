@@ -230,7 +230,7 @@ class Dashboard_query extends CI_Model {
                                 , sum(a.hargatotal) as hargatotal
                                 , 'pengajuan' as stat
                         from pengajuanbahandetail as a
-                        where a.tanggalrekap = '$tgl_sekarang'
+                        where a.tanggalpengajuan = '$tgl_sekarang'
                         group by a.namabahan, a.tanggalpengajuan, a.hargasatuansupplier ) as z
                 group by z.tanggalpengajuan";
             
@@ -249,7 +249,7 @@ class Dashboard_query extends CI_Model {
                         , sum(b.hargatotalreal) as hargatotalreal
                         , 'pengecekan' as stat
                     from pengajuanbahan as b
-                    where b.tanggalrekappasien = '$tgl_sekarang'
+                    where b.tanggalpengajuan = '$tgl_sekarang'
                     group by b.namabahan, b.tanggalpengajuan) as y
                 group by y.tanggalpengajuan";
             

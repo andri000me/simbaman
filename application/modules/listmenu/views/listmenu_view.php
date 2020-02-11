@@ -242,7 +242,7 @@ $this->load->model('listmenu_query');
 
                     <li>
                                     <a href="">
-                                            <i class="fa fa-book"></i> <span>Documentation</span>
+                                            <i class="fa fa-book"></i> <span>Dokumentasi</span>
                                     </a>
                             </li>
                     <li class="header">LABELS</li>

@@ -8,7 +8,7 @@
  * @desc [description]
  */
 
-class Rekappasien extends MX_Controller {
+class Pasien extends MX_Controller {
     private $filename = "import_data"; // Kita tentukan nama filenya
 
     protected $data = '';
@@ -16,7 +16,7 @@ class Rekappasien extends MX_Controller {
     public function __construct() 
     {
         parent::__construct();        
-        $this->load->model('rekappasien_query');
+        $this->load->model('pasien_query');
         $this->load->module('access'); 
         $this->load->module('listmenu');
         
@@ -26,7 +26,7 @@ class Rekappasien extends MX_Controller {
         }
     }
 
-    public function rekap()
+    public function index()
     {
         $idgrup = $this->session->userdata('idgrup');
         $url = $this->uri->segment(1);
@@ -65,7 +65,7 @@ class Rekappasien extends MX_Controller {
     {
         $data['tglrekap'] = $this->security->xss_clean($this->input->post('tglrekap'));
 
-        $tglterakhir = $this->rekappasien_query->get_tglterakhir($data['tglrekap']);
+        $tglterakhir = $this->pasien_query->get_tglterakhir($data['tglrekap']);
 
         if (count($tglterakhir) == 0) {
             $tglrekap = $data['tglrekap'];
@@ -84,21 +84,21 @@ class Rekappasien extends MX_Controller {
                     </div>
                 </div>';
             } else {
-                $this->rekappasien_query->import_data_json($pasien);
+                $this->pasien_query->import_data_json($pasien);
 
-                $data['grupkelas'] = $this->rekappasien_query->get_grupkelas_tmp();
-                $data['grupruangan'] = $this->rekappasien_query->get_grupruangan_tmp();
-                $data['jumlahpasien'] = $this->rekappasien_query->get_jumlahpasien_tmp();
-                $tglrekap = $this->rekappasien_query->get_tanggalrekappasien_tmp();
+                $data['grupkelas'] = $this->pasien_query->get_grupkelas_tmp();
+                $data['grupruangan'] = $this->pasien_query->get_grupruangan_tmp();
+                $data['jumlahpasien'] = $this->pasien_query->get_jumlahpasien_tmp();
+                $tglrekap = $this->pasien_query->get_tanggalrekappasien_tmp();
 
                 $data['tglrekap'] = $tglrekap[0]['tanggalrekap'];
 
                 $this->load->view('rekappasien_tmp', $data);
             }            
         } else {
-            $data['grupkelas'] = $this->rekappasien_query->get_grupkelas($data['tglrekap']);
-            $data['grupruangan'] = $this->rekappasien_query->get_grupruangan($data['tglrekap']);
-            $data['jumlahpasien'] = $this->rekappasien_query->get_jumlahpasien($data['tglrekap']);
+            $data['grupkelas'] = $this->pasien_query->get_grupkelas($data['tglrekap']);
+            $data['grupruangan'] = $this->pasien_query->get_grupruangan($data['tglrekap']);
+            $data['jumlahpasien'] = $this->pasien_query->get_jumlahpasien($data['tglrekap']);
 
             $this->load->view('rekappasien_tglrekap', $data);
         }
@@ -108,7 +108,7 @@ class Rekappasien extends MX_Controller {
     {
         $idjumlahpasien = $this->security->xss_clean($this->input->post('idjumlahpasien'));
 
-        $data['data_jumlahpasien'] = $this->rekappasien_query->get_data_jumlahpasien($idjumlahpasien);
+        $data['data_jumlahpasien'] = $this->pasien_query->get_data_jumlahpasien($idjumlahpasien);
 
         $this->load->view('rekappasien_form_ubahjumlahpasien', $data);
     }
@@ -118,7 +118,7 @@ class Rekappasien extends MX_Controller {
         $idrekapjumlahpasien = $this->security->xss_clean($this->input->post('idrekapjumlahpasien'));
         $jumlahpasien = $this->security->xss_clean($this->input->post('jumlahpasien'));
 
-        $ubah = $this->rekappasien_query->ubahjumlahpasien($idrekapjumlahpasien,$jumlahpasien);
+        $ubah = $this->pasien_query->ubahjumlahpasien($idrekapjumlahpasien,$jumlahpasien);
     }
 
     public function infomodul()
@@ -182,11 +182,11 @@ class Rekappasien extends MX_Controller {
                         $sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
 
                         //var_dump($sheet);
-                        $this->rekappasien_query->import_data($sheet);
+                        $this->pasien_query->import_data($sheet);
 
-                        $data['grupkelas'] = $this->rekappasien_query->get_grupkelas_tmp();
-                        $data['grupruangan'] = $this->rekappasien_query->get_grupruangan_tmp();
-                        $data['jumlahpasien'] = $this->rekappasien_query->get_jumlahpasien_tmp();
+                        $data['grupkelas'] = $this->pasien_query->get_grupkelas_tmp();
+                        $data['grupruangan'] = $this->pasien_query->get_grupruangan_tmp();
+                        $data['jumlahpasien'] = $this->pasien_query->get_jumlahpasien_tmp();
 
                         $data['tglrekap'] = $tglrekap;
 
@@ -205,7 +205,7 @@ class Rekappasien extends MX_Controller {
 
     public function file_excel_default()
     {
-        $result = $this->rekappasien_query->default_kelas_kamar();
+        $result = $this->pasien_query->default_kelas_kamar();
 
         // Load plugin PHPExcel nya    
         include_once APPPATH."third_party/phpexcel/Classes/PHPExcel.php";
@@ -323,7 +323,7 @@ class Rekappasien extends MX_Controller {
     {
         $tglrekap = $this->security->xss_clean($this->input->post('tglrekap'));
 
-        $result = $this->rekappasien_query->importdata($tglrekap);
+        $result = $this->pasien_query->importdata($tglrekap);
 
         if ($result) {
             return true;
@@ -355,12 +355,12 @@ class Rekappasien extends MX_Controller {
                         $pasien_rekap = file_get_contents('json/'.$this->filename.'_'.$t.'.json');
                         $data_pasien = json_decode($pasien_rekap, true);
 
-                        $this->rekappasien_query->import_data_json($data_pasien);
+                        $this->pasien_query->import_data_json($data_pasien);
 
-                        $data['grupkelas'] = $this->rekappasien_query->get_grupkelas_tmp();
-                        $data['grupruangan'] = $this->rekappasien_query->get_grupruangan_tmp();
-                        $data['jumlahpasien'] = $this->rekappasien_query->get_jumlahpasien_tmp();
-                        $tglrekap = $this->rekappasien_query->get_tanggalrekappasien_tmp();
+                        $data['grupkelas'] = $this->pasien_query->get_grupkelas_tmp();
+                        $data['grupruangan'] = $this->pasien_query->get_grupruangan_tmp();
+                        $data['jumlahpasien'] = $this->pasien_query->get_jumlahpasien_tmp();
+                        $tglrekap = $this->pasien_query->get_tanggalrekappasien_tmp();
 
                         $data['tglrekap'] = $tglrekap[0]['tanggalrekap'];
 
@@ -377,7 +377,7 @@ class Rekappasien extends MX_Controller {
         }
     }
 
-    public function index()
+    public function kalender()
     {
         $idgrup = $this->session->userdata('idgrup');
         $url = $this->uri->segment(1);
@@ -402,7 +402,7 @@ class Rekappasien extends MX_Controller {
                 $data['delete'] = $t->deleted;
             }
 
-            $get_tanggalkelas = $this->rekappasien_query->get_tanggalkelas();
+            $get_tanggalkelas = $this->pasien_query->get_tanggalkelas();
 
             $events = array();
             foreach ($get_tanggalkelas as $kelas) {

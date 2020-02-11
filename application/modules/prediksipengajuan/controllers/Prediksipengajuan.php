@@ -43,8 +43,9 @@ class Prediksipengajuan extends MX_Controller {
             }
             
             $tglprediksi = date('Y-m-d', strtotime("-30 day"));
+            $harix = 30;
             
-            $data['prediksi'] = $this->prediksipengajuan_query->get_prediksibahan($tglprediksi);
+            $data['prediksi'] = $this->prediksipengajuan_query->get_prediksibahan($tglprediksi,$harix);
 
             $data['tgl_sekarang'] = date('Y-m-d');
             $data['tgl_prediksi'] = $tglprediksi;
@@ -66,18 +67,38 @@ class Prediksipengajuan extends MX_Controller {
                 $hari = '-30 days';
                 break;
             case 3:
-                $hari = '-90 days';
+                $hari = '-91 days';
                 break;
             case 6:
-                $hari = '-180 days';
+                $hari = '-182 days';
+                break;
+            case 12:
+                $hari = '-365 days';
                 break;
             default:
                 $hari = '0 days';
         } 
 
+        switch ($data['bulan']) {
+            case 1:
+                $harix = 30;
+                break;
+            case 3:
+                $harix = 91;
+                break;
+            case 6:
+                $harix = 182;
+                break;
+            case 12:
+                $harix = 365;
+                break;
+            default:
+                $harix = 0;
+        }
+
         $tglprediksi = date('Y-m-d', strtotime($hari));
             
-        $data['prediksi'] = $this->prediksipengajuan_query->get_prediksibahan($tglprediksi);
+        $data['prediksi'] = $this->prediksipengajuan_query->get_prediksibahan($tglprediksi,$harix);
 
         $data['tgl_sekarang'] = date('Y-m-d');
         $data['tgl_prediksi'] = $tglprediksi;
@@ -103,9 +124,26 @@ class Prediksipengajuan extends MX_Controller {
                 $hari = '0 days';
         } 
 
+        switch ($data['bulan']) {
+            case 1:
+                $harix = 30;
+                break;
+            case 3:
+                $harix = 91;
+                break;
+            case 6:
+                $harix = 182;
+                break;
+            case 12:
+                $harix = 365;
+                break;
+            default:
+                $harix = 0;
+        }
+
         $tglprediksi = date('Y-m-d', strtotime($hari));
             
-        $prediksi = $this->prediksipengajuan_query->get_prediksibahan($tglprediksi);
+        $prediksi = $this->prediksipengajuan_query->get_prediksibahan($tglprediksi,$harix);
 
         $bulan = $data['bulan'];
         $tgl_sekarang = date('Y-m-d');
