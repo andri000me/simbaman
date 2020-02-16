@@ -67,8 +67,17 @@
                     </div>
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">Jenis</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="jenis" name="jenis" placeholder="Jenis" value="<?php echo $jenis;?>">
+                        <div class="col-sm-3">
+                            <select class="form-control" name="jenis" id="jenis">
+                                <option value="">-- Pilih Jenis Masakan</option>
+                                <?php
+                                foreach ($jenismasakan as $jns) {
+                                ?>
+                                    <option value="<?php echo $jns['namajenismasakan'];?>" <?php if ($jns['namajenismasakan'] == $jenis) { echo 'selected="selected"';}?>><?php echo $jns['namajenismasakan'];?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">

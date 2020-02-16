@@ -18,7 +18,12 @@
                         $("#submitButton").attr("disabled",true);
                     },
                     success: function(resp){
-                        window.location.assign("<?php echo base_url().'masakanbahan/detail_masakanbahan/';?>"+resp);
+                        if (resp == 'gagal') {
+                            alert("Nama masakan : "+namamasakan+", sudah tersedia. Silahkan ganti nama masakan yang lain.")
+                            window.location.assign("<?php echo base_url().'masakanbahan';?>");
+                        } else {
+                            window.location.assign("<?php echo base_url().'masakanbahan/detail_masakanbahan/';?>"+resp);
+                        }
                     },
                     error: function(event, textStatus, errorThrown) {
                        alert('Error Message: '+ textStatus + ' , HTTP Error: '+errorThrown);

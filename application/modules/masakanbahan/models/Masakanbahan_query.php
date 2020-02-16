@@ -25,6 +25,15 @@ class Masakanbahan_query extends CI_Model {
         return $res;
     }
 
+    public function list_jenismasakan()
+    {
+        $sql = "SELECT namajenismasakan FROM jenismasakan";
+
+        $query = $this->db->query($sql);
+        $res = $query->result_array();
+        return $res;
+    }
+
     public function listDataMasakan()
     {
         $sql = "SELECT a.idmasakan, a.namamasakan, a.stat, COUNT(idmasakanbahan) AS jml
@@ -82,6 +91,17 @@ class Masakanbahan_query extends CI_Model {
         $query = $this->db->query($sql);
         $result = $query->result_array();
         return $result[0]['id'];
+    }
+
+    public function cek_namamasakan($namamasakan) 
+    {
+        $sql = "SELECT namamasakan
+                FROM masakan
+                WHERE namamasakan = '$namamasakan';";
+
+        $query = $this->db->query($sql);
+        $res = $query->result_array();
+        return $res;
     }
 
     public function ExecData_masakan($data)

@@ -112,11 +112,18 @@ class Masakanbahan extends MX_Controller {
         $up['idmasakan'] = $this->security->xss_clean($this->input->post('idmasakan'));
         $up['namamasakan'] = $this->security->xss_clean($this->input->post('namamasakan'));
         $up['stat'] = $this->security->xss_clean($this->input->post('stat'));
-        $res = $this->masakanbahan_query->ExecData_masakan($up);
-        if ($res == 1){
-            echo 101;
-        } else if ($res == 0){
-            echo 100;
+
+        $ceknamamasakan = $this->masakanbahan_query->cek_namamasakan($up['namamasakan']);
+
+        if (count($ceknamamasakan) != 0) {
+            echo "gagal";
+        } else {
+            $res = $this->masakanbahan_query->ExecData_masakan($up);
+            // if ($res == 1){
+            //     echo 101;
+            // } else if ($res == 0){
+            //     echo 100;
+            // }
         }
     }
 
@@ -152,6 +159,8 @@ class Masakanbahan extends MX_Controller {
             $data['bahan'] = $this->masakanbahan_query->bahan();
 
             $data['masakanbahan'] = $this->masakanbahan_query->masakanbahan($idmasakan);
+
+            $data['satuanbahan'] = $this->masakanbahan_query->list_satuan();
 
             $this->template
                     ->set_layout('default')
@@ -243,6 +252,7 @@ class Masakanbahan extends MX_Controller {
             }
 
             $data['satuanbahan'] = $this->masakanbahan_query->list_satuan();
+            $data['jenismasakan'] = $this->masakanbahan_query->list_jenismasakan();
 
             $this->template
                     ->set_layout('default')
@@ -296,6 +306,7 @@ class Masakanbahan extends MX_Controller {
     {
         $idmasakanbahan = $this->security->xss_clean($this->input->post('idmasakanbahan'));
         $data['masakanbahan'] = $this->masakanbahan_query->listdataMasakanBahanWhere($idmasakanbahan);
+        $data['satuanbahan'] = $this->masakanbahan_query->list_satuan();
         $this->load->view('form_ubahmasakanbahan',$data);
     }
 

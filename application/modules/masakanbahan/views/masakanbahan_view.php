@@ -88,7 +88,7 @@ function hapus_masakan()
                                 <th style="text-align: center;" width="20">No</th>
                                 <th style="text-align: center;" width="150">Nama Masakan</th>
                                 <th style="text-align: center;">Bahan Masakan</th>
-                                <th style="text-align: center;" width="50">Aksi</th>
+                                <th style="text-align: center;" width="150">Aksi</th>
                                 <!-- <th style="text-align: center;" width="50">Publish</th> -->
                             </tr>
                         </thead>
@@ -105,13 +105,14 @@ function hapus_masakan()
                                     foreach ($masakanbahan as $bahan) {
                                         if ($bahan['idmasakan'] == $data['idmasakan']) {
                                             echo $bahan['namabahan'].' ('.$bahan['kuantitas'].' '.$bahan['satuan'].' - '.$bahan['jenis'].'), ';
+                                            echo '<br>';
                                         }
                                     }
                                     ?>
                                 </td>
                                 <td style="text-align: center;">
                                     <?php if ($edit == 1) { ?>
-                                    <a type="button" class="btn btn-warning btn-xs" href="<?php echo base_url()?>masakanbahan/detail_masakanbahan/<?php echo $data['idmasakan']; ?>"><i class="fa fa-edit"></i></a>
+                                    <a type="button" class="btn btn-warning btn-xs" href="<?php echo base_url()?>masakanbahan/detail_masakanbahan/<?php echo $data['idmasakan']; ?>"><i class="fa fa-edit"></i> Detail Bahan</a>
                                     <?php } ?>
                                     <?php if ($delete == 1) { ?>
                                         <?php if ($data['jml'] == 0) { $diss = ''; } else { $diss = 'disabled'; }?>

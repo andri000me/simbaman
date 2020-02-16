@@ -201,8 +201,17 @@ function hapus_masakanbahan()
                     </div>
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">Satuan</label>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="satuan_x" name="satuan_x" value="" placholder="Satuan">                            
+                        <div class="col-sm-2">
+                            <select class="form-control" name="satuan_x" id="satuan_x">
+                                <option value="">-- Pilih Satuan</option>
+                                <?php
+                                foreach ($satuanbahan as $sat) {
+                                ?>
+                                    <option value="<?php echo $sat['satuan'];?>"><?php echo $sat['satuan'];?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">

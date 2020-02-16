@@ -30,8 +30,17 @@
                     </div>
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">Satuan</label>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control" id="satuan_y" name="satuan_y" value="<?php echo $masakanbahan[0]['satuan'];?>" placholder="Satuan">                            
+                        <div class="col-sm-2">
+                            <select class="form-control" name="satuan_y" id="satuan_y">
+                                <option value="">-- Pilih Satuan</option>
+                                <?php
+                                foreach ($satuanbahan as $sat) {
+                                ?>
+                                    <option value="<?php echo $sat['satuan'];?>" <?php if ($sat['satuan'] == $masakanbahan[0]['satuan']) { echo 'selected="selected"';}?>><?php echo $sat['satuan'];?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
