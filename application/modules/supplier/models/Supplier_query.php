@@ -272,4 +272,35 @@ class Supplier_query extends CI_Model {
         }
     }
 
+    public function listDataBahan_suplier($idsupplier)
+    {
+        $sql = "SELECT a.idbahan, a.namabahan, a.satuan, a.jenis, a.tanggalinsert, a.stat
+                FROM bahan AS a
+                LEFT OUTER JOIN (SELECT idbahansupplier, idbahan FROM bahansupplier WHERE idsupplier = '$idsupplier') AS b
+                ON a.idbahan = b.idbahan
+                WHERE b.idbahansupplier IS NULL";
+
+        $query = $this->db->query($sql);
+        $res = $query->result_array();
+        return $res;
+    }
+
+    public function list_satuan()
+    {
+        $sql = "SELECT satuan FROM bahan GROUP BY satuan";
+
+        $query = $this->db->query($sql);
+        $res = $query->result_array();
+        return $res;
+    }
+
+    public function list_jenismasakan()
+    {
+        $sql = "SELECT namajenismasakan FROM jenismasakan";
+
+        $query = $this->db->query($sql);
+        $res = $query->result_array();
+        return $res;
+    }
+
 }

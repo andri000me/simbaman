@@ -190,7 +190,7 @@ function  hapus_bahansupplier_manual()
                             <td><?php echo $data['spesifikasi']; ?></td>
                             <td style="text-align: center;">
                                 <?php if ($edit == 1) { ?>
-                                <a type="button" class="btn btn-warning btn-xs" href="<?php echo base_url()?>supplier/loadform_bahansupplier_manual/<?php echo $data['idbahansupplier']; ?>"><i class="fa fa-edit"></i></a>
+                                <a type="button" class="btn btn-warning btn-xs" href="<?php echo base_url()?>supplier/loadform_bahansupplier_manual/<?php echo $idsupplier;?>/<?php echo $data['idbahansupplier']; ?>"><i class="fa fa-edit"></i></a>
                                 <?php } ?>
                                 <?php if ($delete == 1) { ?>   
                                 <?php if ($data['jml'] <= 1) { $diss = ''; } else { $diss = 'disabled'; } ?>                     
@@ -232,6 +232,7 @@ function  hapus_bahansupplier_manual()
                 }
                 ?>
                 <button type="button" <?php echo $diss_hapus;?> class="btn btn-danger" onclick="javascript:konfirmasi_hapusbahansupplier('<?php echo $idsupplier;?>');"><i class="fa fa-trash"></i> Hapus Data</button> &nbsp;
+                <a type="button" class="btn btn-warning" href="<?php echo base_url()?>supplier/loadform_bahansupplier_manual/<?php echo $idsupplier;?>"><i class="fa fa-file"></i> Tambah Data</a> &nbsp;
                 <button type="button" <?php echo $diss_tambah;?> class="btn btn-success" id="tambah_data" onclick="javascript:loadform_bahansupplier('<?php echo $idsupplier;?>');"><i class="fa fa-file"></i> Copy Bahan Supplier</button>
             <?php } ?>
         </div><!-- /.box-footer -->                

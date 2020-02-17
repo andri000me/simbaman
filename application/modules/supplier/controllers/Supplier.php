@@ -187,7 +187,10 @@ class Supplier extends MX_Controller {
             }
             $this->session->set_userdata($sess_data);
             
-            $data['id'] = $this->uri->segment(3);
+            $data['idsupplier'] = $this->uri->segment(3);
+            $data['id'] = $this->uri->segment(4);
+
+            $idsupplier = $data['idsupplier'];
             
             if ($data['id'] == NULL){
                 $data['idbahansupplier'] = '';
@@ -196,7 +199,10 @@ class Supplier extends MX_Controller {
                 $data['hargasatuan'] = '';
                 $data['satuan'] = ''; 
                 $data['jenis'] = '';
-                $data['spesifikasi'] = '';            
+                $data['spesifikasi'] = '';     
+                
+                $data['supplier'] = $this->supplier_query->listdataSupplierWhere($idsupplier);
+                $data['bahan'] = $this->supplier_query->listDataBahan_suplier($idsupplier);
                 
             } else {
                 $query = $this->supplier_query->listdataBahanSupplierWhere($data['id']);
@@ -209,10 +215,13 @@ class Supplier extends MX_Controller {
                     $data['jenis'] = $t['jenis'];
                     $data['spesifikasi'] = $t['spesifikasi'];
                 }                
+
+                $data['supplier'] = $this->supplier_query->listdataSupplierWhere($data['idsupplier']);
+                $data['bahan'] = $this->supplier_query->listdataBahanWhere($data['idbahan']);
             }
 
-            $data['supplier'] = $this->supplier_query->listDataSupplier();
-            $data['bahan'] = $this->supplier_query->listDataBahan();
+            $data['satuanbahan'] = $this->supplier_query->list_satuan();
+            $data['jenismasakan'] = $this->supplier_query->list_jenismasakan();
 
             $this->template
                 ->set_layout('default')

@@ -40,7 +40,7 @@
                     <label for="" class="col-sm-2 control-label">Nama Supplier</label>
                     <div class="col-sm-10">
                         <input type="hidden" class="form-control" id="idbahansupplier" name="idbahansupplier" value="<?php echo $idbahansupplier;?>">
-                        <select class="form-control" name="idsupplier" id="idsupplier" readonly>
+                        <select class="form-control" name="idsupplier" id="idsupplier">
                             <?php 
                             foreach ($supplier as $d) {
                             ?>
@@ -54,7 +54,7 @@
                 <div class="form-group">
                     <label for="" class="col-sm-2 control-label">Nama Bahan</label>
                     <div class="col-sm-10">
-                        <select class="form-control" name="idbahan" id="idbahan" readonly>
+                        <select class="form-control" name="idbahan" id="idbahan">
                             <?php 
                             foreach ($bahan as $d) {
                             ?>
@@ -73,14 +73,32 @@
                 </div>
                 <div class="form-group">
                     <label for="" class="col-sm-2 control-label">Satuan</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" placeholder="Satuan" id="satuan" name="satuan" value="<?php echo $satuan;?>">
+                    <div class="col-sm-3">
+                        <select class="form-control" name="satuan" id="satuan">
+                            <option value="">-- Pilih Satuan</option>
+                            <?php
+                            foreach ($satuanbahan as $sat) {
+                            ?>
+                                <option value="<?php echo $sat['satuan'];?>" <?php if ($sat['satuan'] == $satuan) { echo 'selected="selected"';}?>><?php echo $sat['satuan'];?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="" class="col-sm-2 control-label">Jenis</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" placeholder="Jenis" id="jenis" name="jenis" value="<?php echo $jenis;?>">
+                    <div class="col-sm-3">
+                        <select class="form-control" name="jenis" id="jenis">
+                            <option value="">-- Pilih Jenis Masakan</option>
+                            <?php
+                            foreach ($jenismasakan as $jns) {
+                            ?>
+                                <option value="<?php echo $jns['namajenismasakan'];?>" <?php if ($jns['namajenismasakan'] == $jenis) { echo 'selected="selected"';}?>><?php echo $jns['namajenismasakan'];?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
