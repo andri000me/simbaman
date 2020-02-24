@@ -203,7 +203,8 @@ if (count($cektglpengajuanbahan) == 0) {
 
 <div class="row" style="margin-bottom:10px">
     <div class="col-lg-12" style="text-align: center;">
-        <a target="_blank" href="<?php echo base_url()?>pengecekanbahan/cetakpengecekan/<?php echo $idpengajuan;?>" class="btn btn-success">Cetak Pengecekan</a>
+        <a target="_blank" href="<?php echo base_url()?>pengecekanbahan/cetakpengecekan/<?php echo $idpengajuan;?>" class="btn btn-success">Cetak Penerimaan</a>
+        <a target="_blank" href="<?php echo base_url()?>pengecekanbahan/cetakpengecekan_jenisbahan/<?php echo $idpengajuan;?>" class="btn btn-info">Cetak Penerimaan Jenis Bahan</a>
     </div>
 </div>
 

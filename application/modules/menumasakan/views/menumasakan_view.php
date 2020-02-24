@@ -66,7 +66,7 @@ function pilihKelasPasien()
         <div class="box-footer">
             <button type="button" class="btn btn-info" id="tampilinfo"><i class="fa fa-exclamation-triangle"></i> Info</button>
             <?php if ($add == 1) { ?>
-            <!-- <a type="button" class="btn btn-danger pull-right" href="<?php //echo base_url()?>menumasakan/loadform" id="tambah_data"><i class="fa fa-file"></i> Tambah Data</a> -->
+            <a type="button" class="btn btn-danger pull-right" href="<?php echo base_url()?>menumasakan/ref_menumasakan" id="tambah_data"><i class="fa fa-file"></i> Referensi Menu Masakan</a>
             <?php } ?>
         </div><!-- /.box-footer -->                
     </div><!-- /.box -->	

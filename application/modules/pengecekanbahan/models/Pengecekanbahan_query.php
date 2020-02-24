@@ -332,6 +332,7 @@ class Pengecekanbahan_query extends CI_Model {
                         , z.namabahan, z.jumlahkuantitas, z.satuan
                         , z.hargasatuansupplier, z.satuansupplier, z.hargatotal
                         , y.idbahanpengajuan, y.kesesuaian, y.jumlahkuantitasreal, y.hargatotalreal, z.idpengajuandiet
+                        , z.jenis
                     FROM (
                         SELECT y.idpengajuan, y.tanggalrekap, y.tanggalpengajuan
                                 , y.idbahan, y.idbahansupplier
@@ -340,17 +341,20 @@ class Pengecekanbahan_query extends CI_Model {
                                 , (y.jumlahkuantitas-IFNULL(x.jmlkuantitaspengurangan,0)) AS jumlahkuantitas
                                 , (y.jumlahkuantitas-IFNULL(x.jmlkuantitaspengurangan,0))*y.hargasatuansupplier AS hargatotal
                                 , x.idpengajuan AS idpengajuandiet
+                                , y.jenis
                             FROM ( SELECT  a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
                                 , a.idbahan, a.idbahansupplier
                                 , b.namabahan, SUM(a.jumlahkuantitas) AS jumlahkuantitas, a.satuan
                                 , a.hargasatuansupplier, a.satuansupplier, SUM(a.hargatotal) AS hargatotal
+                                , b.jenis
                             FROM pengajuanbahandetail AS a INNER JOIN 
                                 bahan AS b ON a.idbahan = b.idbahan
                             WHERE a.idpengajuan = '$idpengajuan'
                             GROUP BY a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
                                 , a.idbahan, a.idbahansupplier
                                 , b.namabahan, a.satuan
-                                , a.hargasatuansupplier, a.satuansupplier) AS y
+                                , a.hargasatuansupplier, a.satuansupplier
+                                , b.jenis) AS y
                             LEFT OUTER JOIN (SELECT z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan
                             , SUM(z.jmlkuantitaspengurangan) AS jmlkuantitaspengurangan, z.satuan
                             FROM (SELECT a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan, a.jumlahpasien
@@ -368,6 +372,19 @@ class Pengecekanbahan_query extends CI_Model {
                     AND z.idbahansupplier = y.idbahansupplier
                     ORDER BY z.namabahan ASC";
 
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function get_jenisbahan($idpengajuan)
+    {
+        $sql = "SELECT b.jenis
+                FROM pengajuanbahandetail AS a
+                INNER JOIN bahan AS b on a.idbahan = b.idbahan
+                WHERE a.idpengajuan = '$idpengajuan'
+                GROUP BY b.jenis
+                ORDER BY b.jenis";
         $query = $this->db->query($sql);
         $result = $query->result_array();
         return $result;

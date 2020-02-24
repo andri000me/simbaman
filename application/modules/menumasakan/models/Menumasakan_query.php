@@ -302,4 +302,93 @@ class Menumasakan_query extends CI_Model {
         $res = $query->result_array();
         return $res;
     }
+
+    public function jenismenumasakan()
+    {
+        $sql = "SELECT a.idjenismenu, b.namajenismenu
+                FROM ref_menumasakan AS a
+                INNER JOIN jenismenu AS b ON a.idjenismenu = b.idjenismenu
+                GROUP BY a.idjenismenu, b.namajenismenu";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function kelasmenumasakan($idjenismenu)
+    {
+        $sql = "SELECT a.idkelas, b.namakelas, a.idjenismenu
+                FROM ref_menumasakan AS a
+                INNER JOIN kelas AS b ON a.idkelas = b.idkelas
+                INNER JOIN waktumenu AS d ON a.idwaktumenu = d.idwaktumenu
+                INNER JOIN masakan AS e ON a.idmasakan = e.idmasakan
+                GROUP BY a.idkelas, b.namakelas, a.idjenismenu
+                ORDER BY b.namakelas ASC";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function waktumenumasakan($idjenismenu)
+    {
+        $sql = "SELECT a.idwaktumenu, d.namawaktumenu, d.waktu, a.idjenismenu
+                FROM ref_menumasakan AS a
+                INNER JOIN kelas AS b ON a.idkelas = b.idkelas
+                INNER JOIN waktumenu AS d ON a.idwaktumenu = d.idwaktumenu
+                INNER JOIN masakan AS e ON a.idmasakan = e.idmasakan
+                GROUP BY a.idwaktumenu, d.namawaktumenu, d.waktu, a.idjenismenu
+                ORDER BY d.waktu ASC";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function menumasakan($idjenismenu)
+    {
+        $sql = "SELECT a.idkelas, b.namakelas
+                , a.idwaktumenu, d.namawaktumenu, d.waktu
+                , a.idmasakan, e.namamasakan
+                , a.idjenismenu
+                FROM ref_menumasakan AS a
+                INNER JOIN kelas AS b ON a.idkelas = b.idkelas
+                INNER JOIN waktumenu AS d ON a.idwaktumenu = d.idwaktumenu
+                INNER JOIN masakan AS e ON a.idmasakan = e.idmasakan
+                ORDER BY e.namamasakan ASC";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function get_reset_menumasakan()
+    {
+        $delete = "TRUNCATE TABLE menumasakan;";
+        $q_del = $this->db->query($delete);
+
+        if ($q_del) {
+            $insert = "INSERT INTO menumasakan
+                    (idmenumasakan,
+                    idkelas,namakelas,
+                    idjenismenu,namajenismenu,
+                    idwaktumenu,namawaktumenu,
+                    idmasakan,namamasakan,
+                    tanggalinsert,stat)
+                SELECT idmenumasakan
+                    , idkelas, namakelas
+                    , idjenismenu, namajenismenu
+                    , idwaktumenu, namawaktumenu
+                    , idmasakan, namamasakan
+                    , NOW() AS tanggalinsert, stat
+                FROM ref_menumasakan";
+            $q_insert = $this->db->query($insert);
+
+            if($q_insert) {
+                return TRUE;
+            } else {
+                return FALSE;
+            }
+        }
+    }
 }

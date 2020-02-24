@@ -403,7 +403,10 @@ class Pengajuanbahan extends MX_Controller {
 		$pdf->AliasNbPages();
 		$pdf->AddPage();
 		$pdf->Content();
-		$pdf->Output();
+        // $pdf->Output();
+        $tanggal = str_replace("-","",$tanggalpengajuan);
+        $fileName = 'pengajuan_bm_'.$tanggal.'.pdf';
+        $pdf->Output($fileName, 'D');
     }
 
     public function form_pengajuandiet()

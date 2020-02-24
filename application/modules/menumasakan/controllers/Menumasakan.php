@@ -144,11 +144,6 @@ class Menumasakan extends MX_Controller {
             $this->access->statHakAkses();
         }
     }
-    
-    function infomodul()
-    {
-        $this->load->view('menumasakan_info');
-    }
 
     public function savedata_menumasakan()
     {
@@ -168,5 +163,66 @@ class Menumasakan extends MX_Controller {
         $data['menumasakan'] = $this->menumasakan_query->get_menumasakan($data['idmenumasakan']);
 
         $this->load->view('konfirmasi_delete_menumasakan',$data);
+    }
+
+    public function ref_menumasakan()
+    {
+        $idgrup = $this->session->userdata('idgrup');
+        $url = $this->uri->segment(1);
+        $cekhakakses = $this->access->hakakses($idgrup,$url);
+        if ($cekhakakses == 1) {
+            $modul = $this->listmenu->namamodul($url);
+            foreach($modul->result() as $t){
+                $sess_data['idmodul'] = $t->idmodul;
+                $data['idmodul'] = $t->idmodul;
+                $data['idmenu'] = $t->idmenu;
+                $data['namamodul'] = $t->namamodul;
+                $data['keteranganmodul'] = $t->keterangan;
+                $data['namamenu'] = $t->namamenu;
+            }
+            $this->session->set_userdata($sess_data);
+            
+            $idmodul = $this->session->userdata('idmodul');
+            $btnaksi = $this->listmenu->btnaksi($idmodul,$idgrup);
+            foreach($btnaksi->result() as $t){
+                $data['add'] = $t->created;
+                $data['edit'] = $t->updated;
+                $data['delete'] = $t->deleted;
+            }
+
+            $data['idjenismenu'] = 'a0997f19-d775-11e9-8c14-68f72820d6fc';
+
+            $data['jenismenumasakan'] = $this->menumasakan_query->jenismenumasakan($data['idjenismenu']);
+
+            $data['kelasmenumasakan'] = $this->menumasakan_query->kelasmenumasakan($data['idjenismenu']);
+            $data['waktumenumasakan'] = $this->menumasakan_query->waktumenumasakan($data['idjenismenu']);
+            $data['menumasakan'] = $this->menumasakan_query->menumasakan($data['idjenismenu']);
+
+            $this->template
+                ->set_layout('default')
+                ->build('referensi_menumasakan',$data);
+        } else {
+            $this->access->statHakAkses();
+        }
+    }
+
+    function infomodul()
+    {
+        $this->load->view('menumasakan_info');
+    }
+
+    function konfirmasi_reset()
+    {
+        $this->load->view('konfirmasi_reset');
+    }
+
+    public function reset_menumasakan()
+    {
+        $res = $this->menumasakan_query->get_reset_menumasakan();
+        if ($res == 1){
+            echo 101;
+        } else if ($res == 0){
+            echo 100;
+        }
     }
 }

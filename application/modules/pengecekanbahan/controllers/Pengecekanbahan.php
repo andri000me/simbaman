@@ -188,7 +188,54 @@ class Pengecekanbahan extends MX_Controller {
 		$pdf->AliasNbPages();
 		$pdf->AddPage();
 		$pdf->Content();
-		$pdf->Output();
+        // $pdf->Output();
+        $tanggal = str_replace("-","",$tanggalpengajuan);
+        $fileName = 'penerimaan_bm'.$tanggal.'.pdf';
+        $pdf->Output($fileName, 'D');
+    }
+
+    public function cetakpengecekan_jenisbahan()
+    {
+        $idpengajuan = $this->uri->segment(3);
+
+        $kelas = $this->pengecekanbahan_query->pengajuanbahan_kelas('pilihsemua',$idpengajuan);
+        $waktumenu = $this->pengecekanbahan_query->pengajuanbahan_waktumenu('pilihsemua',$idpengajuan);
+        $pengajuanbahan = $this->pengecekanbahan_query->get_pengecekanbahanfix($idpengajuan);
+        $tanggalpengajuan = $this->pengecekanbahan_query->tanggalpengajuan($idpengajuan);
+
+        $jenisbahanpengajuan = $this->pengecekanbahan_query->get_jenisbahan($idpengajuan);
+
+        $klss = array();
+        foreach ($kelas as $kls) {
+            $klss[] = $kls['namakelas'];
+        }
+        $kelas_pengajuan = str_replace("]",'',str_replace("[",'',str_replace('"','', json_encode($klss))));
+
+        $wkts = array();
+        foreach ($waktumenu as $wkt) {
+            $wkts[] = $wkt['namawaktumenu'];
+        }
+        $waktu_pengajuan = str_replace("]",'',str_replace("[",'',str_replace('"','', json_encode($wkts))));
+
+        $tanggalpengajuan = $tanggalpengajuan[0]['tanggalpengajuan'];
+
+        include_once APPPATH."third_party/fpdf17/custom/PDF_PengecekanBahanMasakan_JenisBahan.php";
+
+        $pdf=new PDF_absensi('P','mm','A4');
+        $pdf -> setPengajuanBahan($pengajuanbahan);
+        $pdf -> setKelasPengajuanBahan($kelas_pengajuan);
+        $pdf -> setWaktuPengajuanBahan($waktu_pengajuan);
+        $pdf -> setTanggalPengajuanBahan($tanggalpengajuan);
+        $pdf -> setJenisBahanPengajuan($jenisbahanpengajuan);
+
+		$pdf->SetMargins(5,5,5,5);
+		$pdf->AliasNbPages();
+		$pdf->AddPage();
+		$pdf->Content();
+        // $pdf->Output();
+        $tanggal = str_replace("-","",$tanggalpengajuan);
+        $fileName = 'penerimaan_bm'.$tanggal.'_jenisbahan.pdf';
+        $pdf->Output($fileName, 'D');
     }
 
 }
