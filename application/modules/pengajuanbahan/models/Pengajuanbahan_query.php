@@ -329,6 +329,121 @@ class Pengajuanbahan_query extends CI_Model {
                             AND y.idbahan = x.idbahan
                 ORDER BY y.namabahan ASC";
         */
+        $sql = "SELECT
+    aa.idpengajuan,
+    aa.tanggalrekap,
+    aa.tanggalpengajuan,
+    aa.idbahan,
+    aa.idbahansupplier,
+    aa.namabahan,
+    aa.satuan,
+    aa.hargasatuansupplier,
+    aa.satuansupplier,
+    (
+        aa.totaljumlahkuantitas - IFNULL(bb.jumlahkuantitas, 0)
+    ) AS totaljumlahkuantitas,
+    (
+        aa.totaljumlahkuantitas - IFNULL(bb.jumlahkuantitas, 0)
+    ) * aa.hargasatuansupplier AS totalhargatotal,
+    aa.idpengajuandiet,
+    bb.idsisabahan
+FROM
+    (
+    SELECT
+        Y.idpengajuan,
+        Y.tanggalrekap,
+        Y.tanggalpengajuan,
+        Y.idbahan,
+        Y.idbahansupplier,
+        Y.namabahan,
+        Y.satuan,
+        Y.hargasatuansupplier,
+        Y.satuansupplier,
+        (
+            Y.jumlahkuantitas - IFNULL(X.jmlkuantitaspengurangan, 0)
+        ) AS totaljumlahkuantitas,
+        (
+            Y.jumlahkuantitas - IFNULL(X.jmlkuantitaspengurangan, 0)
+        ) * Y.hargasatuansupplier AS totalhargatotal,
+        X.idpengajuan AS idpengajuandiet
+    FROM
+        (
+        SELECT
+            a.idpengajuan,
+            a.tanggalrekap,
+            a.tanggalpengajuan,
+            a.idbahan,
+            a.idbahansupplier,
+            b.namabahan,
+            SUM(a.jumlahkuantitas) AS jumlahkuantitas,
+            a.satuan,
+            a.hargasatuansupplier,
+            a.satuansupplier,
+            SUM(a.hargatotal) AS hargatotal
+        FROM
+            pengajuanbahandetail AS a
+        INNER JOIN bahan AS b
+        ON
+            a.idbahan = b.idbahan
+        WHERE
+            a.tanggalpengajuan = '$tglpengajuan' AND a.idjenismenu = '$idjenismenu'
+        GROUP BY
+            a.idpengajuan,
+            a.tanggalrekap,
+            a.tanggalpengajuan,
+            a.idbahan,
+            a.idbahansupplier,
+            b.namabahan,
+            a.satuan,
+            a.hargasatuansupplier,
+            a.satuansupplier
+    ) AS Y
+LEFT OUTER JOIN(
+    SELECT
+        z.idpengajuan,
+        z.tanggalrekap,
+        z.tanggalpengajuan,
+        z.idbahan,
+        z.namabahan,
+        SUM(z.jmlkuantitaspengurangan) AS jmlkuantitaspengurangan,
+        z.satuan
+    FROM
+        (
+        SELECT
+            a.idpengajuan,
+            a.tanggalrekap,
+            a.tanggalpengajuan,
+            a.jumlahpasien,
+            a.idbahan,
+            b.namabahan,
+            a.kuantitaspengurangan,
+            (
+                a.jumlahpasien * a.kuantitaspengurangan
+            ) AS jmlkuantitaspengurangan,
+            a.satuan
+        FROM
+            pengajuanbahandietdetail AS a
+        INNER JOIN bahan AS b
+        ON
+            a.idbahan = b.idbahan
+    ) AS z
+GROUP BY
+    z.idpengajuan,
+    z.tanggalrekap,
+    z.tanggalpengajuan,
+    z.idbahan,
+    z.namabahan,
+    z.satuan
+) AS X
+ON
+    Y.idpengajuan = X.idpengajuan AND Y.tanggalpengajuan = X.tanggalpengajuan AND Y.tanggalrekap = X.tanggalrekap AND Y.idbahan = X.idbahan
+) AS aa
+LEFT OUTER JOIN sisabahan AS bb
+ON
+    aa.idpengajuan = bb.idpengajuan AND aa.idbahan = bb.idbahan
+ORDER BY
+    aa.namabahan ASC";
+        /*
         $sql = "SELECT aa.idpengajuan, aa.tanggalrekap, aa.tanggalpengajuan
                         , aa.idbahan, aa.idbahansupplier
                         , aa.namabahan, aa.satuan
@@ -371,6 +486,7 @@ class Pengajuanbahan_query extends CI_Model {
                             AND y.idbahan = x.idbahan) AS aa LEFT OUTER JOIN
                     sisabahan AS bb ON aa.idpengajuan = bb.idpengajuan AND aa.idbahan = bb.idbahan
                 ORDER BY aa.namabahan ASC";
+                */
 
         $query = $this->db->query($sql);
         $result = $query->result_array();
