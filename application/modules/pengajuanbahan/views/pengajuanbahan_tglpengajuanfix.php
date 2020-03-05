@@ -153,9 +153,15 @@ if (count($pengajuanbahan_cek) == 0) {
                         } else {
                             $tanda = '';
                         }
+
+                        if ($data['idsisabahan'] != '') {
+                            $tandatanda = '<font color="red">^</font>';
+                        } else {
+                            $tandatanda = '';
+                        }
                     ?>
                     <tr>
-                        <td style="text-align: center;"><?php echo $no;?> <?php echo $tanda;?></td>
+                        <td style="text-align: center;"><?php echo $no;?> <?php echo $tanda;?> <?php echo $tandatanda;?></td>
                         <td><?php echo $data['namabahan'];?></td>
                         <td style="text-align: right;"><?php echo number_format($data['totaljumlahkuantitas'],2);?></td>
                         <td style="text-align: center;"><?php echo $data['satuan'];?></td>
