@@ -294,6 +294,7 @@ class Pengajuanbahan_query extends CI_Model {
 
     public function pengajuanbahanfix($tglpengajuan,$idjenismenu)
     {
+        /*
         $sql = "SELECT y.idpengajuan, y.tanggalrekap, y.tanggalpengajuan
                     , y.idbahan, y.idbahansupplier
                     , y.namabahan, y.satuan
@@ -327,6 +328,49 @@ class Pengajuanbahan_query extends CI_Model {
                             AND y.tanggalrekap = x.tanggalrekap
                             AND y.idbahan = x.idbahan
                 ORDER BY y.namabahan ASC";
+        */
+        $sql = "SELECT aa.idpengajuan, aa.tanggalrekap, aa.tanggalpengajuan
+                        , aa.idbahan, aa.idbahansupplier
+                        , aa.namabahan, aa.satuan
+                        , aa.hargasatuansupplier, aa.satuansupplier
+                        , (aa.totaljumlahkuantitas-IFNULL(bb.jumlahkuantitas,0)) AS totaljumlahkuantitas
+                        , (aa.totaljumlahkuantitas-IFNULL(bb.jumlahkuantitas,0))*aa.hargasatuansupplier AS totalhargatotal
+                        , aa.idpengajuandiet
+                        , bb.idsisabahan	    
+                FROM (SELECT y.idpengajuan, y.tanggalrekap, y.tanggalpengajuan
+                        , y.idbahan, y.idbahansupplier
+                        , y.namabahan, y.satuan
+                        , y.hargasatuansupplier, y.satuansupplier
+                        , (y.jumlahkuantitas-IFNULL(x.jmlkuantitaspengurangan,0)) AS totaljumlahkuantitas
+                        , (y.jumlahkuantitas-IFNULL(x.jmlkuantitaspengurangan,0))*y.hargasatuansupplier AS totalhargatotal
+                        , x.idpengajuan AS idpengajuandiet
+                FROM ( SELECT  a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
+                        , a.idbahan, a.idbahansupplier
+                        , b.namabahan, SUM(a.jumlahkuantitas) AS jumlahkuantitas, a.satuan
+                        , a.hargasatuansupplier, a.satuansupplier, SUM(a.hargatotal) AS hargatotal
+                    FROM pengajuanbahandetail AS a INNER JOIN 
+                        bahan AS b ON a.idbahan = b.idbahan
+                    WHERE a.tanggalpengajuan = '$tglpengajuan'
+                        AND a.idjenismenu = '$idjenismenu'
+                    GROUP BY a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
+                        , a.idbahan, a.idbahansupplier
+                        , b.namabahan, a.satuan
+                        , a.hargasatuansupplier, a.satuansupplier) AS Y
+                    LEFT OUTER JOIN (SELECT z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan
+                    , SUM(z.jmlkuantitaspengurangan) AS jmlkuantitaspengurangan, z.satuan
+                    FROM (SELECT a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan, a.jumlahpasien
+                            , a.idbahan, b.namabahan
+                            , a.kuantitaspengurangan
+                            , (a.jumlahpasien*a.kuantitaspengurangan) AS jmlkuantitaspengurangan
+                            , a.satuan
+                        FROM pengajuanbahandietdetail AS a
+                            INNER JOIN bahan AS b ON a.idbahan = b.idbahan) AS z
+                        GROUP BY z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan, z.satuan) AS X ON y.idpengajuan = x.idpengajuan
+                            AND y.tanggalpengajuan = x.tanggalpengajuan
+                            AND y.tanggalrekap = x.tanggalrekap
+                            AND y.idbahan = x.idbahan) AS aa LEFT OUTER JOIN
+                    sisabahan AS bb ON aa.idpengajuan = bb.idpengajuan AND aa.idbahan = bb.idbahan
+                ORDER BY aa.namabahan ASC";
 
         $query = $this->db->query($sql);
         $result = $query->result_array();
@@ -361,41 +405,49 @@ class Pengajuanbahan_query extends CI_Model {
             $waktumenu = "AND a.idwaktumenu = '$idwaktumenu'";
         }
 
-        $sql = "SELECT y.idpengajuan, y.tanggalrekap, y.tanggalpengajuan
-                    , y.idbahan, y.idbahansupplier
-                    , y.namabahan, y.satuan
-                    , y.hargasatuansupplier, y.satuansupplier
-                    , (y.jumlahkuantitas-IFNULL(x.jmlkuantitaspengurangan,0)) AS totaljumlahkuantitas
-                    , (y.jumlahkuantitas-IFNULL(x.jmlkuantitaspengurangan,0))*y.hargasatuansupplier AS totalhargatotal
-                    , x.idpengajuan AS idpengajuandiet
-                FROM ( SELECT  a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
-                    , a.idbahan, a.idbahansupplier
-                    , b.namabahan, SUM(a.jumlahkuantitas) AS jumlahkuantitas, a.satuan
-                    , a.hargasatuansupplier, a.satuansupplier, SUM(a.hargatotal) AS hargatotal
-                FROM pengajuanbahandetail AS a INNER JOIN 
-                    bahan AS b ON a.idbahan = b.idbahan
-                WHERE a.idpengajuan = '$idpengajuan'
-                        $kelas
-                        $waktumenu
-                GROUP BY a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
-                    , a.idbahan, a.idbahansupplier
-                    , b.namabahan, a.satuan
-                    , a.hargasatuansupplier, a.satuansupplier) AS y
-                LEFT OUTER JOIN (SELECT z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan
-                , SUM(z.jmlkuantitaspengurangan) AS jmlkuantitaspengurangan, z.satuan
-                FROM (SELECT a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan, a.jumlahpasien
-                            , a.idbahan, b.namabahan
-                            , a.kuantitaspengurangan
-                            , (a.jumlahpasien*a.kuantitaspengurangan) AS jmlkuantitaspengurangan
-                            , a.satuan
-                        FROM pengajuanbahandietdetail AS a
-                            INNER JOIN bahan AS b ON a.idbahan = b.idbahan) AS z
-                        GROUP BY z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan, z.satuan) AS x ON y.idpengajuan = x.idpengajuan
-                            AND y.tanggalpengajuan = x.tanggalpengajuan
-                            AND y.tanggalrekap = x.tanggalrekap
-                            AND y.idbahan = x.idbahan
-                ORDER BY y.namabahan ASC
-";
+        $sql = "SELECT aa.idpengajuan, aa.tanggalrekap, aa.tanggalpengajuan
+                        , aa.idbahan, aa.idbahansupplier
+                        , aa.namabahan, aa.satuan
+                        , aa.hargasatuansupplier, aa.satuansupplier
+                        , (aa.totaljumlahkuantitas-IFNULL(bb.jumlahkuantitas,0)) AS totaljumlahkuantitas
+                        , (aa.totaljumlahkuantitas-IFNULL(bb.jumlahkuantitas,0))*aa.hargasatuansupplier AS totalhargatotal
+                        , aa.idpengajuandiet
+                        , bb.idsisabahan	    
+                FROM (SELECT y.idpengajuan, y.tanggalrekap, y.tanggalpengajuan
+                                    , y.idbahan, y.idbahansupplier
+                                    , y.namabahan, y.satuan
+                                    , y.hargasatuansupplier, y.satuansupplier
+                                    , (y.jumlahkuantitas-IFNULL(x.jmlkuantitaspengurangan,0)) AS totaljumlahkuantitas
+                                    , (y.jumlahkuantitas-IFNULL(x.jmlkuantitaspengurangan,0))*y.hargasatuansupplier AS totalhargatotal
+                                    , x.idpengajuan AS idpengajuandiet
+                                FROM ( SELECT  a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
+                                    , a.idbahan, a.idbahansupplier
+                                    , b.namabahan, SUM(a.jumlahkuantitas) AS jumlahkuantitas, a.satuan
+                                    , a.hargasatuansupplier, a.satuansupplier, SUM(a.hargatotal) AS hargatotal
+                                FROM pengajuanbahandetail AS a INNER JOIN 
+                                    bahan AS b ON a.idbahan = b.idbahan
+                                WHERE a.idpengajuan = '$idpengajuan'
+                                        $kelas
+                                        $waktumenu
+                                GROUP BY a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
+                                    , a.idbahan, a.idbahansupplier
+                                    , b.namabahan, a.satuan
+                                    , a.hargasatuansupplier, a.satuansupplier) AS y
+                                LEFT OUTER JOIN (SELECT z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan
+                                , SUM(z.jmlkuantitaspengurangan) AS jmlkuantitaspengurangan, z.satuan
+                                FROM (SELECT a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan, a.jumlahpasien
+                                            , a.idbahan, b.namabahan
+                                            , a.kuantitaspengurangan
+                                            , (a.jumlahpasien*a.kuantitaspengurangan) AS jmlkuantitaspengurangan
+                                            , a.satuan
+                                        FROM pengajuanbahandietdetail AS a
+                                            INNER JOIN bahan AS b ON a.idbahan = b.idbahan) AS z
+                                        GROUP BY z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan, z.satuan) AS x ON y.idpengajuan = x.idpengajuan
+                                            AND y.tanggalpengajuan = x.tanggalpengajuan
+                                            AND y.tanggalrekap = x.tanggalrekap
+                                            AND y.idbahan = x.idbahan) AS aa LEFT OUTER JOIN
+                    sisabahan AS bb ON aa.idpengajuan = bb.idpengajuan AND aa.idbahan = bb.idbahan
+                ORDER BY aa.namabahan ASC";
 
         /*
         $sql = "SELECT  a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
@@ -884,6 +936,126 @@ class Pengajuanbahan_query extends CI_Model {
                     INNER JOIN bahan AS f ON a.idbahan = f.idbahan
                 WHERE a.tanggalpengajuan = '$tanggalpengajuan'
                 ORDER BY b.urutan ASC, e.namaruang ASC, d.namabangsal ASC";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function list_bahansisa($tanggalpengajuan,$tanggalbahansisa)
+    {
+        $sql = "SELECT a.idbahan, a.namabahan, b.jumlahkuantitas, b.satuan 
+                FROM pengajuanbahan AS a
+                INNER JOIN (SELECT idbahan, namabahan, SUM(jumlahkuantitas) AS jumlahkuantitas, satuan
+                        FROM pengajuanbahandetail
+                        WHERE tanggalpengajuan = '$tanggalpengajuan'
+                        GROUP BY idbahan, namabahan, satuan) AS b ON a.idbahan = b.idbahan
+                WHERE a.tanggalpengajuan = '$tanggalbahansisa' 
+                ORDER BY a.namabahan ASC";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function list_satuan($tanggalbahansisa)
+    {
+        $sql = "SELECT satuan
+                FROM pengajuanbahan
+                WHERE tanggalpengajuan = '$tanggalbahansisa'
+                GROUP BY satuan";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function ExecData_bahansisamasakan($data)
+    {
+        $idsisabahan = $data['idsisabahan'];
+        $idpengajuan = $data['idpengajuan'];
+        $tanggalpengajuan = $data['tanggalpengajuan'];
+        $tanggalsisabahan = $data['tanggalbahansisa']; 
+        $idbahansisa = $data['idbahansisa'];
+        $jumlahkuantitas = $data['jumlahkuantitas'];
+        $satuan = $data['satuan'];
+        $pembuatid = $data['pembuatid'];
+        $stat = $data['stat'];
+        
+        $q = $this->get_namabahan($idbahansisa);
+        foreach ($q as $t){
+            $namabahan = $t['namabahan'];
+        }
+        
+        $data['type'] = 'staff';
+        $data['username'] = $this->session->userdata('username');
+        $data['url'] = $this->session->userdata('url');
+        $ip_address = $this->input->ip_address();
+        $user_agent = $this->input->user_agent();
+
+        if ($stat == 'delete') {
+            
+            $this->db->where('sisabahan', $idsisabahan);
+            $res = $this->db->delete('sisabahan');
+            
+            if($res) {
+                $data['msg'] = 'Menghapus data: '.$tanggalpengajuan.' '.$namabahan.', IP: '.$ip_address.', Browser: '.$user_agent;;
+                $this->sistemlog->aktifitas($data);
+                return TRUE;
+            } else {
+                return FALSE;
+            }
+        } else {
+            $sql = "INSERT INTO sisabahan
+                                (idsisabahan,
+                                idpengajuan,
+                                tanggalsisabahan,
+                                tanggalpengajuan,
+                                idbahan,
+                                namabahan,
+                                jumlahkuantitas,
+                                satuan,
+                                tanggalinsert,
+                                idpengguna)
+                    VALUES (UUID(),
+                            '$idpengajuan',
+                            '$tanggalsisabahan',
+                            '$tanggalpengajuan',
+                            '$idbahansisa',
+                            '$namabahan',
+                            '$jumlahkuantitas',
+                            '$satuan',
+                            NOW(),
+                            '$pembuatid')";
+            
+            $res = $this->db->query($sql);
+            
+            if($res) {
+                $data['msg'] = 'Tambah data: '.$tanggalpengajuan.' '.$namabahan.', IP: '.$ip_address.', Browser: '.$user_agent;
+                $this->sistemlog->aktifitas($data);
+                return TRUE;
+            } else {
+                return FALSE;
+            }
+        }
+    }
+
+    public function list_sisabahanmasakan($idpengajuan)
+    {
+        $sql = "SELECT idsisabahan, idpengajuan, tanggalsisabahan, tanggalpengajuan, idbahan, namabahan, jumlahkuantitas, satuan
+                FROM sisabahan
+                WHERE idpengajuan = '$idpengajuan' ORDER BY namabahan ASC";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function get_namabahan($idbahan)
+    {
+        $sql = "SELECT idbahan, namabahan
+                FROM bahan
+                WHERE idbahan = '$idbahan'";
 
         $query = $this->db->query($sql);
         $result = $query->result_array();

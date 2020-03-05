@@ -98,6 +98,8 @@ if (count($pengajuanbahan_cek) == 0) {
         }
         ?>
         <button type="button" class="btn btn-default" onclick="javascript:detail_pengajuandiet_sat('<?php echo $tanggalpengajuan_bahan;?>');"><i class="fa fa-user"></i> Detail Pasien Diet <span id="loading_detail_pengajuandiet"></span></button>
+        <br><br>
+        <button type="button" class="btn btn-success" onclick="javascript:form_bahansisa('<?php echo $tanggalpengajuan_bahan;?>');">Sisa Bahan<span id="loading_bahansisa"></span></button>
     </div>  
 </div>
 
@@ -198,9 +200,15 @@ if (count($pengajuanbahan_cek) == 0) {
                                     } else {
                                         $tanda = '';
                                     }
+
+                                    if ($data['idsisabahan'] != '') {
+                                        $tandatanda = '<font color="red">^</font>';
+                                    } else {
+                                        $tandatanda = '';
+                                    }
                                 ?>
                                 <tr>
-                                    <td style="text-align: center;"><?php echo $no;?> <?php echo $tanda;?></td>
+                                    <td style="text-align: center;"><?php echo $no;?> <?php echo $tanda;?><?php echo $tandatanda;?></td>
                                     <td><?php echo $data['namabahan'];?></td>
                                     <td style="text-align: right;"><?php echo number_format($data['totaljumlahkuantitas'],2);?></td>
                                     <td style="text-align: center;"><?php echo $data['satuan'];?></td>

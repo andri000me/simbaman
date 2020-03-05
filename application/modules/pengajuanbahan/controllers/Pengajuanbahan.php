@@ -296,6 +296,7 @@ class Pengajuanbahan extends MX_Controller {
                 $data['menumasakanwaktu'] = $this->pengajuanbahan_query->get_waktumenupengajuan($tglpengajuan);
                 $data['pengajuanbahan'] = $this->pengajuanbahan_query->pengajuanbahanfix($tglpengajuan,$idjenismenu_1);
                 $data['idpengajuan'] = $tanggal[0]['idpengajuan'];
+                $data['tanggalpengajuan_bahan'] = $tanggal[0]['tanggalpengajuan'];
 
                 $this->load->view('pengajuanbahan_tglpengajuanfix', $data);
             }
@@ -505,5 +506,36 @@ class Pengajuanbahan extends MX_Controller {
         $data['tanggalpengajuan'] = $this->security->xss_clean($this->input->post('tanggalpengajuan'));
         $data['pengajuandetail'] = $this->pengajuanbahan_query->list_pengajuandetail_tglpengajuan($data['tanggalpengajuan']);
         $this->load->view('detail_pengajuandiet_sat', $data);
+    }
+
+    public function form_bahansisa()
+    {
+        $data['tanggalpengajuan'] = $this->security->xss_clean($this->input->post('tanggalpengajuan'));
+        $pengajuan = $this->pengajuanbahan_query->get_tanggalpengajuan($data['tanggalpengajuan']);
+        $data['idpengajuan'] = $pengajuan[0]['idpengajuan'];
+        $tanggalpengajuan = $data['tanggalpengajuan'];
+        $tanggalbahansisa = date('Y-m-d', strtotime('-1 days', strtotime($data['tanggalpengajuan'])));
+        $data['tanggalbahansisa'] = $tanggalbahansisa;
+        $data['bahansisa'] = $this->pengajuanbahan_query->list_bahansisa($tanggalpengajuan,$tanggalbahansisa);
+        $data['satuan'] = $this->pengajuanbahan_query->list_satuan($tanggalbahansisa);
+
+        $data['sisabahanmasakan'] = $this->pengajuanbahan_query->list_sisabahanmasakan($data['idpengajuan']);
+        
+        $this->load->view('form_bahansisa', $data);
+    }
+
+    public function savedata_bahansisamasakan()
+    {
+        $up['idsisabahan'] = $this->security->xss_clean($this->input->post('idsisabahan'));
+        $up['idpengajuan'] = $this->security->xss_clean($this->input->post('idpengajuan'));
+        $up['tanggalpengajuan'] = $this->security->xss_clean($this->input->post('tanggalpengajuan'));
+        $up['tanggalbahansisa'] = $this->security->xss_clean($this->input->post('tanggalbahansisa'));
+        $up['idbahansisa'] = $this->security->xss_clean($this->input->post('idbahansisa'));
+        $up['jumlahkuantitas'] = $this->security->xss_clean($this->input->post('jumlahkuantitas'));
+        $up['satuan'] = $this->security->xss_clean($this->input->post('satuan'));
+        $up['pembuatid'] = $this->session->userdata('idpengguna');
+        $up['stat'] = $this->security->xss_clean($this->input->post('stat'));
+
+        $this->pengajuanbahan_query->ExecData_bahansisamasakan($up);
     }
 }

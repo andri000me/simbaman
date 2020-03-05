@@ -281,6 +281,26 @@ function detail_pengajuandiet_sat(tanggalpengajuan)
     });
 };
 
+function form_bahansisa(tanggalpengajuan)
+{
+    $.ajax({
+        type: "POST",
+        data: {"tanggalpengajuan":tanggalpengajuan},
+        url: "<?php echo base_url().'pengajuanbahan/form_bahansisa'; ?>",
+        beforeSend: function(){
+            $("#loading_bahansisa").html("<img src='<?php echo base_url()?>/assets/dist/img/loading.gif' width='10px'>");
+        },
+        success: function(resp){
+            $("#modal_default").modal('show');
+            $("#content_modal_default").html(resp);
+            $("#loading_bahansisa").html("");
+        },
+        error:function(event, textStatus, errorThrown) {
+            alert('Error Message: '+ textStatus + ' , HTTP Error: '+errorThrown);
+        }
+    });
+};
+
 </script>
 
 <section class="content">

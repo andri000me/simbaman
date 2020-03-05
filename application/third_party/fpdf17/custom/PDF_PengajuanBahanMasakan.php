@@ -109,8 +109,14 @@ class PDF_absensi extends FPDF
             } else {
                 $tanda = '';
             }
+
+            if ($data['idsisabahan'] != '') {
+                $tandatanda = '^';
+            } else {
+                $tandatanda = '';
+            }
             $nomor = $key+1;
-            $this->cell($width_no,$value_height,$nomor.' '.$tanda,1,0,'C',1);
+            $this->cell($width_no,$value_height,$nomor.' '.$tanda.''.$tandatanda,1,0,'C',1);
             $this->cell($width_namabahan,$value_height,$data['namabahan'],1,0,'L',1);
             $this->cell($width_jumlah,$value_height,number_format($data['totaljumlahkuantitas'],2),1,0,'R',1);
             $this->cell($width_satuan,$value_height,$data['satuan'],1,0,'C',1);
