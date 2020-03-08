@@ -15,7 +15,8 @@ $(document).ready(function () {
                 // alert(resp);
                 // $("#submitButton_sisabahanmasakan").attr("disabled",false);
                 // $("#loading_simpansisabahanmasakan").html("");
-                form_bahansisa(tanggalpengajuan)
+                pilihTanggalPengajuanBahan();
+                form_bahansisa(tanggalpengajuan);
             },
             error: function(event, textStatus, errorThrown) {
                 alert('Error Message: '+ textStatus + ' , HTTP Error: '+errorThrown);
@@ -23,6 +24,25 @@ $(document).ready(function () {
         });
     });
 });
+
+function hapus_bahansisa(idsisabahan,tanggalpengajuan)
+{
+    $.ajax({
+        type: "POST",
+        data: {"idsisabahan":idsisabahan,"stat":"delete"},
+        url: "<?php echo base_url().'pengajuanbahan/hapus_bahansisa'; ?>",
+        beforeSend: function(){
+            $("#btn_bahansisa_"+idsisabahan).attr("disabled",true);
+        },
+        success: function(resp){
+            pilihTanggalPengajuanBahan();
+            form_bahansisa(tanggalpengajuan);
+        },
+        error:function(event, textStatus, errorThrown) {
+            alert('Error Message: '+ textStatus + ' , HTTP Error: '+errorThrown);
+        }
+    });
+}
 </script>
 <div class="modal-content">
     <div class="modal-header bg-primary">
@@ -111,7 +131,9 @@ $(document).ready(function () {
                         <td><?php echo $bahan['namabahan'];?></td>
                         <td style="text-align: center;"><?php echo $bahan['jumlahkuantitas'];?> <?php echo $bahan['satuan'];?></td>
                         <td style="text-align: center;">
-                            <button class="btn btn-info btn-xs"><i class="fa fa-trash"></i></button>
+                            <button class="btn btn-info btn-xs" onclick="javascript:hapus_bahansisa('<?php echo $bahan['idsisabahan'];?>','<?php echo $bahan['tanggalpengajuan'];?>');" id="btn_bahansisa_<?php echo $bahan['idsisabahan'];?>">
+                                <i class="fa fa-trash"></i>
+                            </button>
                         </td>
                     </tr>
                     <?php

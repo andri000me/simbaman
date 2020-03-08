@@ -39,6 +39,7 @@
                     <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-9">
                             <input type="button" class="btn btn-success" id="submitButton" name="submitButton" value="Simpan" onclick="javascript:simpanpengajuanbahancek();">
+                            <button type="button" class="btn btn-danger" id="batalkantButton" name="batalkantButton" onclick="javascript:batalpengajuanbahancek();">Batalkan</button>
                             <span id="loading_simpanpengajuanbahancek"></span>
                         </div>
                     </div>

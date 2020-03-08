@@ -75,15 +75,17 @@ function cek_pengajuan(idpengajuan,idbahansupplier,pengajuan)
                 $(".cek_pengajuan_"+idbahansupplier).attr("disabled",false);
                 $("#kebutuhan_realisasi_"+idbahansupplier).html("");
                 $("#harga_realisasi_"+idbahansupplier).html("");
+                pilihTanggalPengajuanBahan();
             } else if (pengajuan == 'kembali') {
                 $("#kebutuhan_realisasi_"+idbahansupplier).html("");
                 $("#harga_realisasi_"+idbahansupplier).html("");
+                pilihTanggalPengajuanBahan();
             } else {
-                //alert(resp);
                 var obj = jQuery.parseJSON(resp);
                 $("#button_hide_"+idbahansupplier).html("");
                 $("#kebutuhan_realisasi_"+idbahansupplier).html(obj.jumlahkuantitasreal);
                 $("#harga_realisasi_"+idbahansupplier).html(obj.hargatotalreal);
+                pilihTanggalPengajuanBahan();
             }
             
         },
@@ -107,6 +109,7 @@ function simpanpengajuanbahancek()
         url: "<?php echo base_url().'pengecekanbahan/simpanpengajuanbahancek'; ?>",
         beforeSend: function(){
             $("#loading_simpanpengajuanbahancek").html("<img src='<?php echo base_url()?>/assets/dist/img/loading.gif' width='10px'>");
+            $("#submitButton").attr("disabled",true);
         },
         success: function(resp){
             $("#modal").modal('hide');
@@ -114,6 +117,57 @@ function simpanpengajuanbahancek()
             $("#button_hide_"+idbahansupplier).html("<button type='button' class='btn btn-xs btn-warning'><i class='fa fa-retweet'></i></button>");
             $("#kebutuhan_realisasi_"+idbahansupplier).html("<font color='red'>"+obj.jumlahkuantitasreal+"</font>");
             $("#harga_realisasi_"+idbahansupplier).html("<font color='red'>"+obj.hargatotalreal+"</font>");
+            pilihTanggalPengajuanBahan();
+        },
+        error:function(event, textStatus, errorThrown) {
+            alert('Error Message: '+ textStatus + ' , HTTP Error: '+errorThrown);
+        }
+    });
+};
+
+function form_bahantambahan(idpengajuan)
+{
+    $.ajax({
+        type: "POST",
+        data: {"idpengajuan":idpengajuan},
+        url: "<?php echo base_url().'pengecekanbahan/form_bahantambahan'; ?>",
+        beforeSend: function(){
+            $("#loading_bahantambahan").html("<img src='<?php echo base_url()?>/assets/dist/img/loading.gif' width='10px'>");
+        },
+        success: function(resp){
+            $("#modal").modal('show');
+            $("#content_modal").html(resp);
+            $("#loading_bahantambahan").html("");
+        },
+        error:function(event, textStatus, errorThrown) {
+            alert('Error Message: '+ textStatus + ' , HTTP Error: '+errorThrown);
+        }
+    });
+};
+
+function batalpengajuanbahancek()
+{
+    var idpengajuan = $('#idpengajuan').val();
+    var idbahansupplier = $('#idbahansupplier').val();
+    var jumlahkuantitasreal = $('#jumlahkuantitasreal').val();
+    var hargatotalreal = $('#hargatotalreal').val();
+    var pengajuan = $('#pengajuan').val();
+
+    $.ajax({
+        type: "POST",
+        data: {"pengajuan":pengajuan,"idpengajuan":idpengajuan,"idbahansupplier":idbahansupplier,"jumlahkuantitasreal":jumlahkuantitasreal,"hargatotalreal":hargatotalreal},
+        url: "<?php echo base_url().'pengecekanbahan/batalpengajuanbahancek'; ?>",
+        beforeSend: function(){
+            $("#loading_simpanpengajuanbahancek").html("<img src='<?php echo base_url()?>/assets/dist/img/loading.gif' width='10px'>");
+            $("#batalkantButton").attr("disabled",true);
+        },
+        success: function(resp){
+            $("#modal").modal('hide');
+            var obj = jQuery.parseJSON(resp);
+            $("#button_hide_"+idbahansupplier).html("<button type='button' class='btn btn-xs btn-warning'><i class='fa fa-retweet'></i></button>");
+            $("#kebutuhan_realisasi_"+idbahansupplier).html("<font color='red'>"+obj.jumlahkuantitasreal+"</font>");
+            $("#harga_realisasi_"+idbahansupplier).html("<font color='red'>"+obj.hargatotalreal+"</font>");
+            pilihTanggalPengajuanBahan();
         },
         error:function(event, textStatus, errorThrown) {
             alert('Error Message: '+ textStatus + ' , HTTP Error: '+errorThrown);

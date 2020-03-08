@@ -538,4 +538,19 @@ class Pengajuanbahan extends MX_Controller {
 
         $this->pengajuanbahan_query->ExecData_bahansisamasakan($up);
     }
+
+    public function hapus_bahansisa()
+    {
+        $up['idsisabahan'] = $this->security->xss_clean($this->input->post('idsisabahan'));
+        $up['idpengajuan'] = "";
+        $up['tanggalpengajuan'] = "";
+        $up['tanggalbahansisa'] = "";
+        $up['idbahansisa'] = "";
+        $up['jumlahkuantitas'] = "";
+        $up['satuan'] = "";
+        $up['pembuatid'] = $this->session->userdata('idpengguna');
+        $up['stat'] = $this->security->xss_clean($this->input->post('stat'));
+
+        $this->pengajuanbahan_query->ExecData_bahansisamasakan($up);
+    }
 }

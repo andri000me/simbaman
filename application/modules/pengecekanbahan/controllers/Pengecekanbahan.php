@@ -105,6 +105,8 @@ class Pengecekanbahan extends MX_Controller {
             $data['pengajuanbahan'] = $this->pengecekanbahan_query->pengajuanbahanfix($tglpengajuan,$idjenismenu_1);
             $data['idpengajuan'] = $tanggal[0]['idpengajuan'];
 
+            $data['bahantambahan'] = $this->pengecekanbahan_query->pengajuanbahanfix_tambahan($tglpengajuan);
+
             $this->load->view('pengecekanbahan_tglpengajuan_cek', $data);
         }        
     }
@@ -235,6 +237,141 @@ class Pengecekanbahan extends MX_Controller {
         // $pdf->Output();
         $tanggal = str_replace("-","",$tanggalpengajuan);
         $fileName = 'penerimaan_bm'.$tanggal.'_jenisbahan.pdf';
+        $pdf->Output($fileName, 'D');
+    }
+
+    public function form_bahantambahan()
+    {
+        $data['idpengajuan'] = $this->security->xss_clean($this->input->post('idpengajuan'));
+        $pengajuan = $this->pengecekanbahan_query->get_pengajuan($data['idpengajuan']);
+        $data['tanggalrekappasien'] = $pengajuan[0]['tanggalrekap'];
+        $data['tanggalpengajuan'] = $pengajuan[0]['tanggalpengajuan'];
+        $data['bahantambahan'] = $this->pengecekanbahan_query->get_bahansupplier();
+        $data['satuan'] = $this->pengecekanbahan_query->get_satuan();
+        
+        $this->load->view('form_bahantambahan', $data);
+    }
+
+    public function savedata_bahantambahan()
+    {
+        $up['idbahanpengajuan'] = $this->security->xss_clean($this->input->post('idbahanpengajuan'));
+        $up['idpengajuan'] = $this->security->xss_clean($this->input->post('idpengajuan'));
+        $up['tanggalrekappasien'] = $this->security->xss_clean($this->input->post('tanggalrekappasien'));
+        $up['tanggalpengajuan'] = $this->security->xss_clean($this->input->post('tanggalpengajuan'));
+        $up['idbahan'] = $this->security->xss_clean($this->input->post('idbahan'));
+        $up['jumlahkuantitas'] = $this->security->xss_clean($this->input->post('jumlahkuantitas'));
+        $up['satuan'] = $this->security->xss_clean($this->input->post('satuan'));
+        $up['hargatotal'] = $this->security->xss_clean($this->input->post('hargatotal'));
+        $up['pembuatid'] = $this->session->userdata('idpengguna');
+        $up['stat'] = $this->security->xss_clean($this->input->post('stat'));
+
+        $this->pengecekanbahan_query->ExecData_pengajuanbahantambahan($up);        
+    }
+
+    public function batalpengajuanbahancek()
+    {
+        $data['pengajuan'] = $this->security->xss_clean($this->input->post('pengajuan'));
+        $data['idpengajuan'] = $this->security->xss_clean($this->input->post('idpengajuan'));
+        $data['idbahansupplier'] = $this->security->xss_clean($this->input->post('idbahansupplier'));
+
+        $real['jumlahkuantitasreal'] = $this->security->xss_clean($this->input->post('jumlahkuantitasreal'));
+        $real['hargatotalreal'] = $this->security->xss_clean($this->input->post('hargatotalreal'));
+
+        $data['get_pengajuanbahansupplier'] = $this->pengecekanbahan_query->get_pengajuanbahansupplier($data['idpengajuan'],$data['idbahansupplier']);
+
+        $result = $this->pengecekanbahan_query->batal_pengajuanbahan($data['get_pengajuanbahansupplier'],$data['pengajuan'],$real);
+    }
+
+    public function hitung_hargatotal()
+    {
+        $idbahan = $this->security->xss_clean($this->input->post('idbahan'));
+        $jumlahkuantitas = $this->security->xss_clean($this->input->post('jumlahkuantitas'));
+
+        $result = $this->pengecekanbahan_query->hitung_hargatotal($idbahan,$jumlahkuantitas);
+    }
+
+    public function cetakpengecekan_fix()
+    {
+        $idpengajuan = $this->uri->segment(3);
+
+        $kelas = $this->pengecekanbahan_query->pengajuanbahan_kelas('pilihsemua',$idpengajuan);
+        $waktumenu = $this->pengecekanbahan_query->pengajuanbahan_waktumenu('pilihsemua',$idpengajuan);
+        $pengajuanbahan = $this->pengecekanbahan_query->get_pengecekanbahanfix_fix($idpengajuan);
+        $tanggalpengajuan = $this->pengecekanbahan_query->tanggalpengajuan($idpengajuan);
+
+        $klss = array();
+        foreach ($kelas as $kls) {
+            $klss[] = $kls['namakelas'];
+        }
+        $kelas_pengajuan = str_replace("]",'',str_replace("[",'',str_replace('"','', json_encode($klss))));
+
+        $wkts = array();
+        foreach ($waktumenu as $wkt) {
+            $wkts[] = $wkt['namawaktumenu'];
+        }
+        $waktu_pengajuan = str_replace("]",'',str_replace("[",'',str_replace('"','', json_encode($wkts))));
+
+        $tanggalpengajuan = $tanggalpengajuan[0]['tanggalpengajuan'];
+
+        include_once APPPATH."third_party/fpdf17/custom/PDF_PengecekanBahanMasakan_fix.php";
+
+        $pdf=new PDF_absensi('P','mm','A4');
+        $pdf -> setPengajuanBahan($pengajuanbahan);
+        $pdf -> setKelasPengajuanBahan($kelas_pengajuan);
+        $pdf -> setWaktuPengajuanBahan($waktu_pengajuan);
+        $pdf -> setTanggalPengajuanBahan($tanggalpengajuan);
+
+		$pdf->SetMargins(5,5,5,5);
+		$pdf->AliasNbPages();
+		$pdf->AddPage();
+		$pdf->Content();
+        // $pdf->Output();
+        $tanggal = str_replace("-","",$tanggalpengajuan);
+        $fileName = 'penerimaan_fix_bm'.$tanggal.'.pdf';
+        $pdf->Output($fileName, 'D');
+    }
+
+    public function cetakpengecekan_jenisbahan_fix()
+    {
+        $idpengajuan = $this->uri->segment(3);
+
+        $kelas = $this->pengecekanbahan_query->pengajuanbahan_kelas('pilihsemua',$idpengajuan);
+        $waktumenu = $this->pengecekanbahan_query->pengajuanbahan_waktumenu('pilihsemua',$idpengajuan);
+        $pengajuanbahan = $this->pengecekanbahan_query->get_pengecekanbahanfix_fix($idpengajuan);
+        $tanggalpengajuan = $this->pengecekanbahan_query->tanggalpengajuan($idpengajuan);
+
+        $jenisbahanpengajuan = $this->pengecekanbahan_query->get_jenisbahan($idpengajuan);
+
+        $klss = array();
+        foreach ($kelas as $kls) {
+            $klss[] = $kls['namakelas'];
+        }
+        $kelas_pengajuan = str_replace("]",'',str_replace("[",'',str_replace('"','', json_encode($klss))));
+
+        $wkts = array();
+        foreach ($waktumenu as $wkt) {
+            $wkts[] = $wkt['namawaktumenu'];
+        }
+        $waktu_pengajuan = str_replace("]",'',str_replace("[",'',str_replace('"','', json_encode($wkts))));
+
+        $tanggalpengajuan = $tanggalpengajuan[0]['tanggalpengajuan'];
+
+        include_once APPPATH."third_party/fpdf17/custom/PDF_PengecekanBahanMasakan_fix_JenisBahan.php";
+
+        $pdf=new PDF_absensi('P','mm','A4');
+        $pdf -> setPengajuanBahan($pengajuanbahan);
+        $pdf -> setKelasPengajuanBahan($kelas_pengajuan);
+        $pdf -> setWaktuPengajuanBahan($waktu_pengajuan);
+        $pdf -> setTanggalPengajuanBahan($tanggalpengajuan);
+        $pdf -> setJenisBahanPengajuan($jenisbahanpengajuan);
+
+		$pdf->SetMargins(5,5,5,5);
+		$pdf->AliasNbPages();
+		$pdf->AddPage();
+		$pdf->Content();
+        // $pdf->Output();
+        $tanggal = str_replace("-","",$tanggalpengajuan);
+        $fileName = 'penerimaan_fix_bm'.$tanggal.'_jenisbahan.pdf';
         $pdf->Output($fileName, 'D');
     }
 

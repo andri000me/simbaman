@@ -1110,8 +1110,14 @@ ORDER BY
         $user_agent = $this->input->user_agent();
 
         if ($stat == 'delete') {
+
+            $q = $this->get_sisabahan($idsisabahan);
+            foreach ($q as $t){
+                $tanggalpengajuan = $t['tanggalpengajuan'];
+                $namabahan = $t['namabahan'];
+            }
             
-            $this->db->where('sisabahan', $idsisabahan);
+            $this->db->where('idsisabahan', $idsisabahan);
             $res = $this->db->delete('sisabahan');
             
             if($res) {
@@ -1172,6 +1178,17 @@ ORDER BY
         $sql = "SELECT idbahan, namabahan
                 FROM bahan
                 WHERE idbahan = '$idbahan'";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function get_sisabahan($idsisabahan)
+    {
+        $sql = "SELECT idsisabahan, idpengajuan, tanggalsisabahan, tanggalpengajuan, idbahan, namabahan, jumlahkuantitas, satuan
+                FROM sisabahan
+                WHERE idsisabahan = '$idsisabahan'";
 
         $query = $this->db->query($sql);
         $result = $query->result_array();

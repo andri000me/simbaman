@@ -110,6 +110,7 @@ if (count($cektglpengajuanbahan) == 0) {
                         <th width="8%" style="text-align: center;">Cek</th>
                         <th width="10%" style="text-align: center;">Realisasi</th>
                         <th width="15%" style="text-align: center;">Harga Realisasi (Rp)</th>
+                        <th width="5%" style="text-align: center;">Stat</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -123,9 +124,15 @@ if (count($cektglpengajuanbahan) == 0) {
                         } else {
                             $tanda = '';
                         }
+
+                        if ($data['idsisabahan'] != '') {
+                            $tandatanda = '<font color="red">^</font>';
+                        } else {
+                            $tandatanda = '';
+                        }
                     ?>
                     <tr>
-                        <td style="text-align: center;"><?php echo $no;?> <?php echo $tanda;?></td>
+                        <td style="text-align: center;"><?php echo $no;?> <?php echo $tanda;?> <?php echo $tandatanda;?></td>
                         <td><?php echo $data['namabahan'];?></td>
                         <td style="text-align: right;"><?php echo number_format($data['jumlahkuantitas'],2);?></td>
                         <td style="text-align: center;"><?php echo $data['satuan'];?></td>
@@ -150,7 +157,7 @@ if (count($cektglpengajuanbahan) == 0) {
                             ?>
                         </td>
                         <?php
-                        if ($data['kesesuaian'] == 'tidak_sesuai') {
+                        if ($data['kesesuaian'] == 'tidak_sesuai' || $data['kesesuaian'] == 'batal') {
                             $font_color = "red";
                         } else {
                             $font_color = "black";
@@ -182,6 +189,7 @@ if (count($cektglpengajuanbahan) == 0) {
                                 </font>
                             </span>
                         </th>
+                        <td style="text-align: center;"><?php echo $data['kesesuaian'];?></td>
                     </tr>
                     <?php
                     $no++;
@@ -194,17 +202,98 @@ if (count($cektglpengajuanbahan) == 0) {
                         <th style="text-align: right;"><?php echo number_format($hargatotal,2,",",".");?></th>
                         <th colspan="2" style="text-align: right;">Harga Total Realisasi</th>
                         <th style="text-align: right;"><?php echo number_format($hargatotal_realisasi,2,",",".");?></th>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>
-        </div>       
+        </div>
     </div>
 </div>
 
+<?php
+if (count($bahantambahan) != 0) {
+?>
+
+<div class="row" style="margin-bottom:10px">
+    <div class="col-lg-12">
+        <?php //print_r($bahantambahan);?>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th width="5%" style="text-align: center;">No</th>
+                        <th style="text-align: center;">Nama Bahan</th>
+                        <th width="10%" style="text-align: center;">Kebutuhan</th>
+                        <th width="5%" style="text-align: center;">Satuan</th>
+                        <th width="10%" style="text-align: center;">Harga Supplier (RP)</th>
+                        <th width="5%" style="text-align: center;">Satuan</th>
+                        <th width="15%" style="text-align: center;">Harga (Rp)</th>
+                        <th width="8%" style="text-align: center;">Cek</th>
+                        <th width="10%" style="text-align: center;">Realisasi</th>
+                        <th width="15%" style="text-align: center;">Harga Realisasi (Rp)</th>
+                        <th width="5%" style="text-align: center;">Stat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $hargatotal2 = 0;
+                    $hargatotal_realisasi2 = 0;
+                    $nom = 1;
+                    foreach ($bahantambahan as $tambahan) {
+                    ?>
+                    <tr>
+                        <td style="text-align: center;"><?php echo $nom;?></td>
+                        <td><?php echo $tambahan['namabahan'];?></td>
+                        <td style="text-align: right;"><?php echo number_format($tambahan['jumlahkuantitas'],2);?></td>
+                        <td style="text-align: center;"><?php echo $tambahan['satuan'];?></td>
+                        <td style="text-align: right;"><?php echo number_format($tambahan['hargasatuansupplier'],2);?></td>
+                        <td style="text-align: center;"><?php echo $tambahan['satuansupplier'];?></td>
+                        <th style="text-align: right;"><?php echo number_format($tambahan['hargatotal'],2,",",".");?></th>
+                        <td style="text-align: center;">
+                            <button type="button" class="btn btn-xs btn-warning cek_pengajuan_<?php echo $tambahan['idbahansupplier']?>" onclick="javascript:cek_pengajuan('<?php echo $tambahan['idpengajuan']?>','<?php echo $tambahan['idbahansupplier']?>','kembali');"><i class="fa fa-retweet"></i></button>
+                        </td>
+                        <th style="text-align: right;"><?php echo number_format($tambahan['jumlahkuantitasreal'],2);?></th>
+                        <th style="text-align: right;"><?php echo number_format($tambahan['hargatotalreal'],2);?></th>  
+                        <td style="text-align: center;"><?php echo $tambahan['kesesuaian'];?></td>
+                    </tr>
+                    <?php
+                    $nom++;
+                    $hargatotal2 = $hargatotal2 + $tambahan['hargatotal'];
+                    $hargatotal_realisasi2 = $hargatotal_realisasi2 + $tambahan['hargatotalreal'];
+                    }                    
+                    ?>
+                    <tr>
+                        <th colspan="6" style="text-align: right;">Harga Total Pengajuan Tambahan</th>
+                        <th style="text-align: right;"><?php echo number_format($hargatotal2,2,",",".");?></th>
+                        <th colspan="2" style="text-align: right;">Harga Total Realisasi</th>
+                        <th style="text-align: right;"><?php echo number_format($hargatotal_realisasi2,2,",",".");?></th>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<?php
+}
+?>
+
 <div class="row" style="margin-bottom:10px">
     <div class="col-lg-12" style="text-align: center;">
-        <a target="_blank" href="<?php echo base_url()?>pengecekanbahan/cetakpengecekan/<?php echo $idpengajuan;?>" class="btn btn-success">Cetak Penerimaan</a>
-        <a target="_blank" href="<?php echo base_url()?>pengecekanbahan/cetakpengecekan_jenisbahan/<?php echo $idpengajuan;?>" class="btn btn-info">Cetak Penerimaan Jenis Bahan</a>
+        
+        <div style="margin:10px;">
+            <a target="_blank" href="<?php echo base_url()?>pengecekanbahan/cetakpengecekan/<?php echo $idpengajuan;?>" class="btn btn-success">Cetak Ceklist Penerimaan</a>
+            <a target="_blank" href="<?php echo base_url()?>pengecekanbahan/cetakpengecekan_jenisbahan/<?php echo $idpengajuan;?>" class="btn btn-info">Cetak Ceklist Penerimaan Jenis Bahan</a> <br>
+        </div>
+
+        <div style="margin:10px;">
+            <button type="button" class="btn btn-warning" onclick="javascript:form_bahantambahan('<?php echo $idpengajuan;?>');">Bahan Masakan Tambahan <span id="loading_bahantambahan"></span></button> <br>
+        </div>
+
+        <div style="margin:10px;">
+            <a target="_blank" href="<?php echo base_url()?>pengecekanbahan/cetakpengecekan_fix/<?php echo $idpengajuan;?>" class="btn btn-success">Cetak Fix Penerimaan</a>
+            <a target="_blank" href="<?php echo base_url()?>pengecekanbahan/cetakpengecekan_jenisbahan_fix/<?php echo $idpengajuan;?>" class="btn btn-info">Cetak Fix Penerimaan Jenis Bahan</a> <br>
+        </div>
     </div>
 </div>
 
