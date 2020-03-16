@@ -39,7 +39,7 @@
 <!-- Default box -->
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">From Masakan Bahan</h3>
+        <h3 class="box-title">From Tambah Masakan</h3>
         <span class="pull-right">
             <span id="loading"></span>
         </span>
@@ -59,6 +59,7 @@
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                             <input type="submit" class="btn btn-success" id="submitButton" name="submitButton" value="Simpan">
+                            <a type="button" class="btn btn-danger" href="<?php echo base_url()?>masakanbahan"><i class="fa fa-reply"></i> Kembali</a>
                         </div>
                     </div>
                 </form>
@@ -66,8 +67,8 @@
         </div>
         <div id="get_kelaspasien"></div>
     </div>
-    <div class="box-footer">
-        <a type="button" class="btn btn-danger" href="<?php echo base_url()?>masakanbahan"><i class="fa fa-reply"></i> Kembali</a>
-    </div><!-- /.box-footer -->                
+    <!-- <div class="box-footer"> -->
+        
+    <!-- </div>/.box-footer                 -->
 </div><!-- /.box -->	
 </section><!-- /.content -->

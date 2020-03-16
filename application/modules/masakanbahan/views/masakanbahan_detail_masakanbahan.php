@@ -163,7 +163,7 @@ function hapus_masakanbahan()
 <!-- Default box -->
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">From Masakan Bahan</h3>
+        <h3 class="box-title">From Tambah Bahan pada Masakan</h3>
         <span class="pull-right">
             <span id="loading"></span>
         </span>
@@ -179,7 +179,7 @@ function hapus_masakanbahan()
                             <input type="hidden" class="form-control" id="idmasakan_x" name="idmasakan_x" value="<?php echo $masakan[0]['idmasakan'];?>">
                             <input type="hidden" class="form-control" id="idmasakanbahan_x" name="idmasakanbahan_x" value="">
                             <select class="form-control" name="idbahan_x" id="idbahan_x">
-                                <option value="">-- Pilih Bahaan</option>
+                                <option value="">-- Pilih Bahan</option>
                                 <?php
                                 foreach ($bahan as $dt) {
                                 ?>
@@ -190,7 +190,7 @@ function hapus_masakanbahan()
                             </select>
                         </div>
                         <div class="col-sm-5">
-                            <a type="button" class="btn btn-info" href="<?php echo base_url()?>masakanbahan/loadform_bahan" id=""><i class="fa fa-list"></i> Tambah Bahan</a>
+                            <a type="button" class="btn btn-info" href="<?php echo base_url()?>bahan/loadform" id=""><i class="fa fa-list"></i> Tambah Bahan</a>
                         </div>
                     </div>
                     <div class="form-group">
@@ -216,25 +216,29 @@ function hapus_masakanbahan()
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                        <button type="button" class="btn btn-success" id="btnmasakanbahan" name="btnmasakanbahan" onclick="javascript:tambahmasakanbahan();">Tambah Bahan</button>
+                            <button type="button" class="btn btn-success" id="btnmasakanbahan" name="btnmasakanbahan" onclick="javascript:tambahmasakanbahan();">Tambah Bahan</button>
+                            <a type="button" class="btn btn-danger" href="<?php echo base_url()?>masakanbahan"><i class="fa fa-reply"></i> Kembali</a>
                         </div>
                     </div>
                 </form>
             </div>            
-        </div>
-        <hr>
+        </div>        
+    </div>
+    <!-- <div class="box-footer"> -->
+                
+    <!-- </div>/.box-footer                 -->
+</div><!-- /.box -->	
+<div class="box">
+    <div class="box-header with-border">
+        <h3 class="box-title">Masakan : <?php echo $masakan[0]['namamasakan'];?></h3>
+        <span class="pull-right">
+            <button type="button" class="btn btn-info" onclick="javascript:form_ubahmasakan('<?php echo $masakan[0]['idmasakan'];?>');">Ubah Masakan</button>
+        </span>
+    </div>
+    <div class="box-body">
         <div class="row">
             <div class="col-lg-12">
-                <table class="table table-bordered">
-                    <tr>
-                        <td width="20%">Nama Masakan</td>
-                        <td>
-                            <?php echo $masakan[0]['namamasakan'];?>                            
-                        </td>
-                        <td width="15%" style="text-alignment: center;">
-                            <button type="button" class="btn btn-info" onclick="javascript:form_ubahmasakan('<?php echo $masakan[0]['idmasakan'];?>');">Ubah Masakan</button>
-                        </td>
-                    </tr>
+                <table class="table table-bordered">                    
                     <tr>
                         <td>Nama Bahan</td>
                         <td colspan=2>
@@ -262,10 +266,7 @@ function hapus_masakanbahan()
             </div>                
         </div>
     </div>
-    <div class="box-footer">
-        <a type="button" class="btn btn-danger" href="<?php echo base_url()?>masakanbahan"><i class="fa fa-reply"></i> Kembali</a>        
-    </div><!-- /.box-footer -->                
-</div><!-- /.box -->	
+</div>
 </section><!-- /.content -->
 
 <div id="modal" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="true" class="modal fade" data-backdrop="static">
