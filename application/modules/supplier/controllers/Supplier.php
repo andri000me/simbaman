@@ -191,6 +191,7 @@ class Supplier extends MX_Controller {
             $data['id'] = $this->uri->segment(4);
 
             $idsupplier = $data['idsupplier'];
+            $data['id_idsupplier'] = $idsupplier;
             
             if ($data['id'] == NULL){
                 $data['idbahansupplier'] = '';

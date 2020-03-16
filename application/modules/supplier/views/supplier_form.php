@@ -37,7 +37,7 @@
 <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Form</h3>
+            <h3 class="box-title">Form Tambah Supplier Kerjasama</h3>
             <span class="pull-right">
                 <span id="loading"></span>
             </span>
@@ -81,13 +81,14 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <input type="submit" class="btn btn-success" id="submitButton" name="submitButton" value="Simpan">
+                        <a type="button" class="btn btn-danger" href="<?php echo base_url()?>supplier"><i class="fa fa-reply"></i> Kembali</a>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="box-footer">
-            <a type="button" class="btn btn-danger" href="<?php echo base_url()?>supplier"><i class="fa fa-reply"></i> Kembali</a>
-        </div><!-- /.box-footer -->
+        <!-- <div class="box-footer"> -->
+            
+        <!-- </div>/.box-footer -->
     </div>
 </section>
 

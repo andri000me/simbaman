@@ -154,13 +154,35 @@ function  hapus_bahansupplier_manual()
 <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Data</h3>
+            <h3 class="box-title">Data Bahan Supplier</h3>
             <span class="pull-right">
                 <span id="loading"></span>
             </span>
         </div>
         
         <div class="box-body">
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-lg-12">
+                    <div class="pull pull-right">
+                        <a type="button" class="btn btn-danger" href="<?php echo base_url()?>supplier"><i class="fa fa-reply"></i> Kembali</a>
+                            <?php if ($add == 1) { ?>
+                            <?php
+                            $jml_bahansupplier = count($bahansupplier);
+                            if ($jml_bahansupplier == 0) {
+                                $diss_tambah = '';
+                                $diss_hapus = 'disabled';
+                            } else {
+                                $diss_tambah = 'disabled';
+                                $diss_hapus = '';
+                            }
+                            ?>
+                            <button type="button" <?php echo $diss_hapus;?> class="btn btn-danger" onclick="javascript:konfirmasi_hapusbahansupplier('<?php echo $idsupplier;?>');"><i class="fa fa-trash"></i> Hapus Data</button>
+                            <a type="button" class="btn btn-warning" href="<?php echo base_url()?>supplier/loadform_bahansupplier_manual/<?php echo $idsupplier;?>"><i class="fa fa-file"></i> Tambah Data</a>
+                            <button type="button" <?php echo $diss_tambah;?> class="btn btn-success" id="tambah_data" onclick="javascript:loadform_bahansupplier('<?php echo $idsupplier;?>');"><i class="fa fa-file"></i> Copy Bahan Supplier</button>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped" id="tableListData">
                     <thead>
@@ -177,8 +199,7 @@ function  hapus_bahansupplier_manual()
                     </thead>
                     <tbody>
                         <?php
-                        $no = 1;
-                        $jml_bahansupplier = count($bahansupplier);
+                        $no = 1;                        
                         foreach($bahansupplier as $data){
                         ?>
                         <tr>
@@ -219,23 +240,9 @@ function  hapus_bahansupplier_manual()
                 </table>
             </div>
         </div>
-        <div class="box-footer">
-            <a type="button" class="btn btn-danger" href="<?php echo base_url()?>supplier"><i class="fa fa-reply"></i> Kembali</a> &nbsp;
-            <?php if ($add == 1) { ?>
-                <?php
-                if ($jml_bahansupplier == 0) {
-                    $diss_tambah = '';
-                    $diss_hapus = 'disabled';
-                } else {
-                    $diss_tambah = 'disabled';
-                    $diss_hapus = '';
-                }
-                ?>
-                <button type="button" <?php echo $diss_hapus;?> class="btn btn-danger" onclick="javascript:konfirmasi_hapusbahansupplier('<?php echo $idsupplier;?>');"><i class="fa fa-trash"></i> Hapus Data</button> &nbsp;
-                <a type="button" class="btn btn-warning" href="<?php echo base_url()?>supplier/loadform_bahansupplier_manual/<?php echo $idsupplier;?>"><i class="fa fa-file"></i> Tambah Data</a> &nbsp;
-                <button type="button" <?php echo $diss_tambah;?> class="btn btn-success" id="tambah_data" onclick="javascript:loadform_bahansupplier('<?php echo $idsupplier;?>');"><i class="fa fa-file"></i> Copy Bahan Supplier</button>
-            <?php } ?>
-        </div><!-- /.box-footer -->                
+        <!-- <div class="box-footer"> -->
+            
+        <!-- </div>/.box-footer                 -->
     </div><!-- /.box -->	
 </section><!-- /.content -->
 
