@@ -147,7 +147,7 @@ function hapus_masakan()
     <div class="box-footer">
         <button type="button" class="btn btn-info" id="tampilinfo"><i class="fa fa-exclamation-triangle"></i> Info</button>
         &nbsp;
-        <a type="button" class="btn btn-success" href="<?php echo base_url()?>masakanbahan/bahan" id="tambah_data"><i class="fa fa-file"></i> Lihat Bahan</a>
+        <!-- <a type="button" class="btn btn-success" href="<?php //echo base_url()?>masakanbahan/bahan" id="tambah_data"><i class="fa fa-file"></i> Lihat Bahan</a> -->
         <?php if ($add == 1) { ?>
         <a type="button" class="btn btn-danger pull-right" href="<?php echo base_url()?>masakanbahan/loadform_masakan" id="tambah_data"><i class="fa fa-file"></i> Tambah Masakan</a>
         <?php } ?>

@@ -30,13 +30,22 @@ function pilihKelasPasien()
 <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Data</h3>
+            <h3 class="box-title">Pengaturan Menu Masakan</h3>
             <span class="pull-right">
                 <span id="loading"></span>
             </span>
         </div>
         
         <div class="box-body">
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-lg-12">
+                    <div class="pull pull-right">
+                        <?php if ($add == 1) { ?>
+                        <a type="button" class="btn btn-danger" href="<?php echo base_url()?>menumasakan/ref_menumasakan" id="tambah_data"><i class="fa fa-file"></i> Referensi Menu Masakan</a>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-12">
                     <form class="form-horizontal">
@@ -60,16 +69,15 @@ function pilihKelasPasien()
                         </div>
                     </form>
                 </div>                
-            </div>
-            <div id="get_kelaspasien"></div>
+            </div>            
         </div>
-        <div class="box-footer">
-            <button type="button" class="btn btn-info" id="tampilinfo"><i class="fa fa-exclamation-triangle"></i> Info</button>
-            <?php if ($add == 1) { ?>
-            <a type="button" class="btn btn-danger pull-right" href="<?php echo base_url()?>menumasakan/ref_menumasakan" id="tambah_data"><i class="fa fa-file"></i> Referensi Menu Masakan</a>
-            <?php } ?>
-        </div><!-- /.box-footer -->                
+        <!-- <div class="box-footer"> -->
+            
+        <!-- </div>/.box-footer                 -->
     </div><!-- /.box -->	
+
+    <div id="get_kelaspasien"></div>
+    
 </section><!-- /.content -->
 
 <div id="modal" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="true" class="modal fade" data-backdrop="static">

@@ -74,7 +74,7 @@
 <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Form</h3>
+            <h3 class="box-title">Tambah Menu Masakan</h3>
             <span class="pull-right">
                 <span id="loading"></span>
             </span>
@@ -147,27 +147,29 @@
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <input type="submit" class="btn btn-success" id="submitButton" name="submitButton" value="Simpan">
+                                <a type="button" class="btn btn-danger" href="<?php echo base_url()?>menumasakan"><i class="fa fa-reply"></i> Kembali</a>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-            <hr>
-            <?php
-            if (count($get_DataKelasMenuMasakan) != 0) {
-            ?>
+        </div>
+    </div>
+
+    <?php
+    if (count($get_DataKelasMenuMasakan) != 0) {
+    ?>
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Menu Kelas : <?php echo $namakelas[0]['namakelas'];?></h3>            
+        </div>
+
+        <div class="box-body">
             <div class="row">
                 <div class="col-lg-12">
-                    <table class="table table-bordered">
-                        <tr>
-                            <td width="20%">Kelas</td>
-                            <th><?php echo $namakelas[0]['namakelas'];?></th>
-                        </tr>
-                        <tr>
-                            <td>Jenis Menu</td>
-                            <th><?php if ($idjenismenu != NULL) { echo $namakelas[0]['namajenismenu'];}?></th>
-                        </tr>
-                    </table>
+                    <h2>
+                        Jenis Menu : <?php if ($idjenismenu != NULL) { echo $namakelas[0]['namajenismenu'];}?>
+                    </h2>
 
                     <table class="table table-bordered">
                         <tr>
@@ -204,17 +206,27 @@
                     </table>
                 </div>
             </div>
+        </div>
+    </div>
+    <?php
+    }
+    ?>
+</section>
+            <hr>
+            <?php
+            if (count($get_DataKelasMenuMasakan) != 0) {
+            ?>
+            
             <?php
             } else {
                 echo '';
             }
             ?>
         </div>
-        <div class="box-footer">
-            <a type="button" class="btn btn-danger" href="<?php echo base_url()?>menumasakan"><i class="fa fa-reply"></i> Kembali</a>
-        </div><!-- /.box-footer -->
+        <!-- <div class="box-footer"> -->
+            
+        <!-- </div>/.box-footer -->
     </div>
-</section>
 
 <div id="modal" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="true" class="modal fade" data-backdrop="static">
     <div class="modal-dialog modal-lg" id="content_modal">  	

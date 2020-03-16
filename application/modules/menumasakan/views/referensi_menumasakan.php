@@ -74,6 +74,14 @@
         </div>
         
         <div class="box-body">
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-lg-12">
+                    <div class="pull pull-right">
+                        <button type="button" class="btn btn-warning" id="konfirmasi_reset_menumasakan"><i class="fa fa-copy"></i> Reset Menu Masakan</button> 
+                        <a type="button" class="btn btn-danger" href="<?php echo base_url()?>menumasakan"><i class="fa fa-reply"></i> Kembali</a> 
+                    </div>
+                </div>
+            </div>
             <?php
             $no = 1;
             foreach ($jenismenumasakan as $jenismenu) {
@@ -139,11 +147,9 @@
             }
             ?>
         </div>
-        <div class="box-footer">
-            <button type="button" class="btn btn-info" id="tampilinfo"><i class="fa fa-exclamation-triangle"></i> Info</button>
-            <button type="button" class="btn btn-warning" id="konfirmasi_reset_menumasakan"><i class="fa fa-copy"></i> Reset Menu Masakan</button>
-            <a type="button" class="btn btn-danger pull-right" href="<?php echo base_url()?>menumasakan"><i class="fa fa-reply"></i> Kembali</a>
-        </div><!-- /.box-footer -->                
+        <!-- <div class="box-footer"> -->
+            
+        <!-- </div>/.box-footer                 -->
     </div><!-- /.box -->	
 </section><!-- /.content -->
 
