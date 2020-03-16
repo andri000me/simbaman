@@ -72,6 +72,16 @@
         </div>
         
         <div class="box-body">
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-lg-12">
+                    <div class="pull pull-right">                        
+                        <?php if ($add == 1) { ?>
+                            <a type="button" class="btn btn-success" href="<?php echo base_url()?>bahan/loadform_jenisbahan" id="tambah_data"><i class="fa fa-file"></i> Tambah Data</a>
+                        <?php } ?>
+                        <a type="button" class="btn btn-danger" href="<?php echo base_url()?>bahan"><i class="fa fa-reply"></i> Kembali</a>
+                    </div>
+                </div>
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped" id="tableListData">
                     <thead>
@@ -106,12 +116,9 @@
                 </table>
             </div>
         </div>
-        <div class="box-footer">
-            <a type="button" class="btn btn-danger pull-right" href="<?php echo base_url()?>bahan"><i class="fa fa-reply"></i> Kembali</a>
-            <?php if ($add == 1) { ?>
-            <a type="button" class="btn btn-danger pull-right" href="<?php echo base_url()?>bahan/loadform_jenisbahan" id="tambah_data"><i class="fa fa-file"></i> Tambah Data</a>
-            <?php } ?>
-        </div><!-- /.box-footer -->                
+        <!-- <div class="box-footer"> -->
+            
+        <!-- </div>/.box-footer                 -->
     </div><!-- /.box -->	
 </section><!-- /.content -->
 

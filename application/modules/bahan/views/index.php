@@ -10,13 +10,23 @@
 <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Data</h3>
+            <h3 class="box-title">Data Bahan Masakan</h3>
             <span class="pull-right">
                 <span id="loading"></span>
             </span>
         </div>
         
         <div class="box-body">
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-lg-12">
+                    <div class="pull pull-right">
+                        <?php if ($add == 1) { ?>
+                            <a type="button" class="btn btn-warning" href="<?php echo base_url()?>bahan/jenisbahan" id="jenis_bahan"><i class="fa fa-file"></i> Jenis Golongan Bahan</a> 
+                            <a type="button" class="btn btn-danger" href="<?php echo base_url()?>bahan/loadform" id="tambah_data"><i class="fa fa-file"></i> Tambah Bahan Masakan</a> 
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped" id="tableListData">
                     <thead>
@@ -60,12 +70,9 @@
                 </table>
             </div>
         </div>
-        <div class="box-footer">
-            <?php if ($add == 1) { ?>
-                <a type="button" class="btn btn-warning" href="<?php echo base_url()?>bahan/jenisbahan" id="jenis_bahan"><i class="fa fa-file"></i> Jenis Bahan</a> 
-                <a type="button" class="btn btn-danger" href="<?php echo base_url()?>bahan/loadform" id="tambah_data"><i class="fa fa-file"></i> Tambah Data</a> 
-            <?php } ?>
-        </div><!-- /.box-footer -->                
+        <!-- <div class="box-footer"> -->
+            
+        <!-- </div>/.box-footer                 -->
     </div><!-- /.box -->	
 </section><!-- /.content -->
 
