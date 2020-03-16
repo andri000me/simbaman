@@ -29,13 +29,30 @@
                     </div>   
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">Pengurangan</label>
-                        <div class="col-sm-10">
+                        <div class="col-sm-4">
                             <input type="text" placeholder="Pungurangan" class="form-control" id="pengurangan_ubah" name="pengurangan_ubah" value="<?php echo $dietmasakanbahan[0]['pengurangan'];?>">
+                        </div>
+                        <label for="" class="col-sm-2 control-label">Satuan</label>
+                        <div class="col-sm-4">
+                            <select class="form-control" name="satuan_ubah" id="satuan_ubah">
+                                <option value="">-- Pilih Satuan</option>
+                                <?php
+                                foreach ($satuan as $sat) {
+                                ?>
+                                    <option value="<?php echo $sat['satuan'];?>" <?php if ($sat['satuan'] == $dietmasakanbahan[0]['satuan_pengurangan']) { echo "selected='selected'";}?>><?php echo $sat['satuan'];?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">Penambahan</label>
+                        <div class="col-sm-4">
+                            <input type="text" placeholder="Penambahan" class="form-control" id="penambahan_ubah" name="penambahan_ubah" value="<?php echo $dietmasakanbahan[0]['pengurangan'];?>">
+                        </div>
                         <label for="" class="col-sm-2 control-label">Satuan</label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                             <select class="form-control" name="satuan_ubah" id="satuan_ubah">
                                 <option value="">-- Pilih Satuan</option>
                                 <?php

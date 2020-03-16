@@ -17,7 +17,7 @@ class Dietmasakan_query extends CI_Model {
 
     public function list_dietpasien()
     {
-        $sql = "SELECT iddiet, namadiet FROM diet ORDER BY urutan ASC";
+        $sql = "SELECT iddiet, namadiet FROM diet WHERE stat = 'aktif' ORDER BY urutan ASC";
 
         $query = $this->db->query($sql);
         $res = $query->result_array();
