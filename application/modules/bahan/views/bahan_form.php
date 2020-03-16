@@ -22,8 +22,8 @@
         <div class="box-body">
             <form class="form-horizontal" id="formoid" action="" title="" method="post">
                 <div class="box-body">
-                    <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">Nama Menu</label>
+                <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">Nama Bahan</label>
                         <div class="col-sm-10">
                             <input type="hidden" class="form-control" id="idbahan" name="idbahan" value="<?php echo $idbahan;?>">
                             <input type="text" class="form-control" id="namabahan" name="namabahan" placeholder="Nama Bahan" value="<?php echo $namabahan;?>">
@@ -31,34 +31,31 @@
                     </div>
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">Satuan</label>
-                        <div class="col-sm-3">                     
-                            <select class="form-control" id="satuan" name="satuan">
-                                <option value="bags" <?php if (!empty($satuan) && $satuan == 'bags')  echo 'selected = "selected"'; ?>>bags</option>
-                                <option value="bh" <?php if (!empty($satuan) && $satuan == 'bh')  echo 'selected = "selected"'; ?>>bh</option>
-                                <option value="btl" <?php if (!empty($satuan) && $satuan == 'btl')  echo 'selected = "selected"'; ?>>btl</option>
-                                <option value="btr" <?php if (!empty($satuan) && $satuan == 'btr')  echo 'selected = "selected"'; ?>>btr</option>
-                                <option value="dos" <?php if (!empty($satuan) && $satuan == 'dos')  echo 'selected = "selected"'; ?>>dos</option>
-                                <option value="gls" <?php if (!empty($satuan) && $satuan == 'gls')  echo 'selected = "selected"'; ?>>gls</option>
-                                <option value="gr" <?php if (!empty($satuan) && $satuan == 'gr')  echo 'selected = "selected"'; ?>>gr</option>
-                                <option value="ktk" <?php if (!empty($satuan) && $satuan == 'ktk')  echo 'selected = "selected"'; ?>>ktk</option>
-                                <option value="ml" <?php if (!empty($satuan) && $satuan == 'ml')  echo 'selected = "selected"'; ?>>ml</option>
-                                <option value="ptg" <?php if (!empty($satuan) && $satuan == 'ptg')  echo 'selected = "selected"'; ?>>ptg</option>
-                                <option value="sch" <?php if (!empty($satuan) && $satuan == 'sch')  echo 'selected = "selected"'; ?>>sch</option>
+                        <div class="col-sm-2">
+                            <select class="form-control" name="satuan" id="satuan">
+                                <option value="">-- Pilih Satuan</option>
+                                <?php
+                                foreach ($satuanbahan as $sat) {
+                                ?>
+                                    <option value="<?php echo $sat['satuan'];?>" <?php if ($sat['satuan'] == $satuan) { echo 'selected="selected"';}?>><?php echo $sat['satuan'];?></option>
+                                <?php
+                                }
+                                ?>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">Jenis</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="jenis" name="jenis" placeholder="Jenis" value="<?php echo $jenis;?>">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">Status</label>
                         <div class="col-sm-3">
-                            <select class="form-control" id="stat" name="stat">
-                                <option value="aktif" <?php if (!empty($stat) && $stat == 'aktif')  echo 'selected = "selected"'; ?>>AKTIF</option>
-                                <option value="tidak" <?php if (!empty($stat) && $stat == 'tidak')  echo 'selected = "selected"'; ?>>TIDAK AKTIF</option>
+                            <select class="form-control" name="jenis" id="jenis">
+                                <option value="">-- Pilih Jenis Masakan</option>
+                                <?php
+                                foreach ($jenismasakan as $jns) {
+                                ?>
+                                    <option value="<?php echo $jns['namajenismasakan'];?>" <?php if ($jns['namajenismasakan'] == $jenis) { echo 'selected="selected"';}?>><?php echo $jns['namajenismasakan'];?></option>
+                                <?php
+                                }
+                                ?>
                             </select>
                         </div>
                     </div>

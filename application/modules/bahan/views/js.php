@@ -30,10 +30,14 @@
         $("#formoid").submit(function(event) {
             event.preventDefault();
             var namabahan = $('#namabahan').val();
+            var satuan = $('#satuan').val();
             var jenis = $('#jenis').val();
             if (namabahan == '') {
                 $("#loading").html("<i class='fa fa-exclamation-triangle'></i> Nama bahan harus diisi.");
                 $("#namabahan").focus();
+            } else if (satuan == '') {
+                $("#loading").html("<i class='fa fa-exclamation-triangle'></i> Satuan bahan menu harus diisi.");
+                $("#satuan").focus();
             } else if (jenis == '') {
                 $("#loading").html("<i class='fa fa-exclamation-triangle'></i> Jenis bahan menu harus diisi.");
                 $("#jenis").focus();

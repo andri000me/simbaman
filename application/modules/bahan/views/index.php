@@ -26,13 +26,17 @@
                             <th style="text-align: center;" width="80">Satuan</th>
                             <th style="text-align: center;" width="150">Jenis</th>
                             <th style="text-align: center;" width="100">Aksi</th>
-                            <th style="text-align: center;" width="50">Publish</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         $no = 1;
                         foreach($data as $key => $val){
+                            if (empty($val['idmasakanbahan'])) {
+                                $dissable = '';
+                            } else {
+                                $dissable = 'disabled';
+                            }
                         ?>
                         <tr>
                             <td><?php echo $no; ?></td>
@@ -44,22 +48,9 @@
                                 <a type="button" class="btn btn-warning btn-xs" href="<?php echo base_url()?>bahan/loadform/<?php echo $val['idbahan']; ?>"><i class="fa fa-edit"></i></a>
                                 <?php } ?>
                                 <?php if ($delete == 1) { ?>
-                                <button type="button" class="btn btn-danger btn-xs" id="confirmasiDelete" dataid="<?php echo $val['idbahan']; ?>"><i class="fa fa-trash"></i></button>
+                                <button type="button" <?php echo $dissable;?> class="btn btn-danger btn-xs" id="confirmasiDelete" dataid="<?php echo $val['idbahan']; ?>"><i class="fa fa-trash"></i></button>
                                 <?php } ?>
-                            </td>
-                            <td style="text-align: center;">
-                                <?php
-                                if ($val['stat'] == 'aktif'){
-                                ?>                        
-                                    <button type="button" class="btn btn-success btn-xs" id="cekPublish" dataid="<?php echo $val['idbahan']; ?>" datastat=0><i class="fa fa-check-circle"></i></button>
-                                <?php
-                                } else if ($val['stat'] != 'aktif') {
-                                ?>
-                                    <button type="button" class="btn btn-danger btn-xs" id="cekPublish" dataid="<?php echo $val['idbahan']; ?>" datastat=1><i class="fa fa-times-circle"></i></button>
-                                <?php
-                                }
-                                ?>                    
-                            </td>
+                            </td>                            
                         </tr>
                         <?php
                         $no++;
@@ -70,9 +61,9 @@
             </div>
         </div>
         <div class="box-footer">
-            <button type="button" class="btn btn-info" id="tampilinfo"><i class="fa fa-exclamation-triangle"></i> Info</button>
             <?php if ($add == 1) { ?>
-            <a type="button" class="btn btn-danger pull-right" href="<?php echo base_url()?>bahan/loadform" id="tambah_data"><i class="fa fa-file"></i> Tambah Data</a>
+                <a type="button" class="btn btn-warning" href="<?php echo base_url()?>bahan/jenisbahan" id="jenis_bahan"><i class="fa fa-file"></i> Jenis Bahan</a> 
+                <a type="button" class="btn btn-danger" href="<?php echo base_url()?>bahan/loadform" id="tambah_data"><i class="fa fa-file"></i> Tambah Data</a> 
             <?php } ?>
         </div><!-- /.box-footer -->                
     </div><!-- /.box -->	

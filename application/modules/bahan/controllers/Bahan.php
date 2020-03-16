@@ -75,6 +75,9 @@ class Bahan extends MX_Controller {
             $this->session->set_userdata($sess_data);
             
             $data['id'] = $this->uri->segment(3);
+
+            $data['satuanbahan'] = $this->bahan_qry->list_satuan();
+            $data['jenismasakan'] = $this->bahan_qry->list_jenismasakan();
             
             if ($data['id'] == NULL){
                 
@@ -112,7 +115,6 @@ class Bahan extends MX_Controller {
         $up['namabahan'] = $this->security->xss_clean($this->input->post('namabahan'));
         $up['satuan'] = $this->security->xss_clean($this->input->post('satuan'));
         $up['jenis'] = $this->security->xss_clean($this->input->post('jenis'));
-        $up['stat'] = $this->security->xss_clean($this->input->post('stat'));
         $up['status'] = $this->security->xss_clean($this->input->post('status'));
 
         $res = $this->bahan_qry->ExecData($up);
@@ -150,6 +152,132 @@ class Bahan extends MX_Controller {
         $up['stat'] = '';
         $up['status'] = $this->security->xss_clean($this->input->post('status'));
         $res = $this->bahan_qry->ExecData($up);
+        if ($res == 1){
+            echo 101;
+        } else if ($res == 0){
+            echo 100;
+        }        
+    }
+
+    //jenis bahan
+
+    public function jenisbahan()
+    {
+        $idgrup = $this->session->userdata('idgrup');
+        $url = $this->uri->segment(1);
+        $cekhakakses = $this->access->hakakses($idgrup,$url);
+        if ($cekhakakses == 1) {
+            $modul = $this->listmenu->namamodul($url);
+            foreach($modul->result() as $t){
+                $sess_data['idmodul'] = $t->idmodul;
+                $data['idmodul'] = $t->idmodul;
+                $data['idmenu'] = $t->idmenu;
+                $data['namamodul'] = $t->namamodul;
+                $data['keteranganmodul'] = $t->keterangan;
+                $data['namamenu'] = $t->namamenu;
+            }
+            $this->session->set_userdata($sess_data);
+            
+            $idmodul = $this->session->userdata('idmodul');
+            $btnaksi = $this->listmenu->btnaksi($idmodul,$idgrup);
+            foreach($btnaksi->result() as $t){
+                $data['add'] = $t->created;
+                $data['edit'] = $t->updated;
+                $data['delete'] = $t->deleted;
+            }
+
+            $data['data'] = $this->bahan_qry->listDataJenismasakan();
+            
+            $this->template
+                    ->set_layout('default')
+                    ->build('jenismasakan',$data);
+        } else {
+            $this->access->statHakAkses();
+        }
+    }
+
+    public function loadform_jenisbahan()
+    {
+        $idgrup = $this->session->userdata('idgrup');
+        $url = $this->uri->segment(1);
+        $cekhakakses = $this->access->hakakses($idgrup,$url);
+        if ($cekhakakses == 1) {
+            $modul = $this->listmenu->namamodul($url);
+            foreach($modul->result() as $t){
+                $sess_data['idmodul'] = $t->idmodul;
+                $data['idmodul'] = $t->idmodul;
+                $data['idmenu'] = $t->idmenu;
+                $data['namamodul'] = $t->namamodul;
+                $data['keteranganmodul'] = $t->keterangan;
+                $data['namamenu'] = $t->namamenu;
+            }
+            $this->session->set_userdata($sess_data);
+            
+            $data['id'] = $this->uri->segment(3);
+            
+            if ($data['id'] == NULL){
+                
+                $data['idjenismasakan'] = '';
+                $data['namajenismasakan'] = '';
+                $data['stat'] = '';
+            
+                $this->template
+                    ->set_layout('default')
+                    ->build('jenismasakan_form',$data);
+            } else {
+                $query = $this->bahan_qry->listDataJenismasakanWhere($data['id']);
+                foreach($query->result() as $t){
+                    $data['idjenismasakan'] = $t->idjenismasakan;
+                    $data['namajenismasakan'] = $t->namajenismasakan;
+                    $data['stat'] = $t->stat;
+                }
+                $this->template
+                    ->set_layout('default')
+                    ->build('jenismasakan_form',$data);
+            }
+            
+        } else {
+            $this->access->statHakAkses();
+        }
+    }
+
+    public function savedata_jenismasakan() 
+    {
+        $up['idjenismasakan'] = $this->security->xss_clean($this->input->post('idjenismasakan'));
+        $up['namajenismasakan'] = $this->security->xss_clean($this->input->post('namajenismasakan'));
+        $up['stat'] = $this->security->xss_clean($this->input->post('stat'));
+        $up['status'] = $this->security->xss_clean($this->input->post('status'));
+
+        $res = $this->bahan_qry->ExecData_jenismasakan($up);
+        if ($res == 1){
+            echo 101;
+        } else if ($res == 0){
+            echo 100;
+        }
+    }
+
+    public function loadformdelete_jenismasakan()
+    {
+        $idjenismasakan = $this->security->xss_clean($this->input->post('idjenismasakan'));
+        
+        $query = $this->bahan_qry->listDataJenismasakanWhere($idjenismasakan);
+        foreach($query->result() as $t){
+            $data['idjenismasakan'] = $t->idjenismasakan;
+            $data['namajenismasakan'] = $t->namajenismasakan;
+            $data['stat'] = $t->stat;
+        }
+
+        $cekdata = $this->bahan_qry->cekDataJenisMasakan($data['namajenismasakan']);
+        $data['jumlah'] = $cekdata->num_rows();
+        $this->load->view('jenismasakan_delete',$data);
+    }
+
+    function deletedata_jenismasakan()
+    {
+        $up['idjenismasakan'] = $this->security->xss_clean($this->input->post('idjenismasakan'));
+        $up['namajenismasakan'] = '';
+        $up['status'] = $this->security->xss_clean($this->input->post('status'));
+        $res = $this->bahan_qry->ExecData_jenismasakan($up);
         if ($res == 1){
             echo 101;
         } else if ($res == 0){
