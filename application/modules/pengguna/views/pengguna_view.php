@@ -9,13 +9,22 @@
 <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Data</h3>
+            <h3 class="box-title">Data Pengguna Sistem</h3>
             <span class="pull-right">
                 <span id="loading"></span>
             </span>
         </div>
         
         <div class="box-body">
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-lg-12">
+                    <div class="pull pull-right">
+                        <?php if ($add == 1) { ?>
+                            <a type="button" class="btn btn-danger pull-right" href="<?php echo base_url()?>pengguna/loadform" id="tambah_data"><i class="fa fa-file"></i> Tambah Data Pengguna</a>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped" id="tableListData">
                     <thead>
@@ -68,12 +77,9 @@
                 </table>
             </div>
         </div>
-        <div class="box-footer">
-            <button type="button" class="btn btn-info" id="tampilinfo"><i class="fa fa-exclamation-triangle"></i> Info</button>
-            <?php if ($add == 1) { ?>
-            <a type="button" class="btn btn-danger pull-right" href="<?php echo base_url()?>pengguna/loadform" id="tambah_data"><i class="fa fa-file"></i> Tambah Data</a>
-            <?php } ?>
-        </div><!-- /.box-footer -->                
+        <!-- <div class="box-footer"> -->
+            
+        <!-- </div>/.box-footer                 -->
     </div><!-- /.box -->	
 </section><!-- /.content -->
 

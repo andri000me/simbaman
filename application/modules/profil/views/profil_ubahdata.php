@@ -40,7 +40,6 @@
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button type="button" class="btn btn-success" id="submitButton" name="submitButton">Simpan</button>
-                                <input type="reset" class="btn btn-warning" id="resetButton" name="resetButton" value="Reset">
                                 <span id="loading_save"></span>
                             </div>
                         </div>

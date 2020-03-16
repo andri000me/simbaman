@@ -22,7 +22,6 @@
             <div class="form-group">
                 <div class="col-lg-offset-3">
                     <button type="submit" id="btnUpload" class="btn btn-success" onclick="javascript:upload_foto();"><i class="fa fa-save"></i> Simpan</button>                    &nbsp;
-                    <button type="reset" class="btn btn-danger"><i class="fa fa-eraser"></i> Reset</button>
                     &nbsp;
                     <span id="loadingsaveUpload"></span>
                 </div>

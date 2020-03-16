@@ -9,13 +9,22 @@
 <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Data</h3>
+            <h3 class="box-title">Data Menu Sistem</h3>
             <span class="pull-right">
                 <span id="loading"></span>
             </span>
         </div>
         
         <div class="box-body">
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-lg-12">
+                    <div class="pull pull-right">
+                        <?php if ($add == 1) { ?>
+                            <a type="button" class="btn btn-danger " href="<?php echo base_url()?>menu/loadform" id="tambah_data"><i class="fa fa-file"></i> Tambah Data Menu</a>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped" id="tableListData">
                     <thead>
@@ -42,7 +51,7 @@
                             <td style="text-align: center;"><i class="fa <?php echo $val['ikon']; ?>"></i> </td>
                             <td><?php echo $val['keterangan']; ?></td>
                             <td style="text-align: center;">
-                                <a type="button" class="btn btn-default btn-xs" href="<?php echo base_url()?>menu/menudetail/<?php echo $val['idmenu']; ?>"><i class="fa fa-list-ul"></i> Detail Modul</a>
+                                <a type="button" class="btn btn-default btn-xs" href="<?php echo base_url()?>menu/menudetail/<?php echo $val['idmenu']; ?>"><i class="fa fa-list-ul"></i> Detail Sub Menu</a>
                             </td>
                             <td style="text-align: center;">
                                 <?php if ($edit == 1) { ?>
@@ -74,12 +83,9 @@
                 </table>
             </div>
         </div>
-        <div class="box-footer">
-            <button type="button" class="btn btn-info" id="tampilinfo"><i class="fa fa-exclamation-triangle"></i> Info</button>
-            <?php if ($add == 1) { ?>
-            <a type="button" class="btn btn-danger pull-right" href="<?php echo base_url()?>menu/loadform" id="tambah_data"><i class="fa fa-file"></i> Tambah Data</a>
-            <?php } ?>
-        </div><!-- /.box-footer -->                
+        <!-- <div class="box-footer"> -->
+            
+        <!-- </div>/.box-footer                 -->
     </div><!-- /.box -->	
 </section><!-- /.content -->
 

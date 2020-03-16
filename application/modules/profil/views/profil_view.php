@@ -9,7 +9,7 @@
 <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Data</h3>
+            <h3 class="box-title">Data Profil Pengguna Sistem</h3>
             <span class="pull-right">
                 <span id="loading"></span>
             </span>
@@ -73,9 +73,9 @@
                 </div>
             </div>
         </div>
-        <div class="box-footer">
-            <button type="button" class="btn btn-info" id="tampilinfo"><i class="fa fa-exclamation-triangle"></i> Info</button>
-        </div><!-- /.box-footer -->                
+        <!-- <div class="box-footer"> -->
+            
+        <!-- </div>/.box-footer                 -->
     </div><!-- /.box -->	
 </section><!-- /.content -->
 

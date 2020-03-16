@@ -15,7 +15,7 @@
 <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Form</h3>
+            <h3 class="box-title">Form Tambah Sub Menu</h3>
             <span class="pull-right">
                 <span id="loading"></span>
             </span>
@@ -60,23 +60,23 @@
                         <div class="col-sm-offset-2 col-sm-10">
                             <?php if ($add == 1) { ?>
                             <input type="submit" class="btn btn-success" id="submitButton" name="submitButton" value="Simpan">
-                            <input type="reset" class="btn btn-warning" id="resetButton" name="resetButton" value="Reset">
                             <?php } ?>
+                            <a type="button" class="btn btn-danger" href="<?php echo base_url()?>menu"><i class="fa fa-reply"></i> Kembali</a>
                         </div>
                     </div>
                 </div><!-- /.box-body -->
             </form>
         </div>
         
-        <div class="box-footer">
-            <button type="button" class="btn btn-info" id="tampilinfo"><i class="fa fa-exclamation-triangle"></i> Info</button>
-            <a type="button" class="btn btn-danger pull-right" href="<?php echo base_url()?>menu"><i class="fa fa-reply"></i> Kembali</a>
-        </div><!-- /.box-footer -->
+        <!-- <div class="box-footer"> -->
+            
+            
+        <!-- </div>/.box-footer -->
     </div>
     
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Data</h3>
+            <h3 class="box-title">Data Sub Menu Sistem</h3>
             <span class="pull-right">
                 <span id="loading"></span>
             </span>

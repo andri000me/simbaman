@@ -14,7 +14,7 @@
 <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Form</h3>
+            <h3 class="box-title">Form Tambah Pengguna</h3>
             <span class="pull-right">
                 <span id="loading"></span>
             </span>
@@ -66,16 +66,15 @@
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                             <input type="submit" class="btn btn-success" id="submitButton" name="submitButton" value="Simpan">
-                            <input type="reset" class="btn btn-warning" id="resetButton" name="resetButton" value="Reset">
+                            <a type="button" class="btn btn-danger" href="<?php echo base_url()?>pengguna"><i class="fa fa-reply"></i> Kembali</a>
                         </div>
                     </div>
                 </div><!-- /.box-body -->
             </form>            
         </div>
-        <div class="box-footer">
-            <button type="button" class="btn btn-info" id="tampilinfo"><i class="fa fa-exclamation-triangle"></i> Info</button>
-            <a type="button" class="btn btn-danger pull-right" href="<?php echo base_url()?>pengguna"><i class="fa fa-reply"></i> Kembali</a>
-        </div><!-- /.box-footer -->
+        <!-- <div class="box-footer"> -->
+            
+        <!-- </div>/.box-footer -->
     </div>
 </section>
 

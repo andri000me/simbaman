@@ -10,7 +10,7 @@
 <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Form</h3>
+            <h3 class="box-title">Setting Grup Akses</h3>
             <span class="pull-right">
                 <span id="loading"></span>
             </span>
@@ -25,19 +25,25 @@
                             <input type="text" class="form-control" id="namagrup" name="namagrup" placeholder="Nama Grup" value="<?php echo $namagrup;?>" readonly="">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                        <a type="button" class="btn btn-danger" href="<?php echo base_url()?>grup"><i class="fa fa-reply"></i> Kembali</a>
+                        </div>
+                    </div>
                 </div><!-- /.box-body -->
             </form>
         </div>
         
-        <div class="box-footer">
-            <button type="button" class="btn btn-info" id="tampilinfo"><i class="fa fa-exclamation-triangle"></i> Info</button>
-            <a type="button" class="btn btn-danger pull-right" href="<?php echo base_url()?>grup"><i class="fa fa-reply"></i> Kembali</a>
-        </div><!-- /.box-footer -->
+        <!-- <div class="box-footer"> -->
+            
+            
+        <!-- </div>/.box-footer -->
     </div>
     
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Data</h3>
+            <h3 class="box-title">Sub Menu Sistem</h3>
             <span class="pull-right">
                 <span id="loading"></span>
             </span>
