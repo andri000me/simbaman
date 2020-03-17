@@ -30,7 +30,7 @@ function pilihBulan()
 <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Data</h3>
+            <h3 class="box-title">Prediksi Bahan Masakan</h3>
             <span class="pull-right">
                 <span id="loading"></span>
             </span>
@@ -56,15 +56,25 @@ function pilihBulan()
                     </form>
                 </div>
             </div>
-            <hr>
-            <div id="konten_prediksi">
+        </div>
+    </div>
+    
+    <div id="konten_prediksi">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 style="text-align: center;">
+                    Prediksi Kebutuhan Bahan Selama 1 Bulan <br>
+                    Mulai tanggal <?php echo $tgl_prediksi?> s/d <?php echo $tgl_sekarang?>
+                </h3>
+            </div>        
+            <div class="box-body">
+                <div class="row" style="margin-bottom:10px">
+                    <div class="col-lg-12" style="text-align: center;">
+                        <a target="_blank" href="<?php echo base_url()?>prediksipengajuan/cetakprediksi/1" class="btn btn-success">Cetak Prediksi Pengajuan Bahan</a>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <?php
-                        // print_r($prediksi);
-                        ?>
-                        <h2>Prediksi Kebutuhan Bahan Selama 1 Bulan</h2>
-                        <h3>Mulai tanggal <?php echo $tgl_prediksi?> s/d <?php echo $tgl_sekarang?></h3>
                         <div class="table-responsive">
                             <table class="table table-bordered">
                                 <thead>
@@ -104,17 +114,14 @@ function pilihBulan()
                             </table>
                         </div>
                     </div>
-                </div>         
-                <div class="row" style="margin-bottom:10px">
-                    <div class="col-lg-12" style="text-align: center;">
-                        <a target="_blank" href="<?php echo base_url()?>prediksipengajuan/cetakprediksi/1" class="btn btn-success">Cetak Prediksi Pengajuan Bahan</a>
-                    </div>
                 </div> 
-            </div>  
+            </div>
         </div>
-        <div class="box-footer">
-            <button type="button" class="btn btn-info" id="tampilinfo"><i class="fa fa-exclamation-triangle"></i> Info</button>
-        </div><!-- /.box-footer -->                
+    </div>
+
+        <!-- <div class="box-footer"> -->
+            
+        <!-- </div>/.box-footer                 -->
     </div><!-- /.box -->	
 </section><!-- /.content -->
 
