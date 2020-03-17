@@ -176,8 +176,8 @@ function  hapus_bahansupplier_manual()
                                 $diss_hapus = '';
                             }
                             ?>
-                            <button type="button" <?php echo $diss_hapus;?> class="btn btn-danger" onclick="javascript:konfirmasi_hapusbahansupplier('<?php echo $idsupplier;?>');"><i class="fa fa-trash"></i> Hapus Data</button>
-                            <a type="button" class="btn btn-warning" href="<?php echo base_url()?>supplier/loadform_bahansupplier_manual/<?php echo $idsupplier;?>"><i class="fa fa-file"></i> Tambah Data</a>
+                            <button type="button" <?php echo $diss_hapus;?> class="btn btn-danger" onclick="javascript:konfirmasi_hapusbahansupplier('<?php echo $idsupplier;?>');"><i class="fa fa-trash"></i> Hapus Bahan Masakan</button>
+                            <a type="button" class="btn btn-warning" href="<?php echo base_url()?>supplier/loadform_bahansupplier_manual/<?php echo $idsupplier;?>"><i class="fa fa-file"></i> Tambah Bahan Masakan</a>
                             <button type="button" <?php echo $diss_tambah;?> class="btn btn-success" id="tambah_data" onclick="javascript:loadform_bahansupplier('<?php echo $idsupplier;?>');"><i class="fa fa-file"></i> Copy Bahan Supplier</button>
                         <?php } ?>
                     </div>
