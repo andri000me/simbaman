@@ -7,7 +7,8 @@
  * @desc [description]
  */
 ?>
-
+<div class="box">
+    <div class="box-body">
 <?php
 if (count($pengajuanbahan_cek) == 0) {
 ?>
@@ -23,9 +24,8 @@ if (count($pengajuanbahan_cek) == 0) {
 <div class="row" style="margin-bottom:10px">
     <div class="col-lg-12" style="text-align: center;">
         <?php if ($add == 1) { ?> 
-            <button type="button" class="btn btn-danger resetpengajuanbahan" id="" onclick="javascript:resetPengajuanBahan('<?php echo $idpengajuan;?>')"><i class="fa fa-file"></i> Reset Pengajuan Bahan</button>
-            <span id="loading_reset"></span>
-        <?php } ?>
+            <button type="button" class="btn btn-danger resetpengajuanbahan" id="" onclick="javascript:resetPengajuanBahan('<?php echo $idpengajuan;?>')"><i class="fa fa-file"></i> Reset Pengajuan Bahan <span id="loading_reset"></span></button>            
+        <?php } ?>        
     </div>
 </div>
 <?php
@@ -44,7 +44,57 @@ if (count($pengajuanbahan_cek) == 0) {
 }
 ?>
 
+<div class="row" style="margin-bottom:10px">
+    <div class="col-lg-12" style="text-align: center;">
+    <?php
+        if (count($pengajuanbahan_cek) == 0) {
+        ?>
+        <button type="button" class="btn btn-warning" onclick="javascript:form_pengajuandiet('<?php echo $idpengajuan;?>');"><i class="fa fa-user"></i> Pasien Diet <span id="loading_pengajuandiet"></span></button>
+        <?php
+        }
+        ?>
+        <button type="button" class="btn btn-default" onclick="javascript:detail_pengajuandiet('<?php echo $idpengajuan;?>');"><i class="fa fa-user"></i> Detail Pasien Diet <span id="loading_detail_pengajuandiet"></span></button>
+        <button type="button" class="btn btn-success" onclick="javascript:form_bahansisa('<?php echo $tanggalpengajuan_bahan;?>');">Sisa Bahan<span id="loading_bahansisa"></span></button>
+        <button type="button" class="btn btn-success" onclick="javascript:detailMenumasakan('<?php echo $jenismenumasakan[0]['idjenismenu'];?>');">Detail Menu Masakan <span id="loading_detailmeunamsakan"></span></button>
+    </div>
+</div>
 
+<div class="row" style="margin-bottom:10px">
+    <div class="col-lg-12">
+        <div class="form-group">
+            <label class="col-sm-1 control-label">Kelas</label>
+            <div class="col-sm-3">
+                <input type="hidden" name="idpengajuan_fix" id="idpengajuan_fix" class="form-control" value="<?php echo $idpengajuan;?>">   
+                <select class="form-control" id="idkelas_fix" name="idkelas_fix">
+                    <option value="pilihsemua">-- Pilih Semua Kelas</option>
+                    <?php
+                    foreach ($kelas as $kls) {
+                    ?>
+                        <option value="<?php echo $kls['idkelas'];?>"><?php echo $kls['namakelas'];?></option>
+                    <?php
+                    }
+                    ?>
+                </select>                     
+            </div>
+            <label class="col-sm-1 control-label">Waktu</label>
+            <div class="col-sm-3">
+                <select class="form-control" id="idwaktumenu_fix" name="idwaktumenu_fix">
+                    <option value="pilihsemua">-- Pilih Semua Waktu</option>
+                    <?php
+                    foreach ($waktumenu as $waktu) {
+                    ?>
+                        <option value="<?php echo $waktu['idwaktumenu'];?>"><?php echo $waktu['namawaktumenu'];?></option>
+                    <?php
+                    }
+                    ?>
+                </select>                               
+            </div>
+            <div class="col-sm-4">
+                <button type="button" class="btn btn-success" onclick="javascript:cetakbahanmasakanpengajuan();">Cetak Bahan Masakan Pengajuan</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="row" style="margin-bottom:10px">
     <div class="col-lg-5">
@@ -105,23 +155,14 @@ if (count($pengajuanbahan_cek) == 0) {
     </div>
 </div>
 
-<div class="row" style="margin-bottom:10px">
+<!-- <div class="row" style="margin-bottom:10px">
     <div class="col-lg-5">
-        <?php
-        if (count($pengajuanbahan_cek) == 0) {
-        ?>
-        <button type="button" class="btn btn-warning" onclick="javascript:form_pengajuandiet('<?php echo $idpengajuan;?>');"><i class="fa fa-user"></i> Pasien Diet <span id="loading_pengajuandiet"></span></button>
-        <?php
-        }
-        ?>
-        <button type="button" class="btn btn-default" onclick="javascript:detail_pengajuandiet('<?php echo $idpengajuan;?>');"><i class="fa fa-user"></i> Detail Pasien Diet <span id="loading_detail_pengajuandiet"></span></button>
-        <br><br>
-        <button type="button" class="btn btn-success" onclick="javascript:form_bahansisa('<?php echo $tanggalpengajuan_bahan;?>');">Sisa Bahan<span id="loading_bahansisa"></span></button>
+        
     </div>
     <div class="col-lg-7">
-        <button type="button" class="btn btn-success btn-block" onclick="javascript:detailMenumasakan('<?php echo $jenismenumasakan[0]['idjenismenu'];?>');">Detail Menu Masakan <span id="loading_detailmeunamsakan"></span></button>
+        
     </div>
-</div>
+</div> -->
 
 <div class="row" style="margin-bottom:10px">
 
@@ -184,39 +225,5 @@ if (count($pengajuanbahan_cek) == 0) {
     </div>
 </div>
 
-<div class="row" style="margin-bottom:10px">
-    <div class="col-lg-12">
-        <div class="form-group">
-            <label class="col-sm-1 control-label">Kelas</label>
-            <div class="col-sm-3">
-                <input type="hidden" name="idpengajuan_fix" id="idpengajuan_fix" class="form-control" value="<?php echo $idpengajuan;?>">   
-                <select class="form-control" id="idkelas_fix" name="idkelas_fix">
-                    <option value="pilihsemua">-- Pilih Semua Kelas</option>
-                    <?php
-                    foreach ($kelas as $kls) {
-                    ?>
-                        <option value="<?php echo $kls['idkelas'];?>"><?php echo $kls['namakelas'];?></option>
-                    <?php
-                    }
-                    ?>
-                </select>                     
-            </div>
-            <label class="col-sm-1 control-label">Waktu</label>
-            <div class="col-sm-3">
-                <select class="form-control" id="idwaktumenu_fix" name="idwaktumenu_fix">
-                    <option value="pilihsemua">-- Pilih Semua Waktu</option>
-                    <?php
-                    foreach ($waktumenu as $waktu) {
-                    ?>
-                        <option value="<?php echo $waktu['idwaktumenu'];?>"><?php echo $waktu['namawaktumenu'];?></option>
-                    <?php
-                    }
-                    ?>
-                </select>                               
-            </div>
-            <div class="col-sm-4">
-                <button type="button" class="btn btn-success" onclick="javascript:cetakbahanmasakanpengajuan();">Cetak Bahan Masakan Pengajuan</button>
-            </div>
-        </div>
     </div>
 </div>

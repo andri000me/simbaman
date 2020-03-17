@@ -307,7 +307,7 @@ function form_bahansisa(tanggalpengajuan)
 <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Data</h3>
+            <h3 class="box-title">Pengaturan Pengajuan Bahan Masakan</h3>
             <span class="pull-right">
                 <span id="loading"></span>
             </span>
@@ -329,17 +329,20 @@ function form_bahansisa(tanggalpengajuan)
                     </form>
                 </div>
             </div>
-
-            <div id="tanggalrekappasien"></div>
-
         </div>
-        <div class="box-footer">
-            <button type="button" class="btn btn-info" id="tampilinfo"><i class="fa fa-exclamation-triangle"></i> Info</button>
+
+        
+
+        <!-- <div class="box-footer"> -->
+            
             <!-- <?php if ($add == 1) { ?>
             <a type="button" class="btn btn-danger pull-right" href="<?php echo base_url()?>menumasakan/loadform" id="tambah_data"><i class="fa fa-file"></i> Tambah Data</a>
             <?php } ?> -->
-        </div><!-- /.box-footer -->                
-    </div><!-- /.box -->	
+        <!-- </div>/.box-footer                 -->
+    </div><!-- /.box -->
+
+    <div id="tanggalrekappasien"></div>
+
 </section><!-- /.content -->
 
 <div id="modal" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="true" class="modal fade" data-backdrop="static">

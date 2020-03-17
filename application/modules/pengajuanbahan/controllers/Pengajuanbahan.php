@@ -62,6 +62,8 @@ class Pengajuanbahan extends MX_Controller {
 
     public function tanggalrekappasien()
     {
+        set_time_limit(1200);
+
         $idgrup = $this->session->userdata('idgrup');
         $idmodul = $this->session->userdata('idmodul');
         $btnaksi = $this->listmenu->btnaksi($idmodul,$idgrup);
@@ -318,6 +320,8 @@ class Pengajuanbahan extends MX_Controller {
 
     public function generatepengajuanbahan_semua()
     {
+        set_time_limit(1200);
+        
         $tanggalrekappasien = $this->security->xss_clean($this->input->post('tanggalrekappasien'));
         $tanggalpengajuan = $this->security->xss_clean($this->input->post('tanggalpengajuan'));
 

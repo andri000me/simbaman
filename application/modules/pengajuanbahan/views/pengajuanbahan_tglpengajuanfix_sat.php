@@ -8,6 +8,9 @@
  */
 ?>
 
+<div class="box">
+    <div class="box-body">
+
 <?php
 if (count($pengajuanbahan_cek) == 0) {
 ?>
@@ -43,6 +46,68 @@ if (count($pengajuanbahan_cek) == 0) {
 <?php
 }
 ?>
+
+<div class="row" style="margin-bottom:10px">
+    <div class="col-lg-12" style="text-align: center;">
+        <?php
+        if (count($pengajuanbahan_cek) == 0) {
+        ?>
+        <button type="button" class="btn btn-warning" onclick="javascript:form_pengajuandiet_sat('<?php echo $tanggalpengajuan_bahan;?>');"><i class="fa fa-user"></i> Pasien Diet <span id="loading_pengajuandiet"></span></button>
+        <?php
+        }
+        ?>
+        <button type="button" class="btn btn-default" onclick="javascript:detail_pengajuandiet_sat('<?php echo $tanggalpengajuan_bahan;?>');"><i class="fa fa-user"></i> Detail Pasien Diet <span id="loading_detail_pengajuandiet"></span></button>
+        <button type="button" class="btn btn-success" onclick="javascript:form_bahansisa('<?php echo $tanggalpengajuan_bahan;?>');">Sisa Bahan<span id="loading_bahansisa"></span></button>
+    </div>
+</div>
+
+<div class="row" style="margin-bottom:10px">
+    <div class="col-lg-12">
+        <div class="form-group">
+            <label class="col-sm-1 control-label">Tanggal</label>
+            <div class="col-sm-2">
+                <select class="form-control" id="idpengajuan_fix" name="idpengajuan_fix">
+                    <?php
+                    foreach ($pengajuan_tanggalpengajuan as $ajukan) {
+                    ?>
+                        <option value="<?php echo $ajukan['idpengajuan'];?>"><?php echo $ajukan['tanggalpengajuan'];?></option>
+                    <?php
+                    }
+                    ?>
+                </select>                     
+            </div>
+            <label class="col-sm-1 control-label">Kelas</label>
+            <div class="col-sm-2">
+                <select class="form-control" id="idkelas_fix" name="idkelas_fix">
+                    <option value="pilihsemua">Pilih Semua Kelas</option>
+                    <?php
+                    foreach ($kelas as $kls) {
+                    ?>
+                        <option value="<?php echo $kls['idkelas'];?>"><?php echo $kls['namakelas'];?></option>
+                    <?php
+                    }
+                    ?>
+                </select>                     
+            </div>
+            <label class="col-sm-1 control-label">Waktu</label>
+            <div class="col-sm-2">
+                <select class="form-control" id="idwaktumenu_fix" name="idwaktumenu_fix">
+                    <option value="pilihsemua">Pilih Semua Waktu</option>
+                    <?php
+                    foreach ($waktumenu as $waktu) {
+                    ?>
+                        <option value="<?php echo $waktu['idwaktumenu'];?>"><?php echo $waktu['namawaktumenu'];?></option>
+                    <?php
+                    }
+                    ?>
+                </select>                               
+            </div>
+            <div class="col-sm-3">
+                <button type="button" class="btn btn-success" onclick="javascript:cetakbahanmasakanpengajuan();">Cetak Bahan Masakan Pengajuan</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="row" style="margin-bottom:10px">
     <div class="col-lg-5">
@@ -90,16 +155,7 @@ if (count($pengajuanbahan_cek) == 0) {
         </table>
     </div>  
     <div class="col-lg-4">
-        <?php
-        if (count($pengajuanbahan_cek) == 0) {
-        ?>
-        <button type="button" class="btn btn-warning" onclick="javascript:form_pengajuandiet_sat('<?php echo $tanggalpengajuan_bahan;?>');"><i class="fa fa-user"></i> Pasien Diet <span id="loading_pengajuandiet"></span></button>
-        <?php
-        }
-        ?>
-        <button type="button" class="btn btn-default" onclick="javascript:detail_pengajuandiet_sat('<?php echo $tanggalpengajuan_bahan;?>');"><i class="fa fa-user"></i> Detail Pasien Diet <span id="loading_detail_pengajuandiet"></span></button>
-        <br><br>
-        <button type="button" class="btn btn-success" onclick="javascript:form_bahansisa('<?php echo $tanggalpengajuan_bahan;?>');">Sisa Bahan<span id="loading_bahansisa"></span></button>
+        
     </div>  
 </div>
 
@@ -127,7 +183,7 @@ if (count($pengajuanbahan_cek) == 0) {
             }
             ?>
         </table>
-        <button type="button" class="btn btn-success btn-block" onclick="javascript:detailMenumasakan('<?php echo $jenis_menumasakan[0]['idjenismenu'];?>');">Detail Menu Masakan <span id="loading_detailmeunamsakan_<?php echo $jenis_menumasakan[0]['idjenismenu'];?>"></span></button>
+        <button type="button" class="btn btn-success" onclick="javascript:detailMenumasakan('<?php echo $jenis_menumasakan[0]['idjenismenu'];?>');">Detail Menu Masakan : <?php echo $jenis_menumasakan[0]['namajenismenu'];?> <span id="loading_detailmeunamsakan_<?php echo $jenis_menumasakan[0]['idjenismenu'];?>"></span></button>
         <br>
         <?php
         $tanggal_rekappasien = $tanggalrekappasien.'<br>';
@@ -238,50 +294,5 @@ if (count($pengajuanbahan_cek) == 0) {
     </div>
 </div>
 
-<div class="row" style="margin-bottom:10px">
-    <div class="col-lg-12">
-        <div class="form-group">
-            <label class="col-sm-1 control-label">Tanggal</label>
-            <div class="col-sm-2">
-                <select class="form-control" id="idpengajuan_fix" name="idpengajuan_fix">
-                    <?php
-                    foreach ($pengajuan_tanggalpengajuan as $ajukan) {
-                    ?>
-                        <option value="<?php echo $ajukan['idpengajuan'];?>"><?php echo $ajukan['tanggalpengajuan'];?></option>
-                    <?php
-                    }
-                    ?>
-                </select>                     
-            </div>
-            <label class="col-sm-1 control-label">Kelas</label>
-            <div class="col-sm-2">
-                <select class="form-control" id="idkelas_fix" name="idkelas_fix">
-                    <option value="pilihsemua">Pilih Semua Kelas</option>
-                    <?php
-                    foreach ($kelas as $kls) {
-                    ?>
-                        <option value="<?php echo $kls['idkelas'];?>"><?php echo $kls['namakelas'];?></option>
-                    <?php
-                    }
-                    ?>
-                </select>                     
-            </div>
-            <label class="col-sm-1 control-label">Waktu</label>
-            <div class="col-sm-2">
-                <select class="form-control" id="idwaktumenu_fix" name="idwaktumenu_fix">
-                    <option value="pilihsemua">Pilih Semua Waktu</option>
-                    <?php
-                    foreach ($waktumenu as $waktu) {
-                    ?>
-                        <option value="<?php echo $waktu['idwaktumenu'];?>"><?php echo $waktu['namawaktumenu'];?></option>
-                    <?php
-                    }
-                    ?>
-                </select>                               
-            </div>
-            <div class="col-sm-3">
-                <button type="button" class="btn btn-success" onclick="javascript:cetakbahanmasakanpengajuan();">Cetak Bahan Masakan Pengajuan</button>
-            </div>
-        </div>
     </div>
 </div>

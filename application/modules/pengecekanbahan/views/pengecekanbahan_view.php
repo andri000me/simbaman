@@ -203,17 +203,15 @@ function batalpengajuanbahancek()
                     </form>
                 </div>
             </div>
-
-            <div id="tanggalrekappasien"></div>
-
         </div>
-        <div class="box-footer">
-            <button type="button" class="btn btn-info" id="tampilinfo"><i class="fa fa-exclamation-triangle"></i> Info</button>
-            <!-- <?php if ($add == 1) { ?>
-            <a type="button" class="btn btn-danger pull-right" href="<?php echo base_url()?>menumasakan/loadform" id="tambah_data"><i class="fa fa-file"></i> Tambah Data</a>
-            <?php } ?> -->
-        </div><!-- /.box-footer -->                
-    </div><!-- /.box -->	
+        <!-- <div class="box-footer">             -->
+            <!-- <?php //if ($add == 1) { ?>
+            <a type="button" class="btn btn-danger pull-right" href="<?php //echo base_url()?>menumasakan/loadform" id="tambah_data"><i class="fa fa-file"></i> Tambah Data</a>
+            <?php //} ?> -->
+        <!-- </div>/.box-footer                 -->
+    </div><!-- /.box -->
+
+    <div id="tanggalrekappasien"></div>	
 </section><!-- /.content -->
 
 <div id="modal" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="true" class="modal fade" data-backdrop="static">

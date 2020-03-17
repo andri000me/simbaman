@@ -10,6 +10,9 @@
 
 ?>
 
+<div class="box">
+    <div class="box-body">
+
 <?php
 if (count($jumlahpasien) == 0) {
 ?>
@@ -32,7 +35,7 @@ if (count($jumlahpasien) == 0) {
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
             <h4><i class="icon fa fa-warning"></i> Perhatian!</h4>
             Informasi dibahawah hanya review pengajuan bahan masakan.
-            Silahkan untuk melakukan generate pengajuan bahan masakan.
+            Silahkan untuk melakukan proses pengajuan bahan masakan.
         </div>
     </div>
 </div>
@@ -40,8 +43,7 @@ if (count($jumlahpasien) == 0) {
 <div class="row" style="margin-bottom:10px">
     <div class="col-lg-12" style="text-align: center;">
         <?php if ($add == 1) { ?> 
-            <button type="button" class="btn btn-success generatepengajuanbahan" id="" onclick="javascript:generatePengajuanBahan_semua('<?php echo $tanggalrekappasien;?>','<?php echo $tanggalpengajuan;?>')"><i class="fa fa-file"></i> Generate Pengajuan Bahan Semua</button>
-            <span id="loading_generate"></span>
+            <button type="button" class="btn btn-success generatepengajuanbahan" id="" onclick="javascript:generatePengajuanBahan_semua('<?php echo $tanggalrekappasien;?>','<?php echo $tanggalpengajuan;?>')"><i class="fa fa-file"></i> Proses Pengajuan Bahan Masakan <span id="loading_generate"></span></button>
         <?php } ?>
     </div>
 </div>
@@ -117,7 +119,7 @@ if (count($jumlahpasien) == 0) {
             }
             ?>
         </table>
-        <button type="button" class="btn btn-success btn-block" onclick="javascript:detailMenumasakan('<?php echo $jenis_menumasakan[0]['idjenismenu'];?>');">Detail Menu Masakan <span id="loading_detailmeunamsakan_<?php echo $jenis_menumasakan[0]['idjenismenu'];?>"></span></button>
+        <button type="button" class="btn btn-success" onclick="javascript:detailMenumasakan('<?php echo $jenis_menumasakan[0]['idjenismenu'];?>');">Detail Menu Masakan : <?php echo $jenis_menumasakan[0]['namajenismenu'];?> <span id="loading_detailmeunamsakan_<?php echo $jenis_menumasakan[0]['idjenismenu'];?>"></span></button>
         <br>
         <?php
         $tanggal_rekappasien = $tanggalrekappasien.'<br>';
@@ -219,3 +221,5 @@ if (count($jumlahpasien) == 0) {
 <?php
 }
 ?>
+    </div>
+</div>
