@@ -301,6 +301,26 @@ function form_bahansisa(tanggalpengajuan)
     });
 };
 
+function detail_bahansisa(tanggalpengajuan)
+{
+    $.ajax({
+        type: "POST",
+        data: {"tanggalpengajuan":tanggalpengajuan},
+        url: "<?php echo base_url().'pengajuanbahan/detail_bahansisa'; ?>",
+        beforeSend: function(){
+            $("#loading_detail_bahansisa").html("<img src='<?php echo base_url()?>/assets/dist/img/loading.gif' width='10px'>");
+        },
+        success: function(resp){
+            $("#modal_default").modal('show');
+            $("#content_modal_default").html(resp);
+            $("#loading_detail_bahansisa").html("");
+        },
+        error:function(event, textStatus, errorThrown) {
+            alert('Error Message: '+ textStatus + ' , HTTP Error: '+errorThrown);
+        }
+    });
+};
+
 </script>
 
 <section class="content">

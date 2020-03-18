@@ -112,37 +112,7 @@ function hapus_bahansisa(idsisabahan,tanggalpengajuan)
                     </div>
                 </form>
             </div><!-- /.nav-tabs-custom -->
-        </div>
-        <div class="row">
-            <div class="col-xs-12">
-                <table class="table table-bordered">
-                    <tr>
-                        <td width="10%" style="text-align: center;">No</td>
-                        <td style="text-align: center;">Nama Bahan</td>
-                        <td width="20%" style="text-align: center;">Kuantitas</td>
-                        <td width="10%" style="text-align: center;">Aksi</td>
-                    </tr>
-                    <?php
-                    $no = 1;
-                    foreach ($sisabahanmasakan as $bahan) {
-                    ?>
-                    <tr>
-                        <td style="text-align: center;"><?php echo $no;?></td>
-                        <td><?php echo $bahan['namabahan'];?></td>
-                        <td style="text-align: center;"><?php echo $bahan['jumlahkuantitas'];?> <?php echo $bahan['satuan'];?></td>
-                        <td style="text-align: center;">
-                            <button class="btn btn-info btn-xs" onclick="javascript:hapus_bahansisa('<?php echo $bahan['idsisabahan'];?>','<?php echo $bahan['tanggalpengajuan'];?>');" id="btn_bahansisa_<?php echo $bahan['idsisabahan'];?>">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <?php
-                    $no++;
-                    }
-                    ?>
-                </table>                
-            </div>
-        </div>
+        </div>        
     </div>
     <div class="modal-footer">
 	<button type="button" data-dismiss="modal" class="btn btn-default"><i class="fa fa-power-off"></i> Tutup</button>

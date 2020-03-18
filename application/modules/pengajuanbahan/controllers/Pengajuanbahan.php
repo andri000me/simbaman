@@ -512,6 +512,22 @@ class Pengajuanbahan extends MX_Controller {
         $this->load->view('detail_pengajuandiet_sat', $data);
     }
 
+    public function detail_bahansisa()
+    {
+        $data['tanggalpengajuan'] = $this->security->xss_clean($this->input->post('tanggalpengajuan'));
+        $pengajuan = $this->pengajuanbahan_query->get_tanggalpengajuan($data['tanggalpengajuan']);
+        $data['idpengajuan'] = $pengajuan[0]['idpengajuan'];
+        $tanggalpengajuan = $data['tanggalpengajuan'];
+        $tanggalbahansisa = date('Y-m-d', strtotime('-1 days', strtotime($data['tanggalpengajuan'])));
+        $data['tanggalbahansisa'] = $tanggalbahansisa;
+        $data['bahansisa'] = $this->pengajuanbahan_query->list_bahansisa($tanggalpengajuan,$tanggalbahansisa);
+        $data['satuan'] = $this->pengajuanbahan_query->list_satuan($tanggalbahansisa);
+
+        $data['sisabahanmasakan'] = $this->pengajuanbahan_query->list_sisabahanmasakan($data['idpengajuan']);
+        
+        $this->load->view('detail_bahansisa', $data);
+    }
+
     public function form_bahansisa()
     {
         $data['tanggalpengajuan'] = $this->security->xss_clean($this->input->post('tanggalpengajuan'));
