@@ -20,8 +20,12 @@ error_reporting(0);
     <div class="box-body">
         <div class="row" style="margin-bottom:10px">
             <div class="col-lg-12" style="text-align: center;">
-                <button type="button" class="btn btn-success btn-lg" id="btn_importdata_tmp" onclick="javascript:importdata('<?php echo $tglrekap;?>');">Import Data</button>
-                <div id="loading_import"></div>
+                <div class="alert alert-info alert-dismissible">
+                    Klik tombol Import Data untuk mengambil data pasien terbaru 
+                <br>
+                    <button type="button" class="btn btn-success btn-lg" id="btn_importdata_tmp" onclick="javascript:importdata('<?php echo $tglrekap;?>');">Import Data</button>
+                    <div id="loading_import"></div>
+                </div>                
             </div>
         </div>
         <div class="row">

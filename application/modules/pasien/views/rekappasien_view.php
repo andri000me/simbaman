@@ -119,6 +119,26 @@ function importdata(tglrekap) {
     });
 }
 
+function reset_pasien(tglrekap) {
+    $.ajax({
+        type: "POST",
+        data: {"tglrekap":tglrekap},
+        url: "<?php echo base_url().'pasien/reset_pasien'; ?>",
+        beforeSend: function(){
+            $("#loading_reset").html("Loading Data <img src='<?php echo base_url()?>/assets/dist/img/loading.gif' width='10px'>");
+            $("#btn_reset").attr("disabled","true");
+        },
+        success: function(resp){
+            $("#loading_reset").html("");
+            $("#btn_reset").removeAttr("disabled");
+            pilihTanggalRekap();
+        },
+        error:function(event, textStatus, errorThrown) {
+            alert('Error Message: '+ textStatus + ' , HTTP Error: '+errorThrown);
+        }
+    });
+}
+
 </script>
 <?php  
     $sess_data['url'] = $this->input->server('REQUEST_URI');

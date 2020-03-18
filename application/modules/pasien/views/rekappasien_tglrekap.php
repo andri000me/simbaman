@@ -18,6 +18,17 @@ error_reporting(0);
         </span>
     </div>
     <div class="box-body">
+        <div class="row" style="margin-bottom:10px">
+            <div class="col-lg-12" style="text-align: center;">
+                <div class="alert alert-info alert-dismissible">
+                    Apabila ada penambahan atau pengurangan data pasien, maka klik tombol Reset Data Pasien untuk mengkondisikan data pasien menjadi kosong <br>
+                    dan lakukan klik tombol Import Data untuk mengambil data pasien terbaru 
+                <br>
+                <button type="button" class="btn btn-danger btn-lg" id="btn_reset" onclick="javascript:reset_pasien('<?php echo $tglrekap;?>');">Reset Data Pasien</button>
+                <div id="loading_reset"></div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="table-responsive">

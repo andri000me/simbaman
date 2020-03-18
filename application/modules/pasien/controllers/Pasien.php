@@ -424,4 +424,17 @@ class Pasien extends MX_Controller {
             $this->access->statHakAkses();
         }        
     }
+
+    public function reset_pasien()
+    {
+        $tglrekap = $this->security->xss_clean($this->input->post('tglrekap'));
+
+        $result = $this->pasien_query->reset_pasien($tglrekap);
+
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

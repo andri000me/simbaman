@@ -198,8 +198,6 @@ class Pasien_query extends CI_Model {
                 AND d.kodebangsal = e.kodebangsal
                 AND d.kodekelas = e.kodekelas";
 
-                echo $insert;
-
         $query = $this->db->query($insert);
         if ($query) {
             $this->db->truncate('rekapjumlahpasien_tmp');
@@ -274,5 +272,17 @@ class Pasien_query extends CI_Model {
         $query = $this->db->query($sql);
         $res = $query->result_array();
         return $res;
+    }
+
+    public function reset_pasien($tglrekap)
+    {
+        $delete = "DELETE FROM rekapjumlahpasien WHERE tanggalrekap = '$tglrekap'";
+
+        $query = $this->db->query($delete);
+        if ($query) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
