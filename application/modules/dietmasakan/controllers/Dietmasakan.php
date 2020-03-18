@@ -174,4 +174,106 @@ class Dietmasakan extends MX_Controller {
 
         $this->load->view('form_hapusdietmasakan',$data);
     }
+
+    public function listdiet()
+    {
+        $idgrup = $this->session->userdata('idgrup');
+        $url = $this->uri->segment(1);
+        $cekhakakses = $this->access->hakakses($idgrup,$url);
+        if ($cekhakakses == 1) {
+            $modul = $this->listmenu->namamodul($url);
+            foreach($modul->result() as $t){
+                $sess_data['idmodul'] = $t->idmodul;
+                $data['idmodul'] = $t->idmodul;
+                $data['idmenu'] = $t->idmenu;
+                $data['namamodul'] = $t->namamodul;
+                $data['keteranganmodul'] = $t->keterangan;
+                $data['namamenu'] = $t->namamenu;
+            }
+            $this->session->set_userdata($sess_data);
+            
+            $idmodul = $this->session->userdata('idmodul');
+            $btnaksi = $this->listmenu->btnaksi($idmodul,$idgrup);
+            foreach($btnaksi->result() as $t){
+                $data['add'] = $t->created;
+                $data['edit'] = $t->updated;
+                $data['delete'] = $t->deleted;
+            }
+            $data['listdiet'] = $this->dietmasakan_query->listdiet();
+            $this->template
+                    ->set_layout('default')
+                    ->build('form_listdiet',$data);
+        } else {
+            $this->access->statHakAkses();
+        }
+    }
+
+    public function savedata_diet()
+    {
+        $up['iddiet'] = $this->security->xss_clean($this->input->post('iddiet'));
+        $up['namadiet'] = $this->security->xss_clean($this->input->post('namadiet'));
+        $up['urutan'] = $this->security->xss_clean($this->input->post('urutan'));
+        $up['stat'] = $this->security->xss_clean($this->input->post('stat'));       
+        $res = $this->dietmasakan_query->ExecData_Diet($up);
+        if ($res == 1){
+            echo 101;
+        } else if ($res == 0){
+            echo 100;
+        }
+    }
+
+    public function statpublish_diet()
+    {
+        $up['iddiet'] = $this->security->xss_clean($this->input->post('iddiet'));
+        $up['namadiet'] = '';
+        $up['urutan'] = '';
+        $up['stat'] = $this->security->xss_clean($this->input->post('stat'));
+        $res = $this->dietmasakan_query->ExecPublish_Diet($up);
+        if ($res == 1){
+            echo 101;
+        } else if ($res == 0){
+            echo 100;
+        }
+    }
+
+    public function dietdetail()
+    {
+        $iddiet = $this->security->xss_clean($this->input->post('iddiet'));
+        
+        $res = $this->dietmasakan_query->listDataWhere_Diet($iddiet);
+        foreach($res as $key => $val){
+            $data= array(
+                'iddiet' => $val['iddiet'],
+                'namadiet' => $val['namadiet'],
+                'urutan' => $val['urutan']
+              );
+        }
+        $dat = json_encode($data);
+        echo $dat;
+    }
+
+    function konfirmasihapus_diet()
+    {
+        $iddiet = $this->security->xss_clean($this->input->post('iddiet'));
+        $data = $this->dietmasakan_query->listDataWhere_Diet($iddiet);
+        foreach($data as $key => $val){
+            $d['iddiet'] = $val['iddiet'];
+            $d['namadiet'] = $val['namadiet'];
+        }
+        $this->load->view('diet_konfirmasihapus',$d);
+    }
+    
+    function deletedata_diet()
+    {
+        $up['iddiet'] = $this->security->xss_clean($this->input->post('iddiet'));
+        $up['namadiet'] = '';
+        $up['urutan'] = '';
+        $up['stat'] = $this->security->xss_clean($this->input->post('stat'));
+        $res = $this->dietmasakan_query->ExecData_Diet($up);
+        if ($res == 1){
+            echo 101;
+        } else if ($res == 0){
+            echo 100;
+        }        
+    }
 }

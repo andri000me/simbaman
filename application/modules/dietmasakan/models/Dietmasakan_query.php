@@ -215,4 +215,86 @@ class Dietmasakan_query extends CI_Model {
         return $res;
     }
 
+    public function listdiet()
+    {
+        $sql = "SELECT iddiet, namadiet, urutan, stat FROM diet ORDER BY urutan ASC";
+
+        $query = $this->db->query($sql);
+        $res = $query->result_array();
+        return $res;
+    }
+
+    function ExecData_Diet($data)
+    {
+        $iddiet = $data['iddiet'];
+        $namadiet = $data['namadiet'];
+        $urutan = $data['urutan'];
+        $stat = $data['stat'];
+                
+        if ($stat == 'delete') {
+            $this->db->where('iddiet', $iddiet);
+            $res = $this->db->delete('diet');
+            
+            if($res) {
+                return TRUE;
+            } else {
+                return FALSE;
+            }
+        } else {
+            if ($iddiet == '') {
+
+                $sql = "INSERT INTO diet
+                    (iddiet,namadiet,urutan,stat)
+                    VALUES (UUID(),'$namadiet','$urutan','aktif');";
+                $res = $this->db->query($sql);                
+                
+                if($res) {
+                    return TRUE;
+                } else {
+                    return FALSE;
+                }
+            } else {
+
+                $sql = "UPDATE diet
+                        SET iddiet = '$iddiet',
+                        namadiet = '$namadiet',
+                        urutan = '$urutan'
+                        WHERE iddiet = '$iddiet';";
+                $res = $this->db->query($sql);
+                
+                if($res) {
+                    return TRUE;
+                } else {
+                    return FALSE;
+                }
+            }
+        }
+    }
+
+    function ExecPublish_Diet($data)
+    {
+        $iddiet = $data['iddiet'];
+        $stat = $data['stat'];
+        
+        $sql = "UPDATE diet
+                SET stat = '$stat'
+                WHERE iddiet = '$iddiet';";
+        $res = $this->db->query($sql);
+
+        if($res) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function listDataWhere_Diet($iddiet)
+    {
+        $sql = "SELECT iddiet, namadiet, urutan, stat FROM diet WHERE iddiet = '$iddiet'";
+
+        $query = $this->db->query($sql);
+        $res = $query->result_array();
+        return $res;
+    }
+
 }

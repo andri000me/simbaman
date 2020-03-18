@@ -41,6 +41,15 @@ function pilihDietPasien()
         </div>
         
         <div class="box-body">
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-lg-12">
+                    <div class="pull pull-right">
+                        <?php if ($add == 1) { ?>
+                        <a type="button" class="btn btn-danger" href="<?php echo base_url()?>dietmasakan/listdiet" id="tambah_data"><i class="fa fa-file"></i> Daftar Diet</a>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-12">
                     <form class="form-horizontal">
