@@ -106,7 +106,55 @@ class Profil extends MX_Controller {
         $data['idpengguna'] = $this->session->userdata('idpengguna');
         $this->load->view('profil_ubahfoto',$data);
     }
+
+    public function uploadfoto() 
+    {
+        $max_size      =   "1000000"; // 50 kB
+        $max_width     =   "1024";
+        $max_height    =   "1024";
+
+        $idpengguna = $this->security->xss_clean($this->input->post('idpengguna'));
+        $name = substr($idpengguna, 0, 8);
+
+        $image_info = getimagesize($_FILES["fotoFile"]["tmp_name"]);
+        $image_width = $image_info[0];
+        $image_height = $image_info[1];
+        
+        $fileSize = $_FILES['fotoFile']['size'];
+        
+        $type = explode(".", $_FILES["fotoFile"]["name"]);
+        $type = $type[count($type)-1];
+
+        $namafile = "dp_".$name.".".$type;
+        
+        $url = "./gambar_profil/".$namafile;
+
+        if ($image_width <= $max_width || $image_height <= $max_height) {
+            if ($fileSize <= $max_size){
+                if (in_array($type, array("jpg","jpeg","png","gif"))){
+                    if (is_uploaded_file($_FILES["fotoFile"]["tmp_name"])){
+                        if (move_uploaded_file ($_FILES["fotoFile"]["tmp_name"], $url)){
+//                            return $url;
+                            //echo $namafile;
+                            $this->profil_query->updateFoto($idpengguna,$url);                
+                            print 1;
+                        }
+                    }
+                } else {
+                    echo "Tipe file : ".$type." bukan jpg, jprg, png, gif";
+                    exit();
+                }
+            } else {
+                echo "Besar file melebihi batas :".$fileSize;
+                exit();
+            }
+        } else {
+            echo "Ukuran panjang : ".$image_width ." dan ukuran tinggi : ".$image_height;
+            exit();
+        }
+    }
     
+    /*
     function uploadfoto(){
         $idpengguna = $this->security->xss_clean($this->input->post('idpengguna'));
         $namefile = substr($idpengguna, 0, 8);
@@ -140,6 +188,7 @@ class Profil extends MX_Controller {
             }      
         }
     }
+    */
     
     function hapusfoto(){
         $idpengguna = $this->session->userdata('idpengguna');
