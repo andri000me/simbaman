@@ -317,4 +317,24 @@ class Masakanbahan extends MX_Controller {
         $this->load->view('konfirmasi_delete_masakanbahan',$data);
     }
 
+    public function cetak_masakan_dan_bahan()
+    {
+        $data['masakan'] = $this->masakanbahan_query->listDataMasakan();
+        $data['masakanbahan'] = $this->masakanbahan_query->listDataMasakanBahan();
+
+        $outputHtml = $this->template
+            ->set_layout(false)
+            ->build('cetak_masakan_dan_bahan',$data, TRUE);
+            
+        //echo $outputHtml;die;
+        
+        include_once APPPATH."third_party/mpdf/mpdf60/mpdf.php";
+        $mpdf=new mPDF();
+        //$mpdf->showImageErrors = true;
+        $mpdf->setFooter('{PAGENO}');
+        $mpdf->defaultfooterline=0;
+        $mpdf->WriteHTML($outputHtml);
+        $mpdf->Output('masakan_dan_bahan.pdf', 'I');
+    }
+
 }

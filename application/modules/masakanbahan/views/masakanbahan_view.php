@@ -82,8 +82,9 @@ function hapus_masakan()
         <div class="row" style="margin-bottom: 10px;">
             <div class="col-lg-12">
                 <div class="pull pull-right">
+                    <a type="button" class="btn btn-info" href="<?php echo base_url()?>masakanbahan/cetak_masakan_dan_bahan" target="_blank"> Cetak Masakan dan Bahan</a> 
                     <?php if ($add == 1) { ?>
-                        <a type="button" class="btn btn-danger pull-right" href="<?php echo base_url()?>masakanbahan/loadform_masakan" id="tambah_data"><i class="fa fa-file"></i> Tambah Masakan</a>
+                        <a type="button" class="btn btn-danger" href="<?php echo base_url()?>masakanbahan/loadform_masakan" id="tambah_data"><i class="fa fa-file"></i> Tambah Masakan</a>
                     <?php } ?>
                 </div>
             </div>
