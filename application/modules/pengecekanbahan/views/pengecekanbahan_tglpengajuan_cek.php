@@ -32,20 +32,29 @@ if (count($cektglpengajuanbahan) == 0) {
 <div class="row" style="margin-bottom:10px">
     <div class="col-lg-12" style="text-align: center;">
         
+        <?php 
+        if (count($cektglpenerimaanbahan) == 0) {
+        ?>
         <div style="margin:10px;">
             <a target="_blank" href="<?php echo base_url()?>pengecekanbahan/cetakpengecekan/<?php echo $idpengajuan;?>" class="btn btn-success">Cetak Ceklist Penerimaan</a>
             <a target="_blank" href="<?php echo base_url()?>pengecekanbahan/cetakpengecekan_jenisbahan/<?php echo $idpengajuan;?>" class="btn btn-info">Cetak Ceklist Penerimaan Jenis Bahan</a>
         </div>
-
+        <?php
+        } else {
+        ?>
+        <div style="margin:10px;">
+            <a target="_blank" href="<?php echo base_url()?>pengecekanbahan/cetakpengecekan_fix/<?php echo $idpengajuan;?>" class="btn btn-success">Cetak Penerimaan</a>
+            <a target="_blank" href="<?php echo base_url()?>pengecekanbahan/cetakpengecekan_jenisbahan_fix/<?php echo $idpengajuan;?>" class="btn btn-info">Cetak Penerimaan Jenis Bahan</a>
+        </div>
+        <?php
+        }
+        ?>
+        
         <div style="margin:10px;">
             <button type="button" class="btn btn-warning" onclick="javascript:form_bahantambahan('<?php echo $idpengajuan;?>');">Bahan Masakan Tambahan <span id="loading_bahantambahan"></span></button>
             <button type="button" class="btn btn-success" onclick="javascript:detailMenumasakan('<?php echo $jenismenumasakan[0]['idjenismenu'];?>');">Detail Menu Masakan <span id="loading_detailmeunamsakan"></span></button>
         </div>
-
-        <div style="margin:10px;">
-            <a target="_blank" href="<?php echo base_url()?>pengecekanbahan/cetakpengecekan_fix/<?php echo $idpengajuan;?>" class="btn btn-success">Cetak Fix Penerimaan</a>
-            <a target="_blank" href="<?php echo base_url()?>pengecekanbahan/cetakpengecekan_jenisbahan_fix/<?php echo $idpengajuan;?>" class="btn btn-info">Cetak Fix Penerimaan Jenis Bahan</a>
-        </div>
+        
     </div>
 </div>
 

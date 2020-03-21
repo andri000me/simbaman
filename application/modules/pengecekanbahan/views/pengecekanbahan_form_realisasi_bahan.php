@@ -27,13 +27,13 @@
                             <input type="hidden" class="form-control" id="idpengajuan" name="idpengajuan" value="<?php echo $idpengajuan;?>">
                             <input type="hidden" class="form-control" id="idbahansupplier" name="idbahansupplier" value="<?php echo $idbahansupplier;?>">
                             <input type="hidden" class="form-control" id="pengajuan" name="pengajuan" value="<?php echo $pengajuan;?>">                            
-                            <input type="text" class="form-control" id="jumlahkuantitasreal" name="jumlahkuantitasreal" placeholder="<?php echo $get_pengajuanbahansupplier[0]['jumlahkuantitas'];?>">
+                            <input type="text" class="form-control" id="jumlahkuantitasreal" name="jumlahkuantitasreal">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="" class="col-sm-3 control-label">Harga Total Real</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="hargatotalreal" name="hargatotalreal" placeholder="<?php echo $get_pengajuanbahansupplier[0]['hargatotal'];?>">
+                            <input type="text" class="form-control" id="hargatotalreal" name="hargatotalreal">
                         </div>
                     </div>
                     <div class="form-group">

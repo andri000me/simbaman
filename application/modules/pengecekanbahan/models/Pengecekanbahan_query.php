@@ -25,6 +25,17 @@ class Pengecekanbahan_query extends CI_Model {
         return $result;
     }
 
+    public function cektglpenerimaanbahan($tglpengajuan) 
+    {
+        $sql = "SELECT a.tanggalpengajuan, a.idpengajuan
+                FROM pengajuanbahan AS a
+                WHERE a.tanggalpengajuan = '$tglpengajuan'";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
     public function get_tanggalpengajuan($tglpengajuan)
     {
         $sql = "SELECT tanggalrekap, tanggalpengajuan, idpengajuan
@@ -79,211 +90,42 @@ class Pengecekanbahan_query extends CI_Model {
 
     public function pengajuanbahanfix($tglpengajuan,$idjenismenu)
     {
-        /*
-        $sql = "SELECT z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan
-                    , z.idbahan, z.idbahansupplier
-                    , z.namabahan, z.jumlahkuantitas, z.satuan
-                    , z.hargasatuansupplier, z.satuansupplier, z.hargatotal
-                    , y.idbahanpengajuan, y.kesesuaian, y.jumlahkuantitasreal, y.hargatotalreal
-                FROM (
-                SELECT  a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
-                    , a.idbahan, a.idbahansupplier
-                    , b.namabahan, SUM(a.jumlahkuantitas) AS jumlahkuantitas, a.satuan
-                    , a.hargasatuansupplier, a.satuansupplier, SUM(a.hargatotal) AS hargatotal
-                FROM pengajuanbahandetail AS a INNER JOIN 
-                    bahan AS b ON a.idbahan = b.idbahan
-                WHERE a.tanggalpengajuan = '$tglpengajuan'
-                    AND a.idjenismenu = '$idjenismenu'
-                GROUP BY a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
-                    , a.idbahan, a.idbahansupplier
-                    , b.namabahan, a.satuan
-                    , a.hargasatuansupplier, a.satuansupplier) AS z
-                LEFT OUTER JOIN pengajuanbahan AS y ON z.idpengajuan = y.idpengajuan
-                AND z.idbahansupplier = y.idbahansupplier
-                ORDER BY z.namabahan ASC";
-        */
-        $sql = "SELECT
-                    z.idpengajuan,
-                    z.tanggalrekap,
-                    z.tanggalpengajuan,
-                    z.idbahan,
-                    z.idbahansupplier,
-                    z.namabahan,
-                    z.jumlahkuantitas,
-                    z.satuan,
-                    z.hargasatuansupplier,
-                    z.satuansupplier,
-                    z.hargatotal,
-                    Y.idbahanpengajuan,
-                    Y.kesesuaian,
-                    Y.jumlahkuantitasreal,
-                    Y.hargatotalreal,
-                    z.idpengajuandiet,
-                    z.idsisabahan
-                FROM
-                    (
-                    SELECT
-                        aa.idpengajuan,
-                        aa.tanggalrekap,
-                        aa.tanggalpengajuan,
-                        aa.idbahan,
-                        aa.idbahansupplier,
-                        aa.namabahan,
-                        aa.satuan,
-                        aa.hargasatuansupplier,
-                        aa.satuansupplier,
-                        (
-                            aa.jumlahkuantitas - IFNULL(bb.jumlahkuantitas, 0)
-                        ) AS jumlahkuantitas,
-                        (
-                            aa.jumlahkuantitas - IFNULL(bb.jumlahkuantitas, 0)
-                        ) * aa.hargasatuansupplier AS hargatotal,
-                        aa.idpengajuandiet,
-                        bb.idsisabahan
-                    FROM
-                        (
-                        SELECT
-                            Y.idpengajuan,
-                            Y.tanggalrekap,
-                            Y.tanggalpengajuan,
-                            Y.idbahan,
-                            Y.idbahansupplier,
-                            Y.namabahan,
-                            Y.satuan,
-                            Y.hargasatuansupplier,
-                            Y.satuansupplier,
-                            (
-                                Y.jumlahkuantitas - IFNULL(X.jmlkuantitaspengurangan, 0)
-                            ) AS jumlahkuantitas,
-                            (
-                                Y.jumlahkuantitas - IFNULL(X.jmlkuantitaspengurangan, 0)
-                            ) * Y.hargasatuansupplier AS hargatotal,
+        $sql = "SELECT z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.idbahansupplier, z.namabahan, z.jumlahkuantitas, z.satuan,
+                    z.hargasatuansupplier, z.satuansupplier, z.hargatotal, Y.idbahanpengajuan, Y.kesesuaian, Y.jumlahkuantitasreal, Y.hargatotalreal,
+                    z.idpengajuandiet, z.idsisabahan
+                FROM ( SELECT aa.idpengajuan, aa.tanggalrekap, aa.tanggalpengajuan, aa.idbahan, aa.idbahansupplier, aa.namabahan, aa.satuan, aa.hargasatuansupplier,
+                        aa.satuansupplier, (aa.jumlahkuantitas - IFNULL(bb.jumlahkuantitas, 0)) AS jumlahkuantitas,
+                        ( aa.jumlahkuantitas - IFNULL(bb.jumlahkuantitas, 0) ) * aa.hargasatuansupplier AS hargatotal, aa.idpengajuandiet, bb.idsisabahan
+                    FROM ( SELECT Y.idpengajuan, Y.tanggalrekap, Y.tanggalpengajuan, Y.idbahan, Y.idbahansupplier, Y.namabahan, Y.satuan, 
+                            Y.hargasatuansupplier, Y.satuansupplier, 
+                            (( Y.jumlahkuantitas - IFNULL(X.jmlkuantitaspengurangan, 0)) + IFNULL(X.jmlkuantitaspenambahan, 0)) AS jumlahkuantitas,
+                            (( Y.jumlahkuantitas - IFNULL(X.jmlkuantitaspengurangan, 0)) + IFNULL(X.jmlkuantitaspenambahan, 0)) * Y.hargasatuansupplier AS hargatotal,
                             X.idpengajuan AS idpengajuandiet
-                        FROM
-                            (
-                            SELECT
-                                a.idpengajuan,
-                                a.tanggalrekap,
-                                a.tanggalpengajuan,
-                                a.idbahan,
-                                a.idbahansupplier,
-                                b.namabahan,
-                                SUM(a.jumlahkuantitas) AS jumlahkuantitas,
-                                a.satuan,
-                                a.hargasatuansupplier,
-                                a.satuansupplier,
-                                SUM(a.hargatotal) AS hargatotal
-                            FROM
-                                pengajuanbahandetail AS a
-                            INNER JOIN bahan AS b
-                            ON
-                                a.idbahan = b.idbahan
-                            WHERE
-                                a.tanggalpengajuan = '$tglpengajuan' AND a.idjenismenu = '$idjenismenu'
-                            GROUP BY
-                                a.idpengajuan,
-                                a.tanggalrekap,
-                                a.tanggalpengajuan,
-                                a.idbahan,
-                                a.idbahansupplier,
-                                b.namabahan,
-                                a.satuan,
-                                a.hargasatuansupplier,
-                                a.satuansupplier
-                        ) AS Y
-                    LEFT OUTER JOIN(
-                        SELECT
-                            z.idpengajuan,
-                            z.tanggalrekap,
-                            z.tanggalpengajuan,
-                            z.idbahan,
-                            z.namabahan,
-                            SUM(z.jmlkuantitaspengurangan) AS jmlkuantitaspengurangan,
-                            z.satuan
-                        FROM
-                            (
-                            SELECT
-                                a.idpengajuan,
-                                a.tanggalrekap,
-                                a.tanggalpengajuan,
-                                a.jumlahpasien,
-                                a.idbahan,
-                                b.namabahan,
-                                a.kuantitaspengurangan,
-                                (
-                                    a.jumlahpasien * a.kuantitaspengurangan
-                                ) AS jmlkuantitaspengurangan,
-                                a.satuan
-                            FROM
-                                pengajuanbahandietdetail AS a
-                            INNER JOIN bahan AS b
-                            ON
-                                a.idbahan = b.idbahan
-                        ) AS z
-                    GROUP BY
-                        z.idpengajuan,
-                        z.tanggalrekap,
-                        z.tanggalpengajuan,
-                        z.idbahan,
-                        z.namabahan,
-                        z.satuan
-                    ) AS X
-                ON
-                    Y.idpengajuan = X.idpengajuan AND Y.tanggalpengajuan = X.tanggalpengajuan AND Y.tanggalrekap = X.tanggalrekap AND Y.idbahan = X.idbahan
-                    ) AS aa
-                LEFT OUTER JOIN sisabahan AS bb
-                ON
-                    aa.idpengajuan = bb.idpengajuan AND aa.idbahan = bb.idbahan
-                ) AS z
-                LEFT OUTER JOIN pengajuanbahan AS Y
-                ON
-                    z.idpengajuan = Y.idpengajuan AND z.idbahansupplier = Y.idbahansupplier
-                ORDER BY
-                    z.namabahan ASC";
-
-        /*
-        $sql = "SELECT z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan
-                    , z.idbahan, z.idbahansupplier
-                    , z.namabahan, z.jumlahkuantitas, z.satuan
-                    , z.hargasatuansupplier, z.satuansupplier, z.hargatotal
-                    , y.idbahanpengajuan, y.kesesuaian, y.jumlahkuantitasreal, y.hargatotalreal, z.idpengajuandiet
-                FROM (
-                    SELECT y.idpengajuan, y.tanggalrekap, y.tanggalpengajuan
-                            , y.idbahan, y.idbahansupplier
-                            , y.namabahan, y.satuan
-                            , y.hargasatuansupplier, y.satuansupplier
-                            , (y.jumlahkuantitas-IFNULL(x.jmlkuantitaspengurangan,0)) AS jumlahkuantitas
-                            , (y.jumlahkuantitas-IFNULL(x.jmlkuantitaspengurangan,0))*y.hargasatuansupplier AS hargatotal
-                            , x.idpengajuan AS idpengajuandiet
-                        FROM ( SELECT  a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
-                            , a.idbahan, a.idbahansupplier
-                            , b.namabahan, SUM(a.jumlahkuantitas) AS jumlahkuantitas, a.satuan
-                            , a.hargasatuansupplier, a.satuansupplier, SUM(a.hargatotal) AS hargatotal
-                        FROM pengajuanbahandetail AS a INNER JOIN 
-                            bahan AS b ON a.idbahan = b.idbahan
-                        WHERE a.tanggalpengajuan = '$tglpengajuan'
-                            AND a.idjenismenu = '$idjenismenu'
-                        GROUP BY a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
-                            , a.idbahan, a.idbahansupplier
-                            , b.namabahan, a.satuan
-                            , a.hargasatuansupplier, a.satuansupplier) AS y
-                        LEFT OUTER JOIN (SELECT z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan
-                        , SUM(z.jmlkuantitaspengurangan) AS jmlkuantitaspengurangan, z.satuan
-                        FROM (SELECT a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan, a.jumlahpasien
-                                    , a.idbahan, b.namabahan
-                                    , a.kuantitaspengurangan
-                                    , (a.jumlahpasien*a.kuantitaspengurangan) AS jmlkuantitaspengurangan
-                                    , a.satuan
-                                FROM pengajuanbahandietdetail AS a
-                                    INNER JOIN bahan AS b ON a.idbahan = b.idbahan) AS z
-                                GROUP BY z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan, z.satuan) AS x ON y.idpengajuan = x.idpengajuan
-                                    AND y.tanggalpengajuan = x.tanggalpengajuan
-                                    AND y.tanggalrekap = x.tanggalrekap
-                                    AND y.idbahan = x.idbahan) AS z
-                LEFT OUTER JOIN pengajuanbahan AS y ON z.idpengajuan = y.idpengajuan
-                AND z.idbahansupplier = y.idbahansupplier
+                        FROM ( SELECT a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan, a.idbahan, a.idbahansupplier, b.namabahan,
+                                SUM(a.jumlahkuantitas) AS jumlahkuantitas, a.satuan, a.hargasatuansupplier, a.satuansupplier, SUM(a.hargatotal) AS hargatotal
+                            FROM pengajuanbahandetail AS a
+                            INNER JOIN bahan AS b ON a.idbahan = b.idbahan
+                            WHERE a.tanggalpengajuan = '$tglpengajuan' AND a.idjenismenu = '$idjenismenu'
+                            GROUP BY a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan, a.idbahan, a.idbahansupplier, b.namabahan, a.satuan,
+                                a.hargasatuansupplier, a.satuansupplier ) AS Y
+                    LEFT OUTER JOIN( SELECT z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan, SUM(z.jmlkuantitaspengurangan) AS jmlkuantitaspengurangan,
+                            SUM(z.jmlkuantitaspenambahan) AS jmlkuantitaspenambahan
+                        FROM ( SELECT a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan, a.jumlahpasien, a.idbahan, b.namabahan, a.kuantitaspengurangan,
+                                ( a.jumlahpasien * a.kuantitaspengurangan ) AS jmlkuantitaspengurangan,
+                                ( a.jumlahpasien * a.kuantitaspenambahan ) AS jmlkuantitaspenambahan
+                            FROM pengajuanbahandietdetail AS a
+                            INNER JOIN bahan AS b ON a.idbahan = b.idbahan ) AS z
+                    GROUP BY z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan ) AS X
+                ON Y.idpengajuan = X.idpengajuan 
+                    AND Y.tanggalpengajuan = X.tanggalpengajuan 
+                    AND Y.tanggalrekap = X.tanggalrekap 
+                    AND Y.idbahan = X.idbahan ) AS aa
+                LEFT OUTER JOIN sisabahan AS bb ON aa.idpengajuan = bb.idpengajuan 
+                    AND aa.idbahan = bb.idbahan ) AS z
+                LEFT OUTER JOIN pengajuanbahan AS Y ON z.idpengajuan = Y.idpengajuan 
+                    AND z.idbahansupplier = Y.idbahansupplier
                 ORDER BY z.namabahan ASC";
-                */
+        
         $query = $this->db->query($sql);
         $result = $query->result_array();
         return $result;
@@ -515,6 +357,61 @@ class Pengecekanbahan_query extends CI_Model {
     public function get_pengecekanbahanfix($idpengajuan)
     {
         $sql = "SELECT z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan
+                    , z.idbahan, z.idbahansupplier
+                    , z.namabahan, z.jumlahkuantitas, z.satuan
+                    , z.hargasatuansupplier, z.satuansupplier, z.hargatotal
+                    , y.idbahanpengajuan, y.kesesuaian, y.jumlahkuantitasreal, y.hargatotalreal, z.idpengajuandiet
+                    , z.jenis, z.idsisabahan
+                FROM ( SELECT aa.idpengajuan, aa.tanggalrekap, aa.tanggalpengajuan
+                                                , aa.idbahan, aa.idbahansupplier
+                                                , aa.namabahan, aa.satuan
+                                                , aa.hargasatuansupplier, aa.satuansupplier
+                                                , (aa.jumlahkuantitas-IFNULL(bb.jumlahkuantitas,0)) AS jumlahkuantitas
+                                                , (aa.jumlahkuantitas-IFNULL(bb.jumlahkuantitas,0))*aa.hargasatuansupplier AS hargatotal
+                                                , aa.idpengajuandiet, aa.jenis
+                                                , bb.idsisabahan 
+                                            FROM ( SELECT y.idpengajuan, y.tanggalrekap, y.tanggalpengajuan
+                            , y.idbahan, y.idbahansupplier
+                            , y.namabahan, y.satuan
+                            , y.hargasatuansupplier, y.satuansupplier
+                            , ((y.jumlahkuantitas-IFNULL(x.jmlkuantitaspengurangan,0))+IFNULL(x.jmlkuantitaspenambahan,0)) AS jumlahkuantitas
+                            , ((y.jumlahkuantitas-IFNULL(x.jmlkuantitaspengurangan,0))+IFNULL(x.jmlkuantitaspenambahan,0))*y.hargasatuansupplier AS hargatotal
+                            , x.idpengajuan AS idpengajuandiet
+                            , y.jenis
+                        FROM ( SELECT  a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
+                            , a.idbahan, a.idbahansupplier
+                            , b.namabahan, SUM(a.jumlahkuantitas) AS jumlahkuantitas, a.satuan
+                            , a.hargasatuansupplier, a.satuansupplier, SUM(a.hargatotal) AS hargatotal
+                            , b.jenis
+                        FROM pengajuanbahandetail AS a INNER JOIN 
+                            bahan AS b ON a.idbahan = b.idbahan
+                        WHERE a.idpengajuan = '$idpengajuan'
+                        GROUP BY a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
+                            , a.idbahan, a.idbahansupplier
+                            , b.namabahan, a.satuan
+                            , a.hargasatuansupplier, a.satuansupplier
+                            , b.jenis) AS y
+                        LEFT OUTER JOIN (SELECT z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan
+                        , SUM(z.jmlkuantitaspengurangan) AS jmlkuantitaspengurangan
+                        , SUM(z.jmlkuantitaspenambahan) AS jmlkuantitaspenambahan
+                        FROM (SELECT a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan, a.jumlahpasien
+                                    , a.idbahan, b.namabahan
+                                    , a.kuantitaspengurangan
+                                    , (a.jumlahpasien*a.kuantitaspengurangan) AS jmlkuantitaspengurangan
+                                    , (a.jumlahpasien*a.kuantitaspenambahan) AS jmlkuantitaspenambahan
+                                FROM pengajuanbahandietdetail AS a
+                                    INNER JOIN bahan AS b ON a.idbahan = b.idbahan) AS z
+                                GROUP BY z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan) AS x ON y.idpengajuan = x.idpengajuan
+                                    AND y.tanggalpengajuan = x.tanggalpengajuan
+                                    AND y.tanggalrekap = x.tanggalrekap
+                                    AND y.idbahan = x.idbahan) AS aa LEFT OUTER JOIN
+                sisabahan AS bb ON aa.idpengajuan = bb.idpengajuan AND aa.idbahan = bb.idbahan) AS z
+                LEFT OUTER JOIN pengajuanbahan AS y ON z.idpengajuan = y.idpengajuan
+                AND z.idbahansupplier = y.idbahansupplier
+                ORDER BY z.namabahan ASC";
+
+        /*
+        $sql = "SELECT z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan
                         , z.idbahan, z.idbahansupplier
                         , z.namabahan, z.jumlahkuantitas, z.satuan
                         , z.hargasatuansupplier, z.satuansupplier, z.hargatotal
@@ -525,8 +422,8 @@ class Pengecekanbahan_query extends CI_Model {
                                 , y.idbahan, y.idbahansupplier
                                 , y.namabahan, y.satuan
                                 , y.hargasatuansupplier, y.satuansupplier
-                                , (y.jumlahkuantitas-IFNULL(x.jmlkuantitaspengurangan,0)) AS jumlahkuantitas
-                                , (y.jumlahkuantitas-IFNULL(x.jmlkuantitaspengurangan,0))*y.hargasatuansupplier AS hargatotal
+                                , ((y.jumlahkuantitas-IFNULL(x.jmlkuantitaspengurangan,0))+IFNULL(x.jmlkuantitaspenambahan,0)) AS jumlahkuantitas
+                                , ((y.jumlahkuantitas-IFNULL(x.jmlkuantitaspengurangan,0))+IFNULL(x.jmlkuantitaspenambahan,0))*y.hargasatuansupplier AS hargatotal
                                 , x.idpengajuan AS idpengajuandiet
                                 , y.jenis
                             FROM ( SELECT  a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
@@ -543,21 +440,23 @@ class Pengecekanbahan_query extends CI_Model {
                                 , a.hargasatuansupplier, a.satuansupplier
                                 , b.jenis) AS y
                             LEFT OUTER JOIN (SELECT z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan
-                            , SUM(z.jmlkuantitaspengurangan) AS jmlkuantitaspengurangan, z.satuan
+                            , SUM(z.jmlkuantitaspengurangan) AS jmlkuantitaspengurangan
+                            , SUM(z.jmlkuantitaspenambahan) AS jmlkuantitaspenambahan
                             FROM (SELECT a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan, a.jumlahpasien
                                         , a.idbahan, b.namabahan
                                         , a.kuantitaspengurangan
                                         , (a.jumlahpasien*a.kuantitaspengurangan) AS jmlkuantitaspengurangan
-                                        , a.satuan
+                                        , (a.jumlahpasien*a.kuantitaspenambahan) AS jmlkuantitaspenambahan
                                     FROM pengajuanbahandietdetail AS a
                                         INNER JOIN bahan AS b ON a.idbahan = b.idbahan) AS z
-                                    GROUP BY z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan, z.satuan) AS x ON y.idpengajuan = x.idpengajuan
+                                    GROUP BY z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan) AS x ON y.idpengajuan = x.idpengajuan
                                         AND y.tanggalpengajuan = x.tanggalpengajuan
                                         AND y.tanggalrekap = x.tanggalrekap
                                         AND y.idbahan = x.idbahan) AS z
                     LEFT OUTER JOIN pengajuanbahan AS y ON z.idpengajuan = y.idpengajuan
                     AND z.idbahansupplier = y.idbahansupplier
                     ORDER BY z.namabahan ASC";
+        */
 
         $query = $this->db->query($sql);
         $result = $query->result_array();

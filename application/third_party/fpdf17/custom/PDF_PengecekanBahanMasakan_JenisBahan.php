@@ -129,26 +129,32 @@ class PDF_absensi extends FPDF
                         } else {
                             $tanda = '';
                         }
+
+                        if ($data['idsisabahan'] != '') {
+                            $tandatanda = '^';
+                        } else {
+                            $tandatanda = '';
+                        }
                         $nomor = $key+1;
-                        $this->cell($width_no,$value_height,$nomor.' '.$tanda,1,0,'C',1);
+                        $this->cell($width_no,$value_height,$nomor.' '.$tanda.''.$tandatanda,1,0,'C',1);
                         $this->cell($width_namabahan,$value_height,$data['namabahan'],1,0,'L',1);
                         if ($data['satuan'] == 'gr') {
-                            $jumlahkuantitasreal = number_format(($data['jumlahkuantitasreal']/1000),3,",",".");
+                            $jumlahkuantitas = number_format(($data['jumlahkuantitas']/1000),3,",",".");
                             $satuan = 'kg';
                         } else if ($data['satuan'] == 'ml') {
-                            $jumlahkuantitasreal = number_format(($data['jumlahkuantitasreal']/1000),3,",",".");
+                            $jumlahkuantitas = number_format(($data['jumlahkuantitas']/1000),3,",",".");
                             $satuan = 'l';
                         } else {
-                            $jumlahkuantitasreal = number_format($data['jumlahkuantitasreal'],0,",",".");
+                            $jumlahkuantitas = number_format($data['jumlahkuantitas'],0,",",".");
                             $satuan = $data['satuan'];
                         }
-                        $this->cell($width_jumlah,$value_height,$jumlahkuantitasreal,1,0,'R',1);
+                        $this->cell($width_jumlah,$value_height,$jumlahkuantitas,1,0,'R',1);
                         $this->cell($width_satuan,$value_height,$satuan,1,0,'C',1);
                         $this->cell($width_harga,$value_height,number_format($data['hargasatuansupplier'],2),1,0,'R',1);
-                        $this->cell($width_hargatotal,$value_height,number_format($data['hargatotalreal'],2,",","."),1,0,'R',1);
-                        $this->cell($width_ceklist,$value_height,$stat,1,0,'C',1);
+                        $this->cell($width_hargatotal,$value_height,number_format($data['hargatotal'],2,",","."),1,0,'R',1);
+                        $this->cell($width_ceklist,$value_height,'',1,0,'C',1);
                         $this->Ln();
-                        $hargatotal = $hargatotal + $data['hargatotalreal'];
+                        $hargatotal = $hargatotal + $data['hargatotal'];
                 }
             }
                 $this->setFont('Arial','',10);

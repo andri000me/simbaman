@@ -80,6 +80,8 @@ class Pengecekanbahan extends MX_Controller {
         } else {        
             //tanggal pengajuan sudah terisi
 
+            $data['cektglpenerimaanbahan'] = $this->pengecekanbahan_query->cektglpenerimaanbahan($tglpengajuan);
+
             $tanggal = $this->pengecekanbahan_query->get_tanggalpengajuan($tglpengajuan);
             $tglpengajuan_1 = $tanggal[0]['tanggalrekap'];
             $daypengajuan_1 = date('D', strtotime($tglpengajuan_1));
