@@ -20,6 +20,7 @@
             <div class="row" style="margin-bottom: 10px;">
                 <div class="col-lg-12">
                     <div class="pull pull-right">
+                        <a type="button" class="btn btn-info" href="<?php echo base_url()?>bahan/cetak_bahan" target="_blank"> Cetak Bahan</a> 
                         <?php if ($add == 1) { ?>
                             <a type="button" class="btn btn-warning" href="<?php echo base_url()?>bahan/jenisbahan" id="jenis_bahan"><i class="fa fa-file"></i> Jenis Golongan Bahan</a> 
                             <a type="button" class="btn btn-danger" href="<?php echo base_url()?>bahan/loadform" id="tambah_data"><i class="fa fa-file"></i> Tambah Bahan Masakan</a> 

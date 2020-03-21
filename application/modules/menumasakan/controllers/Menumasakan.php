@@ -264,6 +264,6 @@ class Menumasakan extends MX_Controller {
         $mpdf->setFooter('{PAGENO}');
         $mpdf->defaultfooterline=0;
         $mpdf->WriteHTML($outputHtml);
-        $mpdf->Output('referensi_menu_masakan.pdf', 'I');
+        $mpdf->Output('menu_masakan.pdf', 'I');
     }
 }

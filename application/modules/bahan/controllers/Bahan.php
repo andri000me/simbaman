@@ -285,4 +285,23 @@ class Bahan extends MX_Controller {
         }        
     }
 
+    public function cetak_bahan()
+    {
+        $data['data'] = $this->bahan_qry->listDataMenu();
+
+        $outputHtml = $this->template
+            ->set_layout(false)
+            ->build('cetak_bahan',$data, TRUE);
+            
+        //echo $outputHtml;die;
+        
+        include_once APPPATH."third_party/mpdf/mpdf60/mpdf.php";
+        $mpdf=new mPDF();
+        //$mpdf->showImageErrors = true;
+        $mpdf->setFooter('{PAGENO}');
+        $mpdf->defaultfooterline=0;
+        $mpdf->WriteHTML($outputHtml);
+        $mpdf->Output('bahan.pdf', 'I');
+    }
+
 }
