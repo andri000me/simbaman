@@ -17,6 +17,7 @@
                                 <th style="text-align:center;">Kelas</th>
                                 <th style="text-align:center;">Bahan Masakan</th>
                                 <th style="text-align:center;">Pengurangan</th>
+                                <th style="text-align:center;">Penambahan</th>
                                 <!-- <th style="text-align:center;">Aksi</th> -->
                             </tr>
                         </thead>
@@ -31,7 +32,24 @@
                                 <td><?php echo $diet['namabangsal'];?></td>
                                 <td><?php echo $diet['namakelas'];?></td>
                                 <td><?php echo $diet['namabahan'];?></td>
-                                <td><?php echo $diet['kuantitaspengurangan'];?> <?php echo $diet['satuan'];?></td>
+                                <td>
+                                    <?php 
+                                    if (empty($diet['kuantitaspengurangan'])) {
+                                        echo '';
+                                    } else {
+                                        echo '(-)'.$diet['kuantitaspengurangan'].' '.$diet['satuan'];
+                                    }          
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php 
+                                    if (empty($diet['kuantitaspenambahan'])) {
+                                        echo '';
+                                    } else {
+                                        echo '+'.$diet['kuantitaspenambahan'].' '.$diet['satuan_tambah'];
+                                    }          
+                                    ?>                          
+                                </td>
                                 <!-- <td> -->
                                     <!-- <button type="button" class="btn btn-warning btn-xs" onclick="javascript:ubah_bahandiet('<?php //echo $diet['idpengajuanbahandietdetail'];?>');"><i class="fa fa-edit"></i></button> -->
                                     <!-- <button type="button" id="delete_<?php echo $diet['idpengajuanbahandietdetail'];?>" class="btn btn-danger btn-xs" onclick="javascript:hapus_bahandiet('<?php //echo $diet['idpengajuanbahandietdetail'];?>','<?php //echo $diet['idpengajuan'];?>');"><i class="fa fa-trash-o"></i></button> -->

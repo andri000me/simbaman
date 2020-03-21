@@ -30,30 +30,30 @@ class Pengajuancekbahan_qry extends CI_Model {
                                             , y.idbahan, y.idbahansupplier
                                             , y.namabahan, y.satuan
                                             , y.hargasatuansupplier, y.satuansupplier
-                                            , (y.jumlahkuantitas-IFNULL(x.jmlkuantitaspengurangan,0)) AS jumlahkuantitas
-                                            , (y.jumlahkuantitas-IFNULL(x.jmlkuantitaspengurangan,0))*y.hargasatuansupplier AS totalhargatotal
+                                            , ((y.jumlahkuantitas - IFNULL(x.jmlkuantitaspengurangan, 0)) + IFNULL(x.jmlkuantitaspenambahan, 0)) AS jumlahkuantitas
+                                            , ((y.jumlahkuantitas - IFNULL(x.jmlkuantitaspengurangan, 0)) + IFNULL(x.jmlkuantitaspenambahan, 0)) * y.hargasatuansupplier AS totalhargatotal
                                             , x.idpengajuan AS idpengajuandiet
                                         FROM ( SELECT  a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
                                             , a.idbahan, a.idbahansupplier
                                             , b.namabahan, SUM(a.jumlahkuantitas) AS jumlahkuantitas, a.satuan
                                             , a.hargasatuansupplier, a.satuansupplier, SUM(a.hargatotal) AS hargatotal
                                         FROM pengajuanbahandetail AS a INNER JOIN 
-                                            bahan AS b ON a.idbahan = b.idbahan
-                                        
+                                            bahan AS b ON a.idbahan = b.idbahan                                        
                                         GROUP BY a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan
                                             , a.idbahan, a.idbahansupplier
                                             , b.namabahan, a.satuan
                                             , a.hargasatuansupplier, a.satuansupplier) AS y
                                         LEFT OUTER JOIN (SELECT z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan
-                                        , SUM(z.jmlkuantitaspengurangan) AS jmlkuantitaspengurangan, z.satuan
+                                        , SUM(z.jmlkuantitaspengurangan) AS jmlkuantitaspengurangan
+                                        , SUM(z.jmlkuantitaspenambahan) AS jmlkuantitaspenambahan
                                         FROM (SELECT a.idpengajuan, a.tanggalrekap, a.tanggalpengajuan, a.jumlahpasien
                                                     , a.idbahan, b.namabahan
                                                     , a.kuantitaspengurangan
-                                                    , (a.jumlahpasien*a.kuantitaspengurangan) AS jmlkuantitaspengurangan
-                                                    , a.satuan
+                                                    , (a.jumlahpasien * a.kuantitaspengurangan) AS jmlkuantitaspengurangan
+                                                    , (a.jumlahpasien * a.kuantitaspenambahan) AS jmlkuantitaspenambahan
                                                 FROM pengajuanbahandietdetail AS a
                                                     INNER JOIN bahan AS b ON a.idbahan = b.idbahan) AS z
-                                                GROUP BY z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan, z.satuan) AS x ON y.idpengajuan = x.idpengajuan
+                                                GROUP BY z.idpengajuan, z.tanggalrekap, z.tanggalpengajuan, z.idbahan, z.namabahan) AS x ON y.idpengajuan = x.idpengajuan
                                                     AND y.tanggalpengajuan = x.tanggalpengajuan
                                                     AND y.tanggalrekap = x.tanggalrekap
                                                     AND y.idbahan = x.idbahan) AS aa
