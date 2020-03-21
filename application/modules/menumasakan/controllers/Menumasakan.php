@@ -190,13 +190,10 @@ class Menumasakan extends MX_Controller {
                 $data['delete'] = $t->deleted;
             }
 
-            $data['idjenismenu'] = 'a0997f19-d775-11e9-8c14-68f72820d6fc';
-
-            $data['jenismenumasakan'] = $this->menumasakan_query->jenismenumasakan($data['idjenismenu']);
-
-            $data['kelasmenumasakan'] = $this->menumasakan_query->kelasmenumasakan($data['idjenismenu']);
-            $data['waktumenumasakan'] = $this->menumasakan_query->waktumenumasakan($data['idjenismenu']);
-            $data['menumasakan'] = $this->menumasakan_query->menumasakan($data['idjenismenu']);
+            $data['jenismenumasakan'] = $this->menumasakan_query->jenismenumasakan();
+            $data['kelasmenumasakan'] = $this->menumasakan_query->kelasmenumasakan();
+            $data['waktumenumasakan'] = $this->menumasakan_query->waktumenumasakan();
+            $data['menumasakan'] = $this->menumasakan_query->menumasakan();
 
             $this->template
                 ->set_layout('default')
@@ -224,5 +221,49 @@ class Menumasakan extends MX_Controller {
         } else if ($res == 0){
             echo 100;
         }
+    }
+
+    public function cetak_menumasakan_fix()
+    {
+        $data['jenismenumasakan'] = $this->menumasakan_query->jenismenumasakan_fix();
+        $data['kelasmenumasakan'] = $this->menumasakan_query->kelasmenumasakan_fix();
+        $data['waktumenumasakan'] = $this->menumasakan_query->waktumenumasakan_fix();
+        $data['menumasakan'] = $this->menumasakan_query->menumasakan_fix();
+
+        $outputHtml = $this->template
+            ->set_layout(false)
+            ->build('cetak_menumasakan_fix',$data, TRUE);
+            
+        //echo $outputHtml;die;
+        
+        include_once APPPATH."third_party/mpdf/mpdf60/mpdf.php";
+        $mpdf=new mPDF();
+        //$mpdf->showImageErrors = true;
+        $mpdf->setFooter('{PAGENO}');
+        $mpdf->defaultfooterline=0;
+        $mpdf->WriteHTML($outputHtml);
+        $mpdf->Output('referensi_menu_masakan.pdf', 'I');
+    }
+
+    public function cetak_referensi_menumasakan()
+    {
+        $data['jenismenumasakan'] = $this->menumasakan_query->jenismenumasakan();
+        $data['kelasmenumasakan'] = $this->menumasakan_query->kelasmenumasakan();
+        $data['waktumenumasakan'] = $this->menumasakan_query->waktumenumasakan();
+        $data['menumasakan'] = $this->menumasakan_query->menumasakan();
+
+        $outputHtml = $this->template
+            ->set_layout(false)
+            ->build('cetak_referensi_menumasakan',$data, TRUE);
+            
+        //echo $outputHtml;die;
+        
+        include_once APPPATH."third_party/mpdf/mpdf60/mpdf.php";
+        $mpdf=new mPDF();
+        //$mpdf->showImageErrors = true;
+        $mpdf->setFooter('{PAGENO}');
+        $mpdf->defaultfooterline=0;
+        $mpdf->WriteHTML($outputHtml);
+        $mpdf->Output('referensi_menu_masakan.pdf', 'I');
     }
 }

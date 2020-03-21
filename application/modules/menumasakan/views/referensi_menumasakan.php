@@ -77,6 +77,7 @@
             <div class="row" style="margin-bottom: 10px;">
                 <div class="col-lg-12">
                     <div class="pull pull-right">
+                        <a type="button" class="btn btn-info" href="<?php echo base_url()?>menumasakan/cetak_referensi_menumasakan" target="_blank"> Cetak Referensi Menu Masakan</a> 
                         <button type="button" class="btn btn-warning" id="konfirmasi_reset_menumasakan"><i class="fa fa-copy"></i> Reset Menu Masakan</button> 
                         <a type="button" class="btn btn-danger" href="<?php echo base_url()?>menumasakan"><i class="fa fa-reply"></i> Kembali</a> 
                     </div>

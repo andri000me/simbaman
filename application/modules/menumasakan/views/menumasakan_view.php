@@ -65,6 +65,7 @@ function pilihKelasPasien()
                             </div>
                             <div class="col-sm-4">
                                 <button type="button" class="btn btn-info" onclick="javascript:pilihKelasPasien();">Pilih Kelas Pasien</button>
+                                <a type="button" class="btn btn-info" href="<?php echo base_url()?>menumasakan/cetak_menumasakan_fix" target="_blank"> Cetak Menu Masakan</a> 
                             </div>
                         </div>
                     </form>

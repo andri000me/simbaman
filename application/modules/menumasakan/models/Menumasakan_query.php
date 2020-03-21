@@ -315,7 +315,7 @@ class Menumasakan_query extends CI_Model {
         return $result;
     }
 
-    public function kelasmenumasakan($idjenismenu)
+    public function kelasmenumasakan()
     {
         $sql = "SELECT a.idkelas, b.namakelas, a.idjenismenu
                 FROM ref_menumasakan AS a
@@ -330,7 +330,7 @@ class Menumasakan_query extends CI_Model {
         return $result;
     }
 
-    public function waktumenumasakan($idjenismenu)
+    public function waktumenumasakan()
     {
         $sql = "SELECT a.idwaktumenu, d.namawaktumenu, d.waktu, a.idjenismenu
                 FROM ref_menumasakan AS a
@@ -345,7 +345,7 @@ class Menumasakan_query extends CI_Model {
         return $result;
     }
 
-    public function menumasakan($idjenismenu)
+    public function menumasakan()
     {
         $sql = "SELECT a.idkelas, b.namakelas
                 , a.idwaktumenu, d.namawaktumenu, d.waktu
@@ -390,5 +390,64 @@ class Menumasakan_query extends CI_Model {
                 return FALSE;
             }
         }
+    }
+
+    public function jenismenumasakan_fix()
+    {
+        $sql = "SELECT a.idjenismenu, b.namajenismenu
+                FROM menumasakan AS a
+                INNER JOIN jenismenu AS b ON a.idjenismenu = b.idjenismenu
+                GROUP BY a.idjenismenu, b.namajenismenu";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function kelasmenumasakan_fix()
+    {
+        $sql = "SELECT a.idkelas, b.namakelas, a.idjenismenu
+                FROM menumasakan AS a
+                INNER JOIN kelas AS b ON a.idkelas = b.idkelas
+                INNER JOIN waktumenu AS d ON a.idwaktumenu = d.idwaktumenu
+                INNER JOIN masakan AS e ON a.idmasakan = e.idmasakan
+                GROUP BY a.idkelas, b.namakelas, a.idjenismenu
+                ORDER BY b.namakelas ASC";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function waktumenumasakan_fix()
+    {
+        $sql = "SELECT a.idwaktumenu, d.namawaktumenu, d.waktu, a.idjenismenu
+                FROM menumasakan AS a
+                INNER JOIN kelas AS b ON a.idkelas = b.idkelas
+                INNER JOIN waktumenu AS d ON a.idwaktumenu = d.idwaktumenu
+                INNER JOIN masakan AS e ON a.idmasakan = e.idmasakan
+                GROUP BY a.idwaktumenu, d.namawaktumenu, d.waktu, a.idjenismenu
+                ORDER BY d.waktu ASC";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function menumasakan_fix()
+    {
+        $sql = "SELECT a.idkelas, b.namakelas
+                , a.idwaktumenu, d.namawaktumenu, d.waktu
+                , a.idmasakan, e.namamasakan
+                , a.idjenismenu
+                FROM menumasakan AS a
+                INNER JOIN kelas AS b ON a.idkelas = b.idkelas
+                INNER JOIN waktumenu AS d ON a.idwaktumenu = d.idwaktumenu
+                INNER JOIN masakan AS e ON a.idmasakan = e.idmasakan
+                ORDER BY e.namamasakan ASC";
+
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
     }
 }
