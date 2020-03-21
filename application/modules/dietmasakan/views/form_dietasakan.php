@@ -74,11 +74,13 @@ function ubah_dietmasakan()
     var iddietmasakanbahan_ubah = $('#iddietmasakanbahan_ubah').val();
     var pengurangan_ubah = $('#pengurangan_ubah').val();
     var satuan_ubah = $('#satuan_ubah').val();
+    var penambahan_ubah = $('#penambahan_ubah').val();
+    var satuan_tambah_ubah = $('#satuan_tambah_ubah').val();
     var iddiet_ubah = $('#iddiet_ubah').val();
     $.ajax({
         type: "POST",
         url: "<?php echo base_url().'dietmasakan/savedata_dietmasakan_ubah'; ?>",
-        data: {"iddietmasakanbahan_ubah":iddietmasakanbahan_ubah,"pengurangan_ubah":pengurangan_ubah,"satuan_ubah":satuan_ubah},
+        data: {"iddietmasakanbahan_ubah":iddietmasakanbahan_ubah,"pengurangan_ubah":pengurangan_ubah,"satuan_ubah":satuan_ubah,"penambahan_ubah":penambahan_ubah,"satuan_tambah_ubah":satuan_tambah_ubah},
         beforeSend: function(){
             $("#loading_ubah").html("Loading Data <img src='<?php echo base_url()?>/assets/dist/img/loading.gif' width='10px'>");
             $("#ubah_data").attr("disabled",true);
@@ -219,7 +221,7 @@ function hapus_dietmasakan()
                             </div>
                             <label for="" class="col-sm-2 control-label">Satuan</label>
                             <div class="col-sm-4">
-                                <select class="form-control" name="satuan" id="satuan">
+                                <select class="form-control" name="satuan_tambah" id="satuan_tambah">
                                     <option value="">-- Pilih Satuan</option>
                                     <?php
                                     foreach ($satuan as $sat) {
@@ -275,6 +277,7 @@ function hapus_dietmasakan()
                                         <th style="text-align: center;">Nama Bahan</th>
                                         <th width="15%" style="text-align: center;">Kuantitas</th>
                                         <th width="15%" style="text-align: center;">Pengurangan</th>
+                                        <th width="15%" style="text-align: center;">Penambahan</th>
                                         <th width="15%" style="text-align: center;">Aksi</th>
                                     </tr>
                                     <?php
@@ -285,6 +288,7 @@ function hapus_dietmasakan()
                                         <td><?php echo $bahan['namabahan'];?> | <?php echo $bahan['jenis'];?> | <?php echo $bahan['satuan'];?></td>
                                         <td style="text-align: right;"><?php echo $bahan['kuantitas'];?> <?php echo $bahan['satuan_kauntitas'];?></td>
                                         <td style="text-align: right;"><?php echo $bahan['pengurangan'];?> <?php echo $bahan['satuan_pengurangan'];?></td>
+                                        <td style="text-align: right;"><?php echo $bahan['penambahan'];?> <?php echo $bahan['satuan_tambah'];?></td>
                                         <td style="text-align: center;">
                                             <button type="button" class="btn btn-warning btn-xs" onclick="javascript:form_ubahdietmasakan('<?php echo $bahan['iddietmasakanbahan'];?>');"><i class="fa fa-edit"></i></button>
                                             <button type="button" class="btn btn-danger btn-xs" onclick="javascript:konfirmasi_hapusdietmasakan('<?php echo $bahan['iddietmasakanbahan'];?>');"><i class="fa fa-trash"></i></button>

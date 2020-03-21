@@ -137,6 +137,8 @@ class Dietmasakan extends MX_Controller {
         $up['idbahan'] = $this->security->xss_clean($this->input->post('idbahan'));
         $up['pengurangan'] = $this->security->xss_clean($this->input->post('pengurangan'));
         $up['satuan'] = $this->security->xss_clean($this->input->post('satuan'));
+        $up['penambahan'] = $this->security->xss_clean($this->input->post('penambahan'));
+        $up['satuan_tambah'] = $this->security->xss_clean($this->input->post('satuan_tambah'));
         $up['stat'] = $this->security->xss_clean($this->input->post('stat'));
 
         $res = $this->dietmasakan_query->ExecData_dietmasakan($up);
@@ -161,6 +163,8 @@ class Dietmasakan extends MX_Controller {
         $up['idbahan'] = '';
         $up['pengurangan'] = $this->security->xss_clean($this->input->post('pengurangan_ubah'));
         $up['satuan'] = $this->security->xss_clean($this->input->post('satuan_ubah'));
+        $up['penambahan'] = $this->security->xss_clean($this->input->post('penambahan_ubah'));
+        $up['satuan_tambah'] = $this->security->xss_clean($this->input->post('satuan_tambah_ubah'));
         $up['stat'] = $this->security->xss_clean($this->input->post('stat'));
 
         $res = $this->dietmasakan_query->ExecData_dietmasakan($up);

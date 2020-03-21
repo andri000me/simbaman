@@ -94,6 +94,8 @@ class Dietmasakan_query extends CI_Model {
         $idbahan = $data['idbahan'];
         $pengurangan = $data['pengurangan'];
         $satuan = $data['satuan'];
+        $penambahan = $data['penambahan'];
+        $satuan_tambah = $data['satuan_tambah'];
         $stat = $data['stat'];
 
         $pembuatid = $this->session->userdata('idpengguna');
@@ -134,8 +136,14 @@ class Dietmasakan_query extends CI_Model {
             if ($iddietmasakanbahan == '') {
 
                 $sql = "INSERT INTO dietmasakanbahan
-                            (iddietmasakanbahan,iddiet,namadiet,idmasakan,namamasakan,idbahan,namabahan,pengurangan,satuan,tanggalinsert,idpengguna)
-                    VALUES (UUID(),'$iddiet','$namadiet','$idmasakan','$namamasakan','$idbahan','$namabahan','$pengurangan','$satuan',NOW(),'$pembuatid');";
+                            (iddietmasakanbahan,iddiet,namadiet,idmasakan,namamasakan,idbahan,namabahan
+                                ,pengurangan,satuan
+                                ,penambahan,satuan_tambah
+                                ,tanggalinsert,idpengguna)
+                    VALUES (UUID(),'$iddiet','$namadiet','$idmasakan','$namamasakan','$idbahan','$namabahan'
+                        ,'$pengurangan','$satuan'
+                        ,'$penambahan','$satuan_tambah'
+                        ,NOW(),'$pembuatid');";
                 $res = $this->db->query($sql);
 
                 if($res) {
@@ -150,6 +158,8 @@ class Dietmasakan_query extends CI_Model {
                 $sql = "UPDATE dietmasakanbahan
                             SET pengurangan = '$pengurangan',
                                 satuan = '$satuan',
+                                penambahan = '$penambahan',
+                                satuan_tambah = '$satuan_tambah',
                                 tanggalinsert = NOW(),
                                 idpengguna = '$pembuatid'
                             WHERE iddietmasakanbahan = '$iddietmasakanbahan';";
@@ -185,6 +195,7 @@ class Dietmasakan_query extends CI_Model {
                 , a.idbahan, d.namabahan, d.satuan, d.jenis
                 , c.kuantitas, c.satuan AS satuan_kauntitas
                 , a.pengurangan, a.satuan AS satuan_pengurangan
+                , a.penambahan, a.satuan_tambah
                 FROM dietmasakanbahan AS a
                     INNER JOIN masakan AS b ON a.idmasakan = b.idmasakan
                     INNER JOIN masakanbahan AS c ON a.idmasakan = c.idmasakan AND a.idbahan = c.idbahan
@@ -203,6 +214,7 @@ class Dietmasakan_query extends CI_Model {
                     , a.idbahan, d.namabahan, d.satuan, d.jenis
                     , c.kuantitas, c.satuan AS satuan_kauntitas
                     , a.pengurangan, a.satuan AS satuan_pengurangan
+                    , a.penambahan, a.satuan_tambah
                 FROM dietmasakanbahan AS a
                     INNER JOIN masakan AS b ON a.idmasakan = b.idmasakan
                     INNER JOIN masakanbahan AS c ON a.idmasakan = c.idmasakan AND a.idbahan = c.idbahan

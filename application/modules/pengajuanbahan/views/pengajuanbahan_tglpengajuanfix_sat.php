@@ -52,12 +52,13 @@ if (count($pengajuanbahan_cek) == 0) {
         <?php
         if (count($pengajuanbahan_cek) == 0) {
         ?>
-        <button type="button" class="btn btn-warning" onclick="javascript:form_pengajuandiet_sat('<?php echo $tanggalpengajuan_bahan;?>');"><i class="fa fa-user"></i> Pasien Diet <span id="loading_pengajuandiet"></span></button>
+        <button type="button" class="btn btn-warning" onclick="javascript:form_pengajuandiet_sat('<?php echo $tanggalpengajuan_bahan;?>');"><i class="fa fa-user"></i> Setting Pasien Diet <span id="loading_pengajuandiet"></span></button>
+        <button type="button" class="btn btn-default" onclick="javascript:detail_pengajuandiet_sat('<?php echo $tanggalpengajuan_bahan;?>');"><i class="fa fa-user"></i> Detail Pasien Diet <span id="loading_detail_pengajuandiet"></span></button>
+        <button type="button" class="btn btn-success" onclick="javascript:form_bahansisa('<?php echo $tanggalpengajuan_bahan;?>');">Setting Sisa Bahan<span id="loading_bahansisa"></span></button>
+        <button type="button" class="btn btn-default" onclick="javascript:detail_bahansisa('<?php echo $tanggalpengajuan_bahan;?>');">Detail Sisa Bahan <span id="loading_detail_bahansisa"></span></button>
         <?php
         }
         ?>
-        <button type="button" class="btn btn-default" onclick="javascript:detail_pengajuandiet_sat('<?php echo $tanggalpengajuan_bahan;?>');"><i class="fa fa-user"></i> Detail Pasien Diet <span id="loading_detail_pengajuandiet"></span></button>
-        <button type="button" class="btn btn-success" onclick="javascript:form_bahansisa('<?php echo $tanggalpengajuan_bahan;?>');">Sisa Bahan<span id="loading_bahansisa"></span></button>
     </div>
 </div>
 

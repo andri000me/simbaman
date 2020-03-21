@@ -118,8 +118,18 @@ class PDF_absensi extends FPDF
             $nomor = $key+1;
             $this->cell($width_no,$value_height,$nomor.' '.$tanda.''.$tandatanda,1,0,'C',1);
             $this->cell($width_namabahan,$value_height,$data['namabahan'],1,0,'L',1);
-            $this->cell($width_jumlah,$value_height,number_format($data['totaljumlahkuantitas'],2),1,0,'R',1);
-            $this->cell($width_satuan,$value_height,$data['satuan'],1,0,'C',1);
+            if ($data['satuan'] == 'gr') {
+                $totaljumlahkuantitas = number_format(($data['totaljumlahkuantitas']/1000),3,",",".");
+                $satuan = 'kg';
+            } else if ($data['satuan'] == 'ml') {
+                $totaljumlahkuantitas = number_format(($data['totaljumlahkuantitas']/1000),3,",",".");
+                $satuan = 'l';
+            } else {
+                $totaljumlahkuantitas = number_format($data['totaljumlahkuantitas'],0,",",".");
+                $satuan = $data['satuan'];
+            }
+            $this->cell($width_jumlah,$value_height,$totaljumlahkuantitas,1,0,'R',1);
+            $this->cell($width_satuan,$value_height,$satuan,1,0,'C',1);
             $this->cell($width_harga,$value_height,number_format($data['hargasatuansupplier'],2),1,0,'R',1);
             $this->cell($width_hargatotal,$value_height,number_format($data['totalhargatotal'],2,",","."),1,0,'R',1);
             $this->cell($width_ceklist,$value_height,'',1,0,'C',1);

@@ -49,16 +49,16 @@
                     <div class="form-group">
                         <label for="" class="col-sm-2 control-label">Penambahan</label>
                         <div class="col-sm-4">
-                            <input type="text" placeholder="Penambahan" class="form-control" id="penambahan_ubah" name="penambahan_ubah" value="<?php echo $dietmasakanbahan[0]['pengurangan'];?>">
+                            <input type="text" placeholder="Penambahan" class="form-control" id="penambahan_ubah" name="penambahan_ubah" value="<?php echo $dietmasakanbahan[0]['penambahan'];?>">
                         </div>
                         <label for="" class="col-sm-2 control-label">Satuan</label>
                         <div class="col-sm-4">
-                            <select class="form-control" name="satuan_ubah" id="satuan_ubah">
+                            <select class="form-control" name="satuan_tambah_ubah" id="satuan_tambah_ubah">
                                 <option value="">-- Pilih Satuan</option>
                                 <?php
                                 foreach ($satuan as $sat) {
                                 ?>
-                                    <option value="<?php echo $sat['satuan'];?>" <?php if ($sat['satuan'] == $dietmasakanbahan[0]['satuan_pengurangan']) { echo "selected='selected'";}?>><?php echo $sat['satuan'];?></option>
+                                    <option value="<?php echo $sat['satuan'];?>" <?php if ($sat['satuan'] == $dietmasakanbahan[0]['satuan_tambah']) { echo "selected='selected'";}?>><?php echo $sat['satuan'];?></option>
                                 <?php
                                 }
                                 ?>

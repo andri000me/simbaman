@@ -69,7 +69,7 @@ $(document).ready(function () {
                                     <td><?php echo $bahan['namabahan'];?> | <?php echo $bahan['jenis'];?> | <?php echo $bahan['satuan'];?></td>
                                     <td style="text-align: right;"><?php echo $bahan['kuantitas'];?> <?php echo $bahan['satuan_kauntitas'];?></td>
                                     <td style="text-align: right;"><?php echo $bahan['pengurangan'];?> <?php echo $bahan['satuan_pengurangan'];?></td>
-                                    <td style="text-align: right;"><?php //echo $bahan['pengurangan'];?> <?php //echo $bahan['satuan_pengurangan'];?></td>
+                                    <td style="text-align: right;"><?php echo $bahan['penambahan'];?> <?php echo $bahan['satuan_tambah'];?></td>
                                 </tr>
                                 <?php
                                     }

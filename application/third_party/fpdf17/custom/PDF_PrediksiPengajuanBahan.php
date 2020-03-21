@@ -94,8 +94,18 @@ class PDF_absensi extends FPDF
             $nomor = $key+1;
             $this->cell($width_no,$value_height,$nomor,1,0,'C',1);
             $this->cell($width_namabahan,$value_height,$data['namabahan'],1,0,'L',1);
-            $this->cell($width_jumlah,$value_height,number_format($data['rata_kuantitasreal'],2),1,0,'R',1);
-            $this->cell($width_satuan,$value_height,$data['satuan'],1,0,'C',1);
+            if ($data['satuan'] == 'gr') {
+                $rata_kuantitasreal = number_format(($data['rata_kuantitasreal']/1000),3,",",".");
+                $satuan = 'kg';
+            } else if ($data['satuan'] == 'ml') {
+                $rata_kuantitasreal = number_format(($data['rata_kuantitasreal']/1000),3,",",".");
+                $satuan = 'l';
+            } else {
+                $rata_kuantitasreal = number_format($data['rata_kuantitasreal'],0,",",".");
+                $satuan = $data['satuan'];
+            }
+            $this->cell($width_jumlah,$value_height,$rata_kuantitasreal,1,0,'R',1);
+            $this->cell($width_satuan,$value_height,$satuan,1,0,'C',1);
             $this->cell($width_harga,$value_height,number_format($data['hargasatuansupplier'],2),1,0,'R',1);
             $this->cell($width_hargatotal,$value_height,number_format($data['rata_totalreal'],2,",","."),1,0,'R',1);
             $this->Ln();
