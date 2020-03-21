@@ -289,4 +289,29 @@ class Supplier extends MX_Controller {
         $this->load->view('konfirmasi_hapusbahansupplier_manual',$data);
     }
 
+    public function cetak_harga_bahansupplier()
+    {
+        $idsupplier = $this->uri->segment(3);
+        $data['bahansupplier'] = $this->supplier_query->listDataBahanSupplier($idsupplier);
+        $query = $this->supplier_query->listdataSupplierWhere($idsupplier);
+        $data['namasupplier'] = $query[0]['namasupplier'];
+        $data['kontraktanggalawal'] = $query[0]['kontraktanggalawal'];
+        $data['kontraktanggalakhir'] = $query[0]['kontraktanggalakhir'];
+
+
+        $outputHtml = $this->template
+            ->set_layout(false)
+            ->build('cetak_harga_bahan_supplier',$data, TRUE);
+            
+        //echo $outputHtml;die;
+        
+        include_once APPPATH."third_party/mpdf/mpdf60/mpdf.php";
+        $mpdf=new mPDF();
+        //$mpdf->showImageErrors = true;
+        $mpdf->setFooter('{PAGENO}');
+        $mpdf->defaultfooterline=0;
+        $mpdf->WriteHTML($outputHtml);
+        $mpdf->Output('harga_bahan_supplier.pdf', 'I');
+    }
+
 }

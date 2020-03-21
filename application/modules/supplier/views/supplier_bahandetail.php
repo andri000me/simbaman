@@ -163,8 +163,9 @@ function  hapus_bahansupplier_manual()
         <div class="box-body">
             <div class="row" style="margin-bottom: 10px;">
                 <div class="col-lg-12">
-                    <div class="pull pull-right">
+                    <div class="pull pull-right">                        
                         <a type="button" class="btn btn-danger" href="<?php echo base_url()?>supplier"><i class="fa fa-reply"></i> Kembali</a>
+                        <a type="button" class="btn btn-info" href="<?php echo base_url()?>supplier/cetak_harga_bahansupplier/<?php echo $idsupplier;?>" target="_blank"> Cetak Harga Bahan Supplier</a>
                             <?php if ($add == 1) { ?>
                             <?php
                             $jml_bahansupplier = count($bahansupplier);
