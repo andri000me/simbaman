@@ -15,7 +15,7 @@ $this->session->set_userdata($sess_data);
 $(document).ready(function () {
     $(".datepicker-input").each(function(){ $(this).datepicker();});
 
-    //pilihTanggalPengajuanBahan();
+    pilihTanggalPengajuanBahan();
     
 });
 

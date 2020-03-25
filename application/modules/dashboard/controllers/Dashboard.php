@@ -78,8 +78,8 @@ class Dashboard extends MX_Controller {
     
     public function cekrekap_pasien()
     {
-        $stat_ping = $this->pingAddress("http://sididik.rsjsoerojo.co.id");
-        
+        //$stat_ping = $this->pingAddress("http://sididik.rsjsoerojo.co.id");
+        $stat_ping = '';
         if ($stat_ping == 'dead') {
             $data['tanggalsekarang'] = date('Y-m-d');
             
